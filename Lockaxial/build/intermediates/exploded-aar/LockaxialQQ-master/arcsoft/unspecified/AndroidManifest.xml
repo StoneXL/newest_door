@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.arcsoft.dysmart"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="19"
+        android:targetSdkVersion="23" />
+
+    <!-- 开启摄像头 -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.setParameters"
+        android:required="false" />
+
+    <!-- camera -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- sdcard -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- wifi internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:screenOrientation="landscape"
+        android:supportsRtl="true" >
+        <activity
+            android:name="com.arcsoft.dysmart.FaceRegisterActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name="com.arcsoft.dysmart.DetecterActivity"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name="com.arcsoft.dysmart.PhotographActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name="com.arcsoft.dysmart.PhotographActivity2"
+            android:theme="@style/FullscreenTheme" />
+    </application>
+
+</manifest>
