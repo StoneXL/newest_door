@@ -208,7 +208,8 @@ import static com.util.Constant.ON_YUNTONGXUN_LOGIN_SUCCESS;
 import static com.util.Constant.PASSWORD_CHECKING_MODE;
 import static com.util.Constant.PASSWORD_MODE;
 
-public class MainActivity extends AndroidExActivityBase implements NfcReader.AccountCallback, NfcAdapter.ReaderCallback, TakePictureCallback, NotifyReceiverQQ.CallBack, View.OnClickListener, CameraSurfaceView
+public class MainActivity extends AndroidExActivityBase implements NfcReader.AccountCallback, NfcAdapter
+        .ReaderCallback, TakePictureCallback, NotifyReceiverQQ.CallBack, View.OnClickListener, CameraSurfaceView
         .OnCameraListener, IdCardUtil.BitmapCallBack {
     public static final int INPUT_CARDINFO_RESULTCODE = 0X01;
     public static final int INPUT_CARDINFO_REQUESTCODE = 0X02;
@@ -1439,6 +1440,9 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
 
     public void onRtcVideoOn() {
         initVideoViews();
+        if (remoteView == null) {
+            return;
+        }
         MainService.callConnection.buildVideo(remoteView);//此处接听过快的会导致崩溃
         // java.lang.RuntimeException: Fail to connect to camera service
         videoLayout.setVisibility(View.VISIBLE);
@@ -2096,9 +2100,15 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     }
 
     private void initVideoViews() {
-        if (localView != null) return;
-        if (MainService.callConnection != null)
+        if (localView != null) {
+            return;
+        }
+        if (MainService.callConnection != null) {
             localView = (SurfaceView) MainService.callConnection.createVideoView(true, this, true);
+        }
+        if (localView == null) {
+            return;
+        }
         localView.setVisibility(View.INVISIBLE);
         videoLayout.addView(localView);
         localView.setKeepScreenOn(true);
