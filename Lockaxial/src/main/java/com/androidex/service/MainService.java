@@ -875,8 +875,11 @@ public class MainService extends Service {
         try {
             String url = DeviceConfig.SERVER_URL + "/app/auth/deviceLogin";
             JSONObject data = new JSONObject();
-            data.put("username", mac);
-            data.put("password", key);
+            data.put("lockMac", mac);
+            data.put("lockKey", key);
+            Log.i(TAG,"mac"+mac+"----key"+key);
+//            data.put("username", mac);
+//            data.put("password", key);
             String result = HttpApi.getInstance().loadHttpforPost(url, data, httpServerToken);
             if (result != null) {
                 HttpApi.i("getClientInfo()->" + result);
