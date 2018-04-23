@@ -80,10 +80,12 @@ import com.androidex.utils.Ajax;
 import com.androidex.utils.HttpApi;
 import com.androidex.utils.HttpUtils;
 import com.androidex.utils.NfcReader;
+import com.androidex.utils.SqlUtil;
 import com.androidex.utils.UploadUtil;
 import com.arcsoft.dysmart.ArcsoftManager;
 import com.arcsoft.dysmart.DetecterActivity;
 import com.arcsoft.dysmart.FaceDB;
+import com.arcsoft.dysmart.FaceRegisterActivity;
 import com.arcsoft.dysmart.PhotographActivity2;
 import com.arcsoft.facerecognition.AFR_FSDKEngine;
 import com.arcsoft.facerecognition.AFR_FSDKError;
@@ -1330,6 +1332,35 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
             faceHandler.sendEmptyMessageDelayed(MSG_FACE_DETECT_INPUT, 100);
             return;
         }
+        //输入"8888"录入网络的卡信息
+        if (num.equals("8888") && faceHandler != null) {
+            new Thread() {
+                public void run() {
+                    try {
+                        addOrDeleteCard();
+                    } catch (Exception e) {
+
+                    }
+                }
+            }.start();
+            return;
+        }
+
+        //输入"7777"录入网络的人脸信息
+        if (num.equals("7777") && faceHandler != null) {
+//            faceHandler.sendEmptyMessageDelayed(MSG_FACE_DETECT_PAUSE, 100);//录入之前,先将人脸识别暂停
+//            faceHandler.sendEmptyMessageDelayed(MSG_FACE_DETECT_INPUT, 100);//开始人脸录入
+            new Thread() {
+                public void run() {
+                    try {
+                        downLoadFace();
+                    } catch (Exception e) {
+
+                    }
+                }
+            }.start();
+            return;
+        }
         //呼叫前，确认摄像头不被占用
         if (faceHandler != null) {
             faceHandler.sendEmptyMessageDelayed(MSG_FACE_DETECT_PAUSE, 0);
@@ -1574,6 +1605,19 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                         //跳转到登录界面
                         Intent intent = new Intent(this, InputCardInfoActivity.class);
                         startActivityForResult(intent, INPUT_CARDINFO_REQUESTCODE);
+
+                        // TODO: 2018/4/19 下面增加,改为获得卡片列表接口做测试
+//                        new Thread() {
+//                            public void run() {
+//                                try {
+//                                    // TODO: 2018/4/21 暂时注释
+//                                    addOrDeleteCard();
+//                                    downLoadFace();
+//                                } catch (Exception e) {
+//
+//                                }
+//                            }
+//                        }.start();
                     }
                 }
             } else if (currentStatus == ERROR_MODE) {
@@ -1605,6 +1649,84 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                     startDisconnectDirectCall();
                 }
             }
+        }
+    }
+
+    /**
+     * 下载人脸识别用图片
+     */
+    private void downLoadFace() {
+        try {
+            String file = "/app/download/face/20180421121538";
+            int lastIndex = file.lastIndexOf("/");
+            String fileName = file.substring(lastIndex + 1);
+            //根据文件名返回本地路径
+            String localFile = HttpUtils.getLocalFile(fileName);
+            if (localFile == null) {
+                //如果本地没有对应文件,则下载文件至本地
+                localFile = HttpUtils.downloadFile(file);
+                if (localFile != null) {
+                    if (localFile.endsWith(".temp")) {
+                        localFile = localFile.substring(0, localFile.length() - 5);
+                    }
+                    Log.e("wh", "fileName " + fileName + " localFile " + localFile);
+                    //将文件名和本地路径塞入集合
+//                currentAdvertisementFiles.put(fileName, localFile);
+                    File file1 = new File(localFile + ".temp");
+                    if (file1.exists()) {
+
+                        File file2 = new File(localFile + ".jpg");
+                        Log.e("wh", "file2 " + file2.getPath());
+                        file1.renameTo(file2);//重命名,去掉.temp
+                        file1.renameTo(new File(localFile+".jpg"));
+                        String path = file2.getPath();
+                        Log.e("wh", "图片路径" + path);
+                        if (file1 != null) {
+                            Intent intent = new Intent(this, FaceRegisterActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("imagePath", file2.getPath());
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        }
+                    }
+                }
+            } else {
+//            currentAdvertisementFiles.put(fileName, localFile);
+            }
+        } catch (Exception e) {
+        }
+//        sendDialMessenger(MSG_REFRESH_LOCKNAME, lockName);
+    }
+
+    /**
+     * 从服务器获得已注册卡片列表的接口
+     */
+    private void addOrDeleteCard() {
+        try {
+            String url = "http://192.168.8.146:80/app/device/addOrDeleteCard" + "?lockId=234";
+            String result = HttpApi.getInstance().loadHttpforGet(url, httpServerToken);
+            if (result != null) {
+                HttpApi.e("getClientInfo()->" + result);
+                JSONObject resultObj = Ajax.getJSONObject(result);
+                int code = resultObj.getInt("code");
+                if (code == 0) {
+                    JSONArray cards = resultObj.getJSONArray("cards");
+                    Log.e("wh", "cards " + cards.toString());
+                    SqlUtil sqlUtil = new SqlUtil(this);
+                    for(int i = 0 ;i <cards.length();i++){
+                        JSONObject o =(JSONObject) cards.get(i);
+                        Log.e("wh", "卡片 " + o.toString());
+                        String cardNo = (String) o.get("cardNo");
+                        sqlUtil.insertCard(cardNo,lockId);
+                    }
+                }
+            } else {
+                //服务器异常或没有网络
+                HttpApi.e("getClientInfo()->服务器无响应");
+            }
+        } catch (Exception e) {
+            HttpApi.e("getClientInfo()->服务器数据解析异常");
+            e.printStackTrace();
         }
     }
 
