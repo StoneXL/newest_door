@@ -615,12 +615,23 @@ public class MainService extends Service {
     protected void initWhenConnected() {
         if (initMacAddress()) {
             Log.i("MainService", "INIT MAC Address");
+            rtcLogout();
             initRtcClient();
             try {
                 initClientInfo();
             } catch (Exception e) {
                 Log.v("MainService", "onDeviceStateChanged,result=" + e.getMessage());
             }
+        }
+    }
+    private void rtcLogout() {
+        if (rtcClient != null) {
+            rtcClient.release();
+            rtcClient = null;
+        }
+        if (device != null) {
+            device.release();
+            device = null;
         }
     }
 
@@ -2181,16 +2192,6 @@ public class MainService extends Service {
             rtcConnectTimeout();
         }
 
-        private void rtcLogout() {
-            if (rtcClient != null) {
-                rtcClient.release();
-                rtcClient = null;
-            }
-            if (device != null) {
-                device.release();
-                device = null;
-            }
-        }
 
         private void changeNetWork() {
             Log.v("MainService", "changeNetWork");
@@ -3193,8 +3194,10 @@ public class MainService extends Service {
         String fileName = file.substring(lastIndex + 1);
         String localFile = HttpUtils.getLocalFile(fileName);
         if (localFile == null) {
+            Log.i(TAG, "准备下载广告");
             localFile = HttpUtils.downloadFile(file);
             if (localFile != null) {
+                Log.i(TAG, "加载本地广告");
                 if (localFile.endsWith(".temp")) {
                     localFile = localFile.substring(0, localFile.length() - 5);
                 }
@@ -3557,7 +3560,7 @@ public class MainService extends Service {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String cmd = "pm install -r "+ fileName;
+                String cmd = "pm install -r"+ fileName;
                 HttpApi.i("安装命令："+cmd);
                 ShellUtils.CommandResult result = InstallUtil.executeCmd(cmd);
                 HttpApi.i("安装结果："+result.toString());

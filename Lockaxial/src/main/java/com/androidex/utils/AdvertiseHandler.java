@@ -11,6 +11,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.androidex.callback.AdverErrorCallBack;
 
@@ -29,6 +30,7 @@ public class AdvertiseHandler implements SurfaceHolder.Callback {
     SurfaceView videoView = null;
     SurfaceHolder surfaceHolder = null;
     ImageView imageView = null;
+    TextView mTextView = null;
 //    LinearLayout videoPane=null;
 //    LinearLayout imagePane=null;
 
@@ -77,8 +79,9 @@ public class AdvertiseHandler implements SurfaceHolder.Callback {
  //        prepareMediaView();
  //    }
      */
-    public void init(SurfaceView videoView, ImageView imageView) {
+    public void init(TextView textView,SurfaceView videoView, ImageView imageView) {
         Log.d("AdvertiseHandler", "UpdateAdvertise: init");
+        this.mTextView=textView;
         this.videoView = videoView;
         this.imageView = imageView;
         prepareMediaView();
@@ -173,6 +176,7 @@ public class AdvertiseHandler implements SurfaceHolder.Callback {
             String source = urls.getString("video");
             source = HttpUtils.getLocalFileFromUrl(source);
             if (source != null) {
+                mTextView.setVisibility(View.VISIBLE);
                 videoView.setVisibility(View.VISIBLE);
                 imageView.setVisibility(View.INVISIBLE);
                 mediaPlayerSource = source;

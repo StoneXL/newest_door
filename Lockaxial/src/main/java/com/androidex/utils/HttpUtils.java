@@ -1,6 +1,7 @@
 package com.androidex.utils;
 
 import android.os.Environment;
+import android.util.Log;
 
 import com.androidex.config.DeviceConfig;
 
@@ -50,6 +51,7 @@ public class HttpUtils {
                  * <uses-permission android:name="android.permission.INTERNET" />
                  */
             URL urlObject=new URL(convertImageUrl(url));
+            Log.i("http","下载广告" + url);
             HttpURLConnection conn=(HttpURLConnection)urlObject.openConnection();
             //取得inputStream，并将流中的信息写入SDCard
 
