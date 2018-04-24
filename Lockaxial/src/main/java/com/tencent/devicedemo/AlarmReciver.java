@@ -10,6 +10,7 @@ import android.os.SystemClock;
 import com.androidex.DoorLock;
 
 /**
+ * 警报广播监听器
  * Created by yangjun on 15/5/21.
  */
 public class AlarmReciver extends BroadcastReceiver {

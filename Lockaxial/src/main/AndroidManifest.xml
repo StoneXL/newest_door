@@ -265,6 +265,7 @@
 
         <receiver android:name="eu.chainfire.supersu.NativeAccessReceiver">
             <intent-filter>
+                <!-- 系统启动完成后会调用-->
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>

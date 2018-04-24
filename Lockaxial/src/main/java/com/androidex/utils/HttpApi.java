@@ -65,6 +65,8 @@ public class HttpApi {
     }
 
     public String loadHttpforPost(String u, JSONObject j,String t) throws Exception{
+        Log.e(TAG, "url地址 " + u);
+        Log.e(TAG, "参数 " + j.toString());
         try {
             Log.i(TAG, "post-url--------------"+u);
             RequestBody body = RequestBody.create(JSON, j.toString());
@@ -76,6 +78,7 @@ public class HttpApi {
     }
 
     public String loadHttpforGet(String u,String t){
+        Log.e(TAG, "url地址 " + u);
         try {
             Log.i(TAG, "get-url--------------"+u);
             Call call = client.newCall(BuildRequest(null, u, t));
