@@ -1223,6 +1223,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
 
     private void buildVideo() {
         if (MainService.callConnection != null) {
+            if (remoteView==null)return;
             MainService.callConnection.buildVideo(remoteView);//此处接听过快的会导致崩溃
         }
     }
