@@ -1217,8 +1217,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
 //            return;
 //        }
         // java.lang.RuntimeException: Fail to connect to camera service
-//        videoLayout.setVisibility(View.VISIBLE);
-//        setVideoSurfaceVisibility(View.VISIBLE);
+        videoLayout.setVisibility(View.VISIBLE);
+        setVideoSurfaceVisibility(View.VISIBLE);
     }
 
     private void buildVideo() {
@@ -3302,8 +3302,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     public Object onPreview(byte[] data, int width, int height, int format, long timestamp) {
         AFT_FSDKError err = engine.AFT_FSDK_FaceFeatureDetect(data, width, height, AFT_FSDKEngine
                 .CP_PAF_NV21, result);
-        Log.d(TAG, "AFT_FSDK_FaceFeatureDetect =" + err.getCode());
-        Log.d(TAG, "Face=" + result.size());
+//        Log.d(TAG, "AFT_FSDK_FaceFeatureDetect =" + err.getCode());
+//        Log.d(TAG, "Face=" + result.size());
         for (AFT_FSDKFace face : result) {
             Log.d(TAG, "Face:" + face.toString());
         }
