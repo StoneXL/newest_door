@@ -15,7 +15,8 @@ public class DeviceConfig {
     //public static final String USER_ID = "A000001";//北京马总
     //public static final String USER_ID = "A000002";//维拓智能（背景不一致）
     public static final String USER_ID = "A000000";//通用
-    public static int RELEASE_VERSION_WAIT_TIME=1000*60*1;
+    public static int RELEASE_VERSION_WAIT_TIME=1000*60*1;//等待新版本检查的时间
+    // TODO: 2018/4/19 下午3点时更新??
     public static int RELEASE_VERSION_UPDATE_TIME=3;
     public static final String TARGET_PACKAGE_NAME="com.tencent.devicedemo";
 
@@ -38,7 +39,7 @@ public class DeviceConfig {
     public static boolean IS_RFID_AVAILABLE=false;
     public static boolean IS_ASSEMBLE_AVAILABLE=false;
     public static boolean IS_FINGER_AVAILABLE=true;
-	public static boolean IS_NFC_AVAILABLE=true;
+	public static boolean IS_NFC_AVAILABLE=true;//nfc系统是否有效,默认有效
     public static boolean IS_AEX_AVAILABLE=true;
     public static boolean IS_NFC_PORT_AVAILABLE=false;
     public static boolean IS_AD_AVAILABLE=true;
@@ -53,7 +54,7 @@ public class DeviceConfig {
     public static int SERIAL_WAIT_TIME=1000*30;
 
     public static int AD_INIT_WAIT_TIME=1000*60;
-    public static int AD_REFRESH_WAIT_TIME=1000*60*60;//1000*60*60;//等待下载广告刷新的时间
+    public static int AD_REFRESH_WAIT_TIME=1000*60*60;//1000*60*60;//等待下载广告刷新的时间 可由后台设定
     public static int CONNECT_REPORT_WAIT_TIME=1000*60*10;
     public static int MAX_DIRECT_CALL_TIME=1000*60;//通话时长应该有个最大值
     public static int PASSWORD_WAIT_TIME=1000*20;

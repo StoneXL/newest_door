@@ -39,7 +39,7 @@ public class BaseApplication extends Application implements Thread.UncaughtExcep
 
         initImageLoader();
 
-        ArcsoftManager.getInstance().initArcsoft(this);
+        ArcsoftManager.getInstance().initArcsoft(this);//虹软人脸识别初始化
 
         super.onCreate();
     }
@@ -48,6 +48,9 @@ public class BaseApplication extends Application implements Thread.UncaughtExcep
         return application;
     }
 
+    /**
+     * 网络连接初始化(开源项目Xutils)
+     */
     public void initHttp() {
         httpUtils = new HttpUtils("utf-8");
         httpUtils.configRequestThreadPoolSize(5);
@@ -56,6 +59,11 @@ public class BaseApplication extends Application implements Thread.UncaughtExcep
         httpUtils.configRequestRetryCount(3);
     }
 
+    /**
+     * 图片加载初始化
+     * (开源项目Android-Universal-Image-Loader,地址https://github
+     * .com/nostra13/Android-Universal-Image-Loader)
+     */
     private void initImageLoader() {
         imageLoader = ImageLoader.getInstance();
 

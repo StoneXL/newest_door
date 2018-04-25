@@ -210,9 +210,9 @@ import static com.util.Constant.ON_YUNTONGXUN_LOGIN_SUCCESS;
 import static com.util.Constant.PASSWORD_CHECKING_MODE;
 import static com.util.Constant.PASSWORD_MODE;
 
-public class MainActivity extends AndroidExActivityBase implements NfcReader.AccountCallback, NfcAdapter
-        .ReaderCallback, TakePictureCallback, NotifyReceiverQQ.CallBack, View.OnClickListener, CameraSurfaceView
-        .OnCameraListener, IdCardUtil.BitmapCallBack {
+public class MainActivity extends AndroidExActivityBase implements NfcReader.AccountCallback,
+        NfcAdapter.ReaderCallback, TakePictureCallback, NotifyReceiverQQ.CallBack, View
+                .OnClickListener, CameraSurfaceView.OnCameraListener, IdCardUtil.BitmapCallBack {
     private static final String TAG = "MainActivity";
     public static final int INPUT_CARDINFO_RESULTCODE = 0X01;
     public static final int INPUT_CARDINFO_REQUESTCODE = 0X02;
@@ -224,7 +224,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     private static final String SCAN_DEVICE_FAIL = "SCAN_DEVICE_FAIL";//扫描失败
     private static final String REFRESH_RSSI = "REFRESH_RSSI";//获取蓝牙信号强度
     public static int currentStatus = CALL_MODE;
-    public static int READER_FLAGS = NfcAdapter.FLAG_READER_NFC_A | NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK;
+    public static int READER_FLAGS = NfcAdapter.FLAG_READER_NFC_A | NfcAdapter
+            .FLAG_READER_SKIP_NDEF_CHECK;
     private View container;
     private LinearLayout videoLayout;
     private RelativeLayout rl_nfc, rl;
@@ -234,7 +235,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     private EditText tv_input, et_blackno, et_unitno, tv_input_text;
     private BinderListAdapter mAdapter;
     private NotifyReceiverQQ mNotifyReceiver;
-    private NfcReader nfcReader;
+    private NfcReader nfcReader;//用于nfc卡扫描
     private AutoScrollViewPager viewPager;
     private Banner banner;
     private Bg_Adapter bgAdapter;
@@ -274,7 +275,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     private GoogleApiClient client;
     private AdverErrorCallBack adverErrorCallBack;
     private JSONArray rows;
-    private Receive receive;
+    private Receive receive; //本地广播
     private BluetoothAdapter mBtAdapter;
     private BTTempDevice device;
     private BluetoothDevice bluetooth_dev;
@@ -300,12 +301,14 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     };
 
     //扫描回调
-    private BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
+    private BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback
+            () {
 
         @Override
         public void onLeScan(final BluetoothDevice device, int rssi, final byte[] scanRecord) {
             if (device.getAddress().equals(address)) {
-                Log.d(TAG, "搜索到设备:" + device.getAddress() + ", address = " + address + ",rssi=" + rssi);
+                Log.d(TAG, "搜索到设备:" + device.getAddress() + ", address = " + address + ",rssi=" +
+                        rssi);
                 sendMessage(ACTION_SCAN_DEVICE);
             }
         }
@@ -332,7 +335,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         super.onCreate(savedInstanceState);
         //全屏设置，隐藏窗口所有装饰
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);//清除FLAG
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager
+                .LayoutParams.FLAG_FULLSCREEN);
         //标题是属于View的，所以窗口所有的修饰部分被隐藏后标题依然有效
         //requestWindowFeature(getWindow().FEATURE_NO_TITLE);
         {
@@ -347,6 +351,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         initAexNfcReader();//初始化本地广播
         initServer();//初始化服务类
         //  initTXD();
+        // TODO: 2018/4/19  硬件使用 暂时不用管
         initQQReceiver();//初始化QQ物联广播
         initVoiceHandler();//
         initVoiceVolume();//
@@ -361,13 +366,15 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
             setDialStatus("请输入楼栋编号");
         }
         if (false) {
-            AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+            AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context
+                    .ALARM_SERVICE);
             Intent intent;
             PendingIntent pendingIntent;
             intent = new Intent(getApplicationContext(), AlarmReciver.class);
-            pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent
-                    .FLAG_UPDATE_CURRENT);
-            am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 10000, pendingIntent);
+            pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 10000,
+                    pendingIntent);
         }
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
@@ -394,7 +401,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         viewPager = (AutoScrollViewPager) findViewById(R.id.vp_main);
         tv_input_text = (EditText) findViewById(R.id.tv_input_text);
         tv_battery = (TextView) findViewById(R.id.tv_battery);//显示蓝牙锁的电量
-        mGridView = (GridView) findViewById(R.id.gridView_binderlist);//getBgBanners();//网络获得轮播背景图片数据
+        mGridView = (GridView) findViewById(R.id.gridView_binderlist);//getBgBanners();
+        // 网络获得轮播背景图片数据
         rl = (RelativeLayout) findViewById(R.id.net_view_rl);
         rl.setOnClickListener(this);
         showMacText = (TextView) findViewById(R.id.show_mac);
@@ -519,12 +527,13 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                         break;
 
                     case R.id.action_catIP:
-                        Toast.makeText(MainActivity.this, "本机的IP：" + Intenet.getHostIP(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, "本机的IP：" + Intenet.getHostIP(), Toast
+                                .LENGTH_LONG).show();
                         break;
 
                     case R.id.action_catVersion:
-                        Toast.makeText(MainActivity.this, "本机的固件版本：" + hwservice.getSdkVersion(), Toast.LENGTH_LONG)
-                                .show();
+                        Toast.makeText(MainActivity.this, "本机的固件版本：" + hwservice.getSdkVersion(),
+                                Toast.LENGTH_LONG).show();
                         break;
                     case R.id.action_updateVersion:
                         Message message = Message.obtain();
@@ -587,8 +596,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                         Toast.makeText(MainActivity.this, "关闭蓝牙", Toast.LENGTH_LONG).show();
                         break;
                     case R.id.action_settings6://设置定时开机
-                        long wakeupTime = SystemClock.elapsedRealtime() + 240000;       //唤醒时间,如果是关机唤醒时间不能低于3分钟,
-                        // 否则无法实现关机定时重启
+                        //唤醒时间,如果是关机唤醒时间不能低于3分钟,否则无法实现关机定时重启
+                        long wakeupTime = SystemClock.elapsedRealtime() + 240000;
                         DoorLock.getInstance().runSetAlarm(wakeupTime);
                         break;
 
@@ -604,7 +613,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                         break;
                     case R.id.action_settings10://退出
                         setResult(RESULT_OK);
-                        MainActivity.this.stopService(new Intent(MainActivity.this, MainService.class));
+                        MainActivity.this.stopService(new Intent(MainActivity.this, MainService
+                                .class));
                         finish();
                         sendBroadcast(new Intent("com.android.action.display_navigationbar"));
                         break;
@@ -660,11 +670,13 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
 
 
     private void setNetWork() {
-        boolean bNetworkSetted = this.getSharedPreferences("TXDeviceSDK", 0).getBoolean("NetworkSetted", false);
+        boolean bNetworkSetted = this.getSharedPreferences("TXDeviceSDK", 0).getBoolean
+                ("NetworkSetted", false);
         SharedPreferences sharedPreferences = getSharedPreferences("test", Activity.MODE_PRIVATE);
         String networkSettingMode = sharedPreferences.getString("NetworkSettingMode", "");
         if ("".equals(networkSettingMode) && bNetworkSetted == false) {
-            SharedPreferences mySharedPreferences = getSharedPreferences("test", Activity.MODE_PRIVATE);
+            SharedPreferences mySharedPreferences = getSharedPreferences("test", Activity
+                    .MODE_PRIVATE);
             SharedPreferences.Editor editor = mySharedPreferences.edit();
             editor.putString("NetworkSettingMode", "true");
             editor.commit();
@@ -764,7 +776,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                 bgAdapter = new Bg_Adapter(MainActivity.this, banner.getData());
                 viewPager.setAdapter(bgAdapter);
                 viewPager.setCycle(true);
-                //viewPager.setSwipeScrollDurationFactor(2000);//设置ViewPager滑动动画间隔时间的倍率，达到减慢动画或改变动画速度的效果
+                //viewPager.setSwipeScrollDurationFactor(2000);
+                // 设置ViewPager滑动动画间隔时间的倍率，达到减慢动画或改变动画速度的效果
                 viewPager.setInterval(10000);//设置自动滚动的间隔时间，单位为毫秒
                 viewPager.startAutoScroll();
             }
@@ -811,14 +824,17 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         try {
             //生成一个可以绑定设备的二维码
             Log.d("mainactivity", GetUserInfo.getSn(this));
-            bitmap = Zxing.createQRImage("http://iot.qq.com/add?pid=1700003316&sn=" + GetUserInfo.getSn(this), 200,
-                    200, null);
+            bitmap = Zxing.createQRImage("http://iot.qq.com/add?pid=1700003316&sn=" + GetUserInfo
+                    .getSn(this), 200, 200, null);
             if (bitmap == null) {
-                options = new DisplayImageOptions.Builder().showImageOnFail(R.mipmap.fail).showImageOnLoading(R
-                        .mipmap.loading).cacheOnDisk(true).bitmapConfig(Bitmap.Config.ARGB_8888).build();
+                options = new DisplayImageOptions.Builder().showImageOnFail(R.mipmap.fail)
+                        .showImageOnLoading(R.mipmap.loading).cacheOnDisk(true).bitmapConfig
+                                (Bitmap.Config.ARGB_8888).build();
 
-                BaseApplication.getApplication().getImageLoader().displayImage("http://www.tyjdtzjc" + "" +
-                        ".cn/resource/kindeditor/attached/image/20150831/20150831021658_90595.png", imageView, options);
+                BaseApplication.getApplication().getImageLoader().displayImage("http://www" +
+                        ".tyjdtzjc" + "" + "" +
+                        ".cn/resource/kindeditor/attached/image/20150831/20150831021658_90595.png" +
+                        "", imageView, options);
                 Log.i("xiao_", "未生成QQ二维码");
             } else {
                 imageView.setImageBitmap(bitmap);
@@ -827,11 +843,14 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         } catch (Exception e) {
             Log.i("xiao_", "生成QQ二维码出错");
             if (bitmap == null) {
-                options = new DisplayImageOptions.Builder().showImageOnFail(R.mipmap.fail).showImageOnLoading(R
-                        .mipmap.loading).cacheOnDisk(true).bitmapConfig(Bitmap.Config.ARGB_8888).build();
+                options = new DisplayImageOptions.Builder().showImageOnFail(R.mipmap.fail)
+                        .showImageOnLoading(R.mipmap.loading).cacheOnDisk(true).bitmapConfig
+                                (Bitmap.Config.ARGB_8888).build();
 
-                BaseApplication.getApplication().getImageLoader().displayImage("http://www.tyjdtzjc" + "" +
-                        ".cn/resource/kindeditor/attached/image/20150831/20150831021658_90595.png", imageView, options);
+                BaseApplication.getApplication().getImageLoader().displayImage("http://www" +
+                        ".tyjdtzjc" + "" + "" +
+                        ".cn/resource/kindeditor/attached/image/20150831/20150831021658_90595.png" +
+                        "", imageView, options);
             }
         }
     }
@@ -854,6 +873,9 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         startService(dlIntent);
     }
 
+    /**
+     * 初始化视频通话布局(用于天翼rtc？)
+     */
     protected void initScreen() {
         //callLayout=(LinearLayout) findViewById(R.id.call_pane);
         //guestLayout=(LinearLayout) findViewById(R.id.guest_pane);
@@ -934,16 +956,24 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     }
 
     private void initVoiceHandler() {
-        soundPool = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);//第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量
-        keyVoiceIndex = soundPool.load(this, R.raw.key, 1); //把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
+        //第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量
+        soundPool = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);
+        //把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
+        keyVoiceIndex = soundPool.load(this, R.raw.key, 1);
+
+        //在load声音资源后，并不能立即调用play，否则无法播放声音，因为声音资源还没加载完成，应该给足够时间让它加载完成，比如在onCreate中load，在onclick中play
+        //左声道音量大小,右声道音量大小......
+//        soundPool.play(keyVoiceIndex, 0.8f, 0.8f,1, -1, 1.0f);播放方法
     }
 
     protected void initVoiceVolume() {
         AudioManager audioManager = (AudioManager) getSystemService(this.AUDIO_SERVICE);
         initVoiceVolume(audioManager, AudioManager.STREAM_MUSIC, DeviceConfig.VOLUME_STREAM_MUSIC);
         initVoiceVolume(audioManager, AudioManager.STREAM_RING, DeviceConfig.VOLUME_STREAM_RING);
-        initVoiceVolume(audioManager, AudioManager.STREAM_SYSTEM, DeviceConfig.VOLUME_STREAM_SYSTEM);
-        initVoiceVolume(audioManager, AudioManager.STREAM_VOICE_CALL, DeviceConfig.VOLUME_STREAM_VOICE_CALL);
+        initVoiceVolume(audioManager, AudioManager.STREAM_SYSTEM, DeviceConfig
+                .VOLUME_STREAM_SYSTEM);
+        initVoiceVolume(audioManager, AudioManager.STREAM_VOICE_CALL, DeviceConfig
+                .VOLUME_STREAM_VOICE_CALL);
     }
 
     protected void initVoiceVolume(AudioManager audioManager, int type, int value) {
@@ -1168,10 +1198,10 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         initVideoViews();
         HttpApi.i("remoteView = null?" + (remoteView == null));
         HttpApi.i("MainService.callConnection = null?" + (MainService.callConnection == null));
-        if (mCamerarelease){
+        if (mCamerarelease) {
             buildVideo();
-        }else {
-            cameraHandler.sendEmptyMessageDelayed(0x01,200);
+        } else {
+            cameraHandler.sendEmptyMessageDelayed(0x01, 200);
         }
 //        if (remoteView == null) {
 //            return;
@@ -1180,11 +1210,13 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
 //        videoLayout.setVisibility(View.VISIBLE);
 //        setVideoSurfaceVisibility(View.VISIBLE);
     }
-    private void buildVideo(){
-        if(MainService.callConnection!=null){
-                MainService.callConnection.buildVideo(remoteView);//此处接听过快的会导致崩溃
-            }
+
+    private void buildVideo() {
+        if (MainService.callConnection != null) {
+            MainService.callConnection.buildVideo(remoteView);//此处接听过快的会导致崩溃
         }
+    }
+
     public void onRtcDisconnect() {
         blockNo = "";
         setDialValue(blockNo);
@@ -1279,7 +1311,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     public void onAdvertiseRefresh(Object obj) {
         rows = (JSONArray) obj;
         Log.d(TAG, "UpdateAdvertise: 8");
-        advertiseHandler.initData(rows, dialMessenger, (currentStatus == ONVIDEO_MODE), adverErrorCallBack);
+        advertiseHandler.initData(rows, dialMessenger, (currentStatus == ONVIDEO_MODE),
+                adverErrorCallBack);
     }
 
     protected void onAdvertiseImageChange(Object obj) {
@@ -1534,8 +1567,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
      * 录入卡片
      */
     private void receiveCard() {
-        String bla = et_blackno.getText().toString();
-        String uin = et_unitno.getText().toString();
+        String bla = et_blackno.getText().toString();//楼栋
+        String uin = et_unitno.getText().toString();//房屋编号
         Log.d(TAG, "receiveCard: bla=" + bla);
         Log.d(TAG, "receiveCard: uni=" + uin);
         try {
@@ -1608,13 +1641,15 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                     } else {
                         passwordInput(key);//密码开门
                     }
-                } else if (keyCode == KeyEvent.KEYCODE_POUND || keyCode == DeviceConfig.DEVICE_KEYCODE_POUND) {
+                } else if (keyCode == KeyEvent.KEYCODE_POUND || keyCode == DeviceConfig
+                        .DEVICE_KEYCODE_POUND) {
                     if (currentStatus == CALL_MODE) {//呼叫模式下，按确认键
                         initPasswordStatus();
                     } else {
                         initDialStatus();
                     }
-                } else if (keyCode == KeyEvent.KEYCODE_STAR || keyCode == DeviceConfig.DEVICE_KEYCODE_STAR) {
+                } else if (keyCode == KeyEvent.KEYCODE_STAR || keyCode == DeviceConfig
+                        .DEVICE_KEYCODE_STAR) {
                     if (currentStatus == CALL_MODE) {
                         callInput();
                     } else {
@@ -1644,27 +1679,32 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                 Utils.DisplayToast(MainActivity.this, "当前网络异常");
             } else if (currentStatus == CALLING_MODE) {
                 Log.v(TAG, "onKeyDown-->111");
-                if (keyCode == KeyEvent.KEYCODE_STAR || keyCode == DeviceConfig.DEVICE_KEYCODE_STAR) {
+                if (keyCode == KeyEvent.KEYCODE_STAR || keyCode == DeviceConfig
+                        .DEVICE_KEYCODE_STAR) {
                     Log.v(TAG, "onKeyDown-->222");
                     startCancelCall();//取消呼叫
                 }
             } else if (currentStatus == ONVIDEO_MODE) {
-                if (keyCode == KeyEvent.KEYCODE_STAR || keyCode == DeviceConfig.DEVICE_KEYCODE_STAR) {
+                if (keyCode == KeyEvent.KEYCODE_STAR || keyCode == DeviceConfig
+                        .DEVICE_KEYCODE_STAR) {
                     startDisconnectVideo();
                 }
             } else if (currentStatus == DIRECT_CALLING_MODE) {
-                if (keyCode == KeyEvent.KEYCODE_STAR || keyCode == DeviceConfig.DEVICE_KEYCODE_STAR) {
+                if (keyCode == KeyEvent.KEYCODE_STAR || keyCode == DeviceConfig
+                        .DEVICE_KEYCODE_STAR) {
                     resetDial();
                     startCancelDirectCall();
                 }
             } else if (currentStatus == DIRECT_CALLING_TRY_MODE) {
-                if (keyCode == KeyEvent.KEYCODE_STAR || keyCode == DeviceConfig.DEVICE_KEYCODE_STAR) {
+                if (keyCode == KeyEvent.KEYCODE_STAR || keyCode == DeviceConfig
+                        .DEVICE_KEYCODE_STAR) {
                     resetDial();
                     startCancelDirectCall();
 
                 }
             } else if (currentStatus == DIRECT_MODE) {
-                if (keyCode == KeyEvent.KEYCODE_STAR || keyCode == DeviceConfig.DEVICE_KEYCODE_STAR) {
+                if (keyCode == KeyEvent.KEYCODE_STAR || keyCode == DeviceConfig
+                        .DEVICE_KEYCODE_STAR) {
                     resetDial();
                     startDisconnectDirectCall();
                 }
@@ -1810,7 +1850,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                 nfcFlag = false;
                 initDialStatus();
             }
-        } else if (keyCode == KeyEvent.KEYCODE_POUND || keyCode == DeviceConfig.DEVICE_KEYCODE_POUND) {//录入卡片
+        } else if (keyCode == KeyEvent.KEYCODE_POUND || keyCode == DeviceConfig
+                .DEVICE_KEYCODE_POUND) {//录入卡片
             if (TextUtils.isEmpty(cardId)) {
                 showToast("未检测到卡片信息");
             } else {
@@ -1964,7 +2005,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
             localView.setZOrderOnTop(true);
         }
         if (MainService.callConnection != null)
-            remoteView = (SurfaceView) MainService.callConnection.createVideoView(false, this, true);
+            remoteView = (SurfaceView) MainService.callConnection.createVideoView(false, this,
+                    true);
         if (remoteView != null) {
             remoteView.setVisibility(View.INVISIBLE);
             remoteView.setKeepScreenOn(true);
@@ -2247,7 +2289,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     /**
      * 开始启动拍照
      */
-    protected void takePicture(final String thisValue, final boolean isCall, final TakePictureCallback callback) {
+    protected void takePicture(final String thisValue, final boolean isCall, final
+    TakePictureCallback callback) {
         if (currentStatus == CALLING_MODE || currentStatus == PASSWORD_CHECKING_MODE) {
             final String uuid = getUUID(); //随机生成UUID
             lastImageUuid = uuid;
@@ -2272,9 +2315,9 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         }
     }
 
-    private synchronized void doTakePicture(final String thisValue, final boolean isCall, final String uuid, final
-    TakePictureCallback callback) {
-        mCamerarelease=false;
+    private synchronized void doTakePicture(final String thisValue, final boolean isCall, final
+    String uuid, final TakePictureCallback callback) {
+        mCamerarelease = false;
         try {
             camera = Camera.open();
 
@@ -2305,8 +2348,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                         try {
                             Log.v("MainActivity", "拍照成功");
                             Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                            final File file = new File(Environment.getExternalStorageDirectory(), System
-                                    .currentTimeMillis() + ".jpg");
+                            final File file = new File(Environment.getExternalStorageDirectory(),
+                                    System.currentTimeMillis() + ".jpg");
                             FileOutputStream outputStream = new FileOutputStream(file);
                             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                             outputStream.close();
@@ -2322,7 +2365,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                                         } catch (Exception e) {
                                         }
                                         if (checkTakePictureAvailable(uuid)) {
-                                            callback.afterTakePickture(thisValue, fileUrl, isCall, uuid);
+                                            callback.afterTakePickture(thisValue, fileUrl,
+                                                    isCall, uuid);
                                         } else {
                                             Log.v("MainActivity", "上传照片成功,但已取消");
                                         }
@@ -2341,7 +2385,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
-                        }finally {
+                        } finally {
                             camera.setPreviewCallback(null);
                             camera.stopPreview();
                             camera.release();
@@ -2406,8 +2450,9 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
 
     public void eraseAllBinders(View v) {
         AlertDialog dialog = null;
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this).setTitle(R.string.unbind).setMessage
-                (R.string.q_unbind_all).setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this).setTitle(R
+                .string.unbind).setMessage(R.string.q_unbind_all).setPositiveButton(R.string
+                .cancel, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -2546,7 +2591,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     }
 
     private void initAexNfcReader() {
-        if (DeviceConfig.IS_NFC_AVAILABLE) {
+        if (DeviceConfig.IS_NFC_AVAILABLE) {//判断nfc是否可用
             nfcReader = new NfcReader(this);
             //enableReaderMode(); //xiaozd add
             receive = new Receive();
@@ -2556,6 +2601,9 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         }
     }
 
+    /**
+     * 开启nfc读卡模式
+     */
     private void enableReaderMode() {
         if (DeviceConfig.IS_NFC_AVAILABLE) {
             NfcAdapter nfc = NfcAdapter.getDefaultAdapter(this);
@@ -2571,6 +2619,9 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         }
     }
 
+    /**
+     * 禁用读卡
+     */
     private void disableReaderMode() {
         Log.i("", "禁用读卡模式");
         if (DeviceConfig.IS_NFC_AVAILABLE) {
@@ -2605,11 +2656,12 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     public Action getIndexApiAction() {
-        Thing object = new Thing.Builder().setName("Main Page") // TODO: Define a title for the content shown.
+        Thing object = new Thing.Builder().setName("Main Page") // TODO: Define a title for the
+                // content shown.
                 // TODO: Make sure this auto-generated URL is correct.
                 .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]")).build();
-        return new Action.Builder(Action.TYPE_VIEW).setObject(object).setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
+        return new Action.Builder(Action.TYPE_VIEW).setObject(object).setActionStatus(Action
+                .STATUS_TYPE_COMPLETED).build();
     }
 
     @Override
@@ -2660,8 +2712,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     private void showAlert(String strTitle, String strMsg) {
         // TODO Auto-generated method stub
         AlertDialog dialogError;
-        AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle(strTitle).setMessage(strMsg)
-                .setPositiveButton("取消", null).setNegativeButton("确定", null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle(strTitle).setMessage
+                (strMsg).setPositiveButton("取消", null).setNegativeButton("确定", null);
         dialogError = builder.create();
         dialogError.show();
     }
@@ -2669,8 +2721,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     /**
      * 开始呼叫
      */
-    protected void startDialorPasswordDirectly(final String thisValue, final String fileUrl, final boolean isCall,
-                                               String uuid) {
+    protected void startDialorPasswordDirectly(final String thisValue, final String fileUrl,
+                                               final boolean isCall, String uuid) {
         if (currentStatus == CALLING_MODE || currentStatus == PASSWORD_CHECKING_MODE) {
             Message message = Message.obtain();
             String[] parameters = new String[3];
@@ -2698,8 +2750,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         }
     }
 
-    protected void startSendPictureDirectly(final String thisValue, final String fileUrl, final boolean isCall,
-                                            String uuid) {
+    protected void startSendPictureDirectly(final String thisValue, final String fileUrl, final
+    boolean isCall, String uuid) {
         if (fileUrl == null || fileUrl.length() == 0) {
             return;
         }
@@ -2743,7 +2795,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                 case 11:
                     wifi_image.setImageResource(R.mipmap.ethernet);
                     if (listTemp1 != null && listTemp1.length > 0) {
-                        iv_bind.setImageDrawable(getResources().getDrawable(R.mipmap.binder_default_head));
+                        iv_bind.setImageDrawable(getResources().getDrawable(R.mipmap
+                                .binder_default_head));
                     } else {
                         iv_bind.setImageDrawable(getResources().getDrawable(R.mipmap.bind_offline));
                     }
@@ -2752,7 +2805,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                 case 1:
                     wifi_image.setImageResource(R.mipmap.wifi02);
                     if (listTemp1 != null && listTemp1.length > 0) {
-                        iv_bind.setImageDrawable(getResources().getDrawable(R.mipmap.binder_default_head));
+                        iv_bind.setImageDrawable(getResources().getDrawable(R.mipmap
+                                .binder_default_head));
                     } else {
                         iv_bind.setImageDrawable(getResources().getDrawable(R.mipmap.bind_offline));
                     }
@@ -2761,7 +2815,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                 case 2:
                     wifi_image.setImageResource(R.mipmap.wifi02);
                     if (listTemp1 != null && listTemp1.length > 0) {
-                        iv_bind.setImageDrawable(getResources().getDrawable(R.mipmap.binder_default_head));
+                        iv_bind.setImageDrawable(getResources().getDrawable(R.mipmap
+                                .binder_default_head));
                     } else {
                         iv_bind.setImageDrawable(getResources().getDrawable(R.mipmap.bind_offline));
                     }
@@ -2769,7 +2824,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                 case 3:
                     wifi_image.setImageResource(R.mipmap.wifi03);
                     if (listTemp1 != null && listTemp1.length > 0) {
-                        iv_bind.setImageDrawable(getResources().getDrawable(R.mipmap.binder_default_head));
+                        iv_bind.setImageDrawable(getResources().getDrawable(R.mipmap
+                                .binder_default_head));
                     } else {
                         iv_bind.setImageDrawable(getResources().getDrawable(R.mipmap.bind_offline));
                     }
@@ -2777,7 +2833,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                 case 4:
                     wifi_image.setImageResource(R.mipmap.wifi04);
                     if (listTemp1 != null && listTemp1.length > 0) {
-                        iv_bind.setImageDrawable(getResources().getDrawable(R.mipmap.binder_default_head));
+                        iv_bind.setImageDrawable(getResources().getDrawable(R.mipmap
+                                .binder_default_head));
                     } else {
                         iv_bind.setImageDrawable(getResources().getDrawable(R.mipmap.bind_offline));
                     }
@@ -2825,7 +2882,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                     tv_battery.setVisibility(View.VISIBLE);
                     bluetooth_image.setImageResource(R.mipmap.ble_pressed);
                     toast("蓝牙连接");
-                    Log.e(TAG, "蓝牙连接" + "isConnectBLE=" + isConnectBLE + "  mScanning=" + mScanning);
+                    Log.e(TAG, "蓝牙连接" + "isConnectBLE=" + isConnectBLE + "  mScanning=" +
+                            mScanning);
                     if (mScanning) {
                         scanLeDevice(false);//停止扫描
                     }
@@ -2836,7 +2894,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                     tv_battery.setVisibility(View.GONE);
                     bluetooth_image.setImageResource(R.mipmap.ble_button);
                     toast("蓝牙断开，重新开始扫描");
-                    Log.e(TAG, "蓝牙连接" + "isConnectBLE=" + isConnectBLE + "  mScanning=" + mScanning);
+                    Log.e(TAG, "蓝牙连接" + "isConnectBLE=" + isConnectBLE + "  mScanning=" +
+                            mScanning);
                     if (mScanning) {
                         scanLeDevice(false);
                     }
@@ -2897,7 +2956,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                             scanLeDevice(false);
                             bluetooth_image.setImageResource(R.mipmap.ble_button);
                             isConnectBLE = false;
-                            Log.e(TAG, "蓝牙连接" + "isConnectBLE=" + isConnectBLE + "  mScanning=" + mScanning);
+                            Log.e(TAG, "蓝牙连接" + "isConnectBLE=" + isConnectBLE + "  mScanning=" +
+                                    mScanning);
                             if (mScanning) {
                                 scanLeDevice(false);//停止扫描
                             }
@@ -3034,8 +3094,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         mSurfaceView.setupGLSurafceView(mGLSurfaceView, true, true, 0);
         mSurfaceView.debug_print_fps(true, false);
 
-        AFT_FSDKError err = engine.AFT_FSDK_InitialFaceEngine(FaceDB.appid, FaceDB.ft_key, AFT_FSDKEngine
-                .AFT_OPF_0_HIGHER_EXT, 16, 5);
+        AFT_FSDKError err = engine.AFT_FSDK_InitialFaceEngine(FaceDB.appid, FaceDB.ft_key,
+                AFT_FSDKEngine.AFT_OPF_0_HIGHER_EXT, 16, 5);
         Log.d(TAG, "AFT_FSDK_InitialFaceEngine =" + err.getCode());
         err = engine.AFT_FSDK_GetVersion(version);
         Log.d(TAG, "AFT_FSDK_GetVersion:" + version.toString() + "," + err.getCode());
@@ -3045,7 +3105,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
 //        error = mAgeEngine.ASAE_FSDK_GetVersion(mAgeVersion);
 //        Log.d(TAG, "ASAE_FSDK_GetVersion:" + mAgeVersion.toString() + "," + error.getCode());
 //
-//        ASGE_FSDKError error1 = mGenderEngine.ASGE_FSDK_InitgGenderEngine(FaceDB.appid, FaceDB.gender_key);
+//        ASGE_FSDKError error1 = mGenderEngine.ASGE_FSDK_InitgGenderEngine(FaceDB.appid, FaceDB
+// .gender_key);
 //        Log.d(TAG, "ASGE_FSDK_InitgGenderEngine =" + error1.getCode());
 //        error1 = mGenderEngine.ASGE_FSDK_GetVersion(mGenderVersion);
 //        Log.d(TAG, "ASGE_FSDK_GetVersion:" + mGenderVersion.toString() + "," + error1.getCode());
@@ -3059,7 +3120,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
 //            @Override
 //            public void handleMessage(Message msg) {
 //                super.handleMessage(msg);
-//                Log.v(FACE_TAG, "handleMessage-->" + msg.what + "/" + Thread.currentThread().getName());
+//                Log.v(FACE_TAG, "handleMessage-->" + msg.what + "/" + Thread.currentThread()
+// .getName());
 //            }
 //        };
 
@@ -3068,7 +3130,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         faceHandler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
-                Log.v(FACE_TAG, "handleMessage-->" + msg.what + "/" + Thread.currentThread().getName());
+                Log.v(FACE_TAG, "handleMessage-->" + msg.what + "/" + Thread.currentThread()
+                        .getName());
                 switch (msg.what) {
                     case -1:
                         idOperation = identification = true;
@@ -3210,7 +3273,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
 
     @Override
     public Object onPreview(byte[] data, int width, int height, int format, long timestamp) {
-        AFT_FSDKError err = engine.AFT_FSDK_FaceFeatureDetect(data, width, height, AFT_FSDKEngine.CP_PAF_NV21, result);
+        AFT_FSDKError err = engine.AFT_FSDK_FaceFeatureDetect(data, width, height, AFT_FSDKEngine
+                .CP_PAF_NV21, result);
         //Log.d(TAG, "AFT_FSDK_FaceFeatureDetect =" + err.getCode());
         //Log.d(TAG, "Face=" + result.size());
         for (AFT_FSDKFace face : result) {
@@ -3249,7 +3313,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
 //        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
 //        ContentValues values = new ContentValues(1);
 //        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-//        Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+//        Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+// values);
 //        Log.v(FACE_TAG, "faceDetectInput:" + uri.toString());
 //        ArcsoftManager.getInstance().setCaptureImage(uri);
 //        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
@@ -3306,7 +3371,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         }
         String[] proj = {MediaStore.Images.Media.DATA};
         Cursor actualimagecursor = this.getContentResolver().query(uri, proj, null, null, null);
-        int actual_image_column_index = actualimagecursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        int actual_image_column_index = actualimagecursor.getColumnIndexOrThrow(MediaStore.Images
+                .Media.DATA);
         actualimagecursor.moveToFirst();
         String img_path = actualimagecursor.getString(actual_image_column_index);
         String end = img_path.substring(img_path.length() - 4);
@@ -3350,14 +3416,16 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
      * @param selectionArgs (Optional) Selection arguments used in the query.
      * @return The value of the _data column, which is typically a file path.
      */
-    public static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
+    public static String getDataColumn(Context context, Uri uri, String selection, String[]
+            selectionArgs) {
 
         Cursor cursor = null;
         final String column = "_data";
         final String[] projection = {column};
 
         try {
-            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
+            cursor = context.getContentResolver().query(uri, projection, selection,
+                    selectionArgs, null);
             if (cursor != null && cursor.moveToFirst()) {
                 final int index = cursor.getColumnIndexOrThrow(column);
                 return cursor.getString(index);
@@ -3415,7 +3483,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
             AFR_FSDKError error = engine.AFR_FSDK_InitialEngine(FaceDB.appid, FaceDB.fr_key);
             //Log.v(FACE_TAG, "AFR_FSDK_InitialEngine = " + error.getCode());
             error = engine.AFR_FSDK_GetVersion(version);
-            //Log.v(FACE_TAG, "FR=" + version.toString() + "," + error.getCode()); //(210, 178 - 478, 446), degree =
+            //Log.v(FACE_TAG, "FR=" + version.toString() + "," + error.getCode()); //(210, 178 -
+            // 478, 446), degree =
             // 1　780, 2208 - 1942, 3370
         }
 
@@ -3432,10 +3501,13 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
             }
             if (mImageNV21 != null && identification) {
                 long time = System.currentTimeMillis();
-                AFR_FSDKError error = engine.AFR_FSDK_ExtractFRFeature(mImageNV21, mWidth, mHeight, AFR_FSDKEngine
-                        .CP_PAF_NV21, mAFT_FSDKFace.getRect(), mAFT_FSDKFace.getDegree(), result);
-                //Log.d(TAG, "AFR_FSDK_ExtractFRFeature cost :" + (System.currentTimeMillis() - time) + "ms");
-                //Log.d(TAG, "Face=" + result.getFeatureData()[0] + "," + result.getFeatureData()[1] + "," + result
+                AFR_FSDKError error = engine.AFR_FSDK_ExtractFRFeature(mImageNV21, mWidth,
+                        mHeight, AFR_FSDKEngine.CP_PAF_NV21, mAFT_FSDKFace.getRect(),
+                        mAFT_FSDKFace.getDegree(), result);
+                //Log.d(TAG, "AFR_FSDK_ExtractFRFeature cost :" + (System.currentTimeMillis() -
+                // time) + "ms");
+                //Log.d(TAG, "Face=" + result.getFeatureData()[0] + "," + result.getFeatureData()
+                // [1] + "," + result
                 // .getFeatureData()[2] + "," + error.getCode());
                 AFR_FSDKMatching score = new AFR_FSDKMatching();
                 float max = 0.0f;
@@ -3447,7 +3519,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                     }
                     for (AFR_FSDKFace face : fr.mFaceList) {
                         error = engine.AFR_FSDK_FacePairMatching(result, face, score);
-                        //Log.d(TAG, "Score:" + score.getScore() + ", AFR_FSDK_FacePairMatching=" + error.getCode());
+                        //Log.d(TAG, "Score:" + score.getScore() + ", AFR_FSDK_FacePairMatching="
+                        // + error.getCode());
                         if (max < score.getScore()) {
                             max = score.getScore();
                             name = fr.mName;
@@ -3463,15 +3536,20 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
 //                face2.clear();
 //                face1.add(new ASAE_FSDKFace(mAFT_FSDKFace.getRect(), mAFT_FSDKFace.getDegree()));
 //                face2.add(new ASGE_FSDKFace(mAFT_FSDKFace.getRect(), mAFT_FSDKFace.getDegree()));
-//                ASAE_FSDKError error1 = mAgeEngine.ASAE_FSDK_AgeEstimation_Image(mImageNV21, mWidth, mHeight,
+//                ASAE_FSDKError error1 = mAgeEngine.ASAE_FSDK_AgeEstimation_Image(mImageNV21,
+// mWidth, mHeight,
 // AFT_FSDKEngine.CP_PAF_NV21, face1, ages);
-//                ASGE_FSDKError error2 = mGenderEngine.ASGE_FSDK_GenderEstimation_Image(mImageNV21, mWidth, mHeight,
+//                ASGE_FSDKError error2 = mGenderEngine.ASGE_FSDK_GenderEstimation_Image
+// (mImageNV21, mWidth, mHeight,
 // AFT_FSDKEngine.CP_PAF_NV21, face2, genders);
 //                Log.d(TAG, "ASAE_FSDK_AgeEstimation_Image:" + error1.getCode() + ",
 // ASGE_FSDK_GenderEstimation_Image:" + error2.getCode());
-//                Log.d(TAG, "age:" + ages.get(0).getAge() + ",gender:" + genders.get(0).getGender());
-//                final String age = ages.get(0).getAge() == 0 ? "年龄未知" : ages.get(0).getAge() + "岁";
-//                final String gender = genders.get(0).getGender() == -1 ? "性别未知" : (genders.get(0).getGender() == 0
+//                Log.d(TAG, "age:" + ages.get(0).getAge() + ",gender:" + genders.get(0)
+// .getGender());
+//                final String age = ages.get(0).getAge() == 0 ? "年龄未知" : ages.get(0).getAge() +
+// "岁";
+//                final String gender = genders.get(0).getGender() == -1 ? "性别未知" : (genders.get
+// (0).getGender() == 0
 // ? "男" : "女");
 //
 //                //crop
@@ -3479,7 +3557,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
 //                YuvImage yuv = new YuvImage(data, ImageFormat.NV21, mWidth, mHeight, null);
 //                ExtByteArrayOutputStream ops = new ExtByteArrayOutputStream();
 //                yuv.compressToJpeg(mAFT_FSDKFace.getRect(), 80, ops);
-//                final Bitmap bmp = BitmapFactory.decodeByteArray(ops.getByteArray(), 0, ops.getByteArray().length);
+//                final Bitmap bmp = BitmapFactory.decodeByteArray(ops.getByteArray(), 0, ops
+// .getByteArray().length);
 //                try {
 //                    ops.close();
 //                } catch (IOException e) {
@@ -3561,10 +3640,12 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
 
     private SerialPort mSerialPort = null;
 
-    public SerialPort getSerialPort() throws SecurityException, IOException, InvalidParameterException {
+    public SerialPort getSerialPort() throws SecurityException, IOException,
+            InvalidParameterException {
         if (mSerialPort == null) {
             /* Read serial port parameters */
-            SharedPreferences sp = getSharedPreferences("android_serialport_api.sample_preferences", MODE_PRIVATE);
+            SharedPreferences sp = getSharedPreferences("android_serialport_api" +
+                    ".sample_preferences", MODE_PRIVATE);
             sp.edit().putString("DEVICE", "/dev/ttyS2").commit();
             sp.edit().putString("BAUDRATE", "115200").commit();
 
