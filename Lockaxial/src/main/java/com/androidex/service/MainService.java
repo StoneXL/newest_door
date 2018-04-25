@@ -37,20 +37,6 @@ import com.tencent.devicedemo.MainActivity;
 import com.util.Constant;
 import com.util.InstallUtil;
 import com.util.ShellUtils;
-import com.yuntongxun.ecsdk.ECDevice;
-import com.yuntongxun.ecsdk.ECError;
-import com.yuntongxun.ecsdk.ECInitParams;
-import com.yuntongxun.ecsdk.ECMessage;
-import com.yuntongxun.ecsdk.ECVoIPCallManager;
-import com.yuntongxun.ecsdk.OnChatReceiveListener;
-import com.yuntongxun.ecsdk.OnMeetingListener;
-import com.yuntongxun.ecsdk.SdkErrorCode;
-import com.yuntongxun.ecsdk.VideoRatio;
-import com.yuntongxun.ecsdk.im.ECMessageNotify;
-import com.yuntongxun.ecsdk.im.group.ECGroupNoticeMessage;
-import com.yuntongxun.ecsdk.meeting.intercom.ECInterPhoneMeetingMsg;
-import com.yuntongxun.ecsdk.meeting.video.ECVideoMeetingMsg;
-import com.yuntongxun.ecsdk.meeting.voice.ECVoiceMeetingMsg;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,7 +52,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -77,7 +62,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -100,30 +84,21 @@ import rtc.sdk.iface.DeviceListener;
 import rtc.sdk.iface.RtcClient;
 
 import static com.util.Constant.MSG_ADVERTISE_REFRESH;
-import static com.util.Constant.MSG_CALLMEMBER_DIRECT_COMPLETE;
-import static com.util.Constant.MSG_CALLMEMBER_DIRECT_DIALING;
-import static com.util.Constant.MSG_CALLMEMBER_DIRECT_FAILED;
-import static com.util.Constant.MSG_CALLMEMBER_DIRECT_SUCCESS;
-import static com.util.Constant.MSG_CALLMEMBER_DIRECT_TIMEOUT;
 import static com.util.Constant.MSG_CALLMEMBER_ERROR;
 import static com.util.Constant.MSG_CALLMEMBER_NO_ONLINE;
 import static com.util.Constant.MSG_CALLMEMBER_SERVER_ERROR;
 import static com.util.Constant.MSG_CALLMEMBER_TIMEOUT;
-import static com.util.Constant.MSG_CALLMEMBER_TIMEOUT_AND_TRY_DIRECT;
 import static com.util.Constant.MSG_CONNECT_ERROR;
 import static com.util.Constant.MSG_INVALID_CARD;
 import static com.util.Constant.MSG_LOCK_OPENED;
 import static com.util.Constant.MSG_PASSWORD_CHECK;
 import static com.util.Constant.MSG_REFRESH_COMMUNITYNAME;
 import static com.util.Constant.MSG_REFRESH_DATA;
-import static com.util.Constant.MSG_RTC_MESSAGE;
 import static com.util.Constant.MSG_REFRESH_LOCKNAME;
 import static com.util.Constant.MSG_RTC_DISCONNECT;
+import static com.util.Constant.MSG_RTC_MESSAGE;
 import static com.util.Constant.MSG_RTC_NEWCALL;
 import static com.util.Constant.MSG_RTC_ONVIDEO;
-import static com.util.Constant.ON_YUNTONGXUN_INIT_ERROR;
-import static com.util.Constant.ON_YUNTONGXUN_LOGIN_FAIL;
-import static com.util.Constant.ON_YUNTONGXUN_LOGIN_SUCCESS;
 
 /**
  * 程序的主要后台服务
@@ -149,8 +124,8 @@ public class MainService extends Service {
     public static final int MSG_CARD_INCOME = 20008;//刷卡回调
     public static final int MSG_DISCONNECT_VIEDO = 20009;
     public static final int MSG_CANCEL_CALL = 20010;
-    public static final int MSG_CANCEL_DIRECT = 20011;
-    public static final int MSG_DISCONNECT_DIRECT = 20012;
+    public static final int MSG_CANCEL_DIRECT = 20011;//容联云有关状态
+    public static final int MSG_DISCONNECT_DIRECT = 20012;//容联云有关状态
     //public static final int MSG_ADVERTISE_INIT=20013;
     public static final int MSG_CHECK_NETWORK = 20014;
     public static final int MSG_START_INIT = 20015;
@@ -173,7 +148,7 @@ public class MainService extends Service {
     public static final int CALL_VIDEO_CONNECTING = 21;
     public static final int CALL_VIDEO_CONNECTED = 22;
     public static final int CALL_VIDEO_CONNECT_FAIL = 23;
-    public static final int CALL_DIRECT_CONNECTING = 24;
+    public static final int CALL_DIRECT_CONNECTING = 24;//容联云有关状态
     public static final int CALL_DIRECT_CONNECTED = 25;
     public static final int CALL_DIRECT_CONNECT_FAIL = 26;
 
@@ -288,8 +263,8 @@ public class MainService extends Service {
     public void onCreate() {
         HttpApi.i("MainService开始初始化");
         activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-        // TODO: 2018/4/19  //hwservice干嘛用的?
-        hwservice = new hwService(MainService.this);
+
+        hwservice = new hwService(MainService.this);//hwservice为appLibs的服务?
         wifiAdmin = new WifiAdmin(this);
         audioManager = (AudioManager) getSystemService(Service.AUDIO_SERVICE);
         initHandler();
@@ -363,11 +338,7 @@ public class MainService extends Service {
                     disconnectCallingConnection();
                 } else if (msg.what == MSG_CANCEL_CALL) {
                     cancelCurrentCall();
-                } else if (msg.what == MSG_CANCEL_DIRECT) {
-                    cancelDirectCall(msg);
-                } else if (msg.what == MSG_DISCONNECT_DIRECT) {
-                    cancelDirectCall(msg);
-                } else if (msg.what == MSG_CHECK_NETWORK) {
+                }else if (msg.what == MSG_CHECK_NETWORK) {
                     checkNetwork();
                 } else if (msg.what == MSG_START_INIT) {
                     initWhenConnected();
@@ -439,7 +410,14 @@ public class MainService extends Service {
                     } else {
                         initWhenOffline(); //开始离线版本
                     }
+                } else if (msg.what == MSG_DISCONNECT_DIRECT) {
+                    //入口已无
+//                    cancelDirectCall(msg);
+                } else if (msg.what == MSG_CANCEL_DIRECT) {
+                    //入口已无
+//                    cancelDirectCall(msg);
                 }
+
             }
         };
         serviceMessenger = new Messenger(handler);
@@ -458,18 +436,19 @@ public class MainService extends Service {
     protected void startRongyun() {
         if (!isRongyunInitialized) {
             isRongyunInitialized = true;
-            if (DeviceConfig.IS_CALL_DIRECT_AVAILABLE) { //这里不会执行
-                startYuntongxun();
-            }
+//            if (DeviceConfig.IS_CALL_DIRECT_AVAILABLE) { //这里不会执行
+//                startYuntongxun();
+//            }
         }
     }
 
     protected void cancelDirectCall(Message msg) {
-        if (msg.what == MSG_CANCEL_DIRECT) {
+        //入口已无
+     /*   if (msg.what == MSG_CANCEL_DIRECT) {
             releaseCallDirect();
         } else if (msg.what == MSG_DISCONNECT_DIRECT) {
             releaseCallDirect();
-        }
+        }*/
     }
 
     protected void cancelCurrentCall() {
@@ -499,6 +478,7 @@ public class MainService extends Service {
 
     protected void initAssembleUtil() {
         if (DeviceConfig.IS_ASSEMBLE_AVAILABLE) {
+            //这里进不来
             assembleUtil = new AssembleUtil(handler);
             try {
                 assembleUtil.open();
@@ -531,7 +511,7 @@ public class MainService extends Service {
         Log.i("MainService", "init RFID");
         //initNfcPortUtil();
         Log.i("MainService", "init NFC Port");
-        initAssembleUtil();
+        initAssembleUtil();//入口已无
         Log.i("MainService", "init ASSEMBLE");
         initAexUtil();
         Log.i("MainService", "init AEX");
@@ -1458,254 +1438,254 @@ public class MainService extends Service {
     protected void startYuntongxun() {
         // 判断SDK是否已经初始化，如果已经初始化则可以直接调用登陆接口
         // 没有初始化则先进行初始化SDK，然后调用登录接口注册SDK
-        if (!ECDevice.isInitialized()) {
-            ECDevice.initial(this.getApplicationContext(), new ECDevice.InitListener() {
-                @Override
-                public void onInitialized() {
-                    // SDK已经初始化成功
-                    initYuntongxunHandler();
-                }
-
-                @Override
-                public void onError(Exception exception) {
-                    sendDialMessenger(ON_YUNTONGXUN_INIT_ERROR);
-                    // SDK 初始化失败,可能有如下原因造成
-                    // 1、可能SDK已经处于初始化状态
-                    // 2、SDK所声明必要的权限未在清单文件（AndroidManifest.xml）里配置、
-                    //    或者未配置服务属性android:exported="false";
-                    // 3、当前手机设备系统版本低于ECSDK所支持的最低版本（当前ECSDK支持
-                    //    Android Build.VERSION.SDK_INT 以及以上版本）
-                }
-            });
-        }
+//        if (!ECDevice.isInitialized()) {
+//            ECDevice.initial(this.getApplicationContext(), new ECDevice.InitListener() {
+//                @Override
+//                public void onInitialized() {
+//                    // SDK已经初始化成功
+//                    initYuntongxunHandler();
+//                }
+//
+//                @Override
+//                public void onError(Exception exception) {
+//                    sendDialMessenger(ON_YUNTONGXUN_INIT_ERROR);
+//                    // SDK 初始化失败,可能有如下原因造成
+//                    // 1、可能SDK已经处于初始化状态
+//                    // 2、SDK所声明必要的权限未在清单文件（AndroidManifest.xml）里配置、
+//                    //    或者未配置服务属性android:exported="false";
+//                    // 3、当前手机设备系统版本低于ECSDK所支持的最低版本（当前ECSDK支持
+//                    //    Android Build.VERSION.SDK_INT 以及以上版本）
+//                }
+//            });
+//        }
     }
 
     protected void initYuntongxunHandler() {
         // 构建注册所需要的参数信息
         //5.0.3的SDK初始参数的方法：ECInitParams params = new ECInitParams();
         //5.1.*以上版本如下：
-        ECInitParams params = ECInitParams.createParams();
-        //自定义登录方式：
-        //测试阶段Userid可以填写手机
-        params.setUserid(this.key);
-        params.setAppKey("8aaf0708560cf0f501560d03a9a80023");
-        params.setToken("900dd8bdcd111f811b1e609026811bb3");
-        // 设置登陆验证模式（是否验证密码）NORMAL_AUTH-自定义方式
-        params.setAuthType(ECInitParams.LoginAuthType.NORMAL_AUTH);
-        // 1代表用户名+密码登陆（可以强制上线，踢掉已经在线的设备）
-        // 2代表自动重连注册（如果账号已经在其他设备登录则会提示异地登陆）
-        // 3 LoginMode（强制上线：FORCE_LOGIN  默认登录：AUTO）
-        params.setMode(ECInitParams.LoginMode.FORCE_LOGIN);
-
-        //voip账号+voip密码方式：
-//        params.setUserid("8015009900000002");
-//        params.setPwd("ZdVO83Jj");
+//        ECInitParams params = ECInitParams.createParams();
+//        //自定义登录方式：
+//        //测试阶段Userid可以填写手机
+//        params.setUserid(this.key);
 //        params.setAppKey("8aaf0708560cf0f501560d03a9a80023");
-//        // 设置登陆验证模式（是否验证密码）PASSWORD_AUTH-密码登录方式
-//        params.setAuthType(ECInitParams.LoginAuthType.PASSWORD_AUTH);
+//        params.setToken("900dd8bdcd111f811b1e609026811bb3");
+//        // 设置登陆验证模式（是否验证密码）NORMAL_AUTH-自定义方式
+//        params.setAuthType(ECInitParams.LoginAuthType.NORMAL_AUTH);
 //        // 1代表用户名+密码登陆（可以强制上线，踢掉已经在线的设备）
 //        // 2代表自动重连注册（如果账号已经在其他设备登录则会提示异地登陆）
 //        // 3 LoginMode（强制上线：FORCE_LOGIN  默认登录：AUTO）
 //        params.setMode(ECInitParams.LoginMode.FORCE_LOGIN);
-
-        // 如果是v5.1.8r开始版本建议使用
-        // ECDevice.setOnDeviceConnectListener（new ECDevice.OnECDeviceConnectListener()）
-        // 如果是v5.1.8r以前版本设置登陆状态回调如下
-        params.setOnDeviceConnectListener(new ECDevice.OnECDeviceConnectListener() {
-            public void onConnect() {
-                // 兼容4.0，5.0可不必处理
-            }
-
-            @Override
-            public void onDisconnect(ECError error) {
-                // 兼容4.0，5.0可不必处理
-            }
-
-            @Override
-            public void onConnectState(ECDevice.ECConnectState state, ECError error) {
-                if (state == ECDevice.ECConnectState.CONNECT_FAILED) {
-                    if (error.errorCode == SdkErrorCode.SDK_KICKED_OFF) {
-                        //账号异地登陆
-                        sendDialMessenger(ON_YUNTONGXUN_LOGIN_FAIL);
-                        DeviceConfig.IS_CALL_DIRECT_AVAILABLE = false;
-                    } else {
-                        //连接状态失败
-                        sendDialMessenger(ON_YUNTONGXUN_LOGIN_FAIL);
-                        DeviceConfig.IS_CALL_DIRECT_AVAILABLE = false;
-                    }
-                    return;
-                } else if (state == ECDevice.ECConnectState.CONNECT_SUCCESS) {
-                    // 登陆成功
-                    sendDialMessenger(ON_YUNTONGXUN_LOGIN_SUCCESS);
-                }
-            }
-        });
-
-        // 如果是v5.1.8r版本 ECDevice.setOnChatReceiveListener(new OnChatReceiveListener())
-        // 5.1.7r及以前版本设置SDK接收消息回调
-        params.setOnChatReceiveListener(new OnChatReceiveListener() {
-            @Override
-            public void OnReceivedMessage(ECMessage msg) {
-                // 收到新消息
-            }
-
-            @Override
-            public void onReceiveMessageNotify(ECMessageNotify ecMessageNotify) {
-
-            }
-
-            @Override
-            public void OnReceiveGroupNoticeMessage(ECGroupNoticeMessage notice) {
-                // 收到群组通知消息（有人加入、退出...）
-                // 可以根据ECGroupNoticeMessage.ECGroupMessageType类型区分不同消息类型
-            }
-
-            @Override
-            public void onOfflineMessageCount(int count) {
-                // 登陆成功之后SDK回调该接口通知账号离线消息数
-            }
-
-            @Override
-            public int onGetOfflineMessage() {
-                return 0;
-            }
-
-            @Override
-            public void onReceiveOfflineMessage(List msgs) {
-                // SDK根据应用设置的离线消息拉去规则通知应用离线消息
-            }
-
-            @Override
-            public void onReceiveOfflineMessageCompletion() {
-                // SDK通知应用离线消息拉取完成
-            }
-
-            @Override
-            public void onServicePersonVersion(int version) {
-                // SDK通知应用当前账号的个人信息版本号
-            }
-
-            @Override
-            public void onReceiveDeskMessage(ECMessage ecMessage) {
-
-            }
-
-            @Override
-            public void onSoftVersion(String s, int i) {
-
-            }
-        });
-
-        // 获得SDKVoIP呼叫接口
-        // 注册VoIP呼叫事件回调监听
-        ECVoIPCallManager callInterface = ECDevice.getECVoIPCallManager();
-        if (callInterface != null) {
-            callInterface.setOnVoIPCallListener(new ECVoIPCallManager.OnVoIPListener() {
-                @Override
-                public void onVideoRatioChanged(VideoRatio videoRatio) {
-
-                }
-
-                @Override
-                public void onSwitchCallMediaTypeRequest(String s, ECVoIPCallManager.CallType
-                        callType) {
-
-                }
-
-                @Override
-                public void onSwitchCallMediaTypeResponse(String s, ECVoIPCallManager.CallType
-                        callType) {
-
-                }
-
-                @Override
-                public void onDtmfReceived(String s, char c) {
-                    if (c == '#') {
-                        HttpApi.i("收到云端开锁消息->");
-                        openLock();
-                    }
-                }
-
-                @Override
-                public void onCallEvents(ECVoIPCallManager.VoIPCall voipCall) {
-                    // 处理呼叫事件回调
-                    if (voipCall == null) {
-                        Log.e("SDKCoreHelper", "handle call event error , voipCall null");
-                        return;
-                    }
-                    // 根据不同的事件通知类型来处理不同的业务
-                    ECVoIPCallManager.ECCallState callState = voipCall.callState;
-                    switch (callState) {
-                        case ECCALL_PROCEEDING:
-                            // 正在连接服务器处理呼叫请求
-                            break;
-                        case ECCALL_ALERTING:
-                            // 呼叫到达对方客户端，对方正在振铃
-                            if (callConnectState == CALL_DIRECT_CONNECTING) {
-                                sendDialMessenger(MSG_CALLMEMBER_DIRECT_DIALING);
-                            }
-                            break;
-                        case ECCALL_ANSWERED:
-                            // 对方接听本次呼叫
-                            if (callConnectState == CALL_DIRECT_CONNECTING) {
-                                sendDialMessenger(MSG_CALLMEMBER_DIRECT_SUCCESS);
-                            }
-                            callConnectState = CALL_DIRECT_CONNECTED;
-                            startCallDirectTimeoutChecking(lastCurrentCallId);
-                            break;
-                        case ECCALL_FAILED:
-                            // 本次呼叫失败，根据失败原因播放提示音
-                            if (callConnectState == CALL_DIRECT_CONNECTING) {
-                                sendDialMessenger(MSG_CALLMEMBER_DIRECT_FAILED);
-                                callMemberDirectly();
-                            }
-                            break;
-                        case ECCALL_RELEASED:
-                            // 通话释放[完成一次呼叫]
-                            if (callConnectState == CALL_DIRECT_CONNECTED) {
-                                sendDialMessenger(MSG_CALLMEMBER_DIRECT_COMPLETE);
-                            }
-                            Log.v("MainService", "通话完成");
-                            resetCallMode();
-                            break;
-                        default:
-                            Log.e("SDKCoreHelper", "handle call event error , callState " +
-                                    callState);
-                            break;
-                    }
-                }
-            });
-        }
-
-        // 注册会议消息处理监听
-        if (ECDevice.getECMeetingManager() != null) {
-            ECDevice.getECMeetingManager().setOnMeetingListener(new OnMeetingListener() {
-                @Override
-                public void onReceiveInterPhoneMeetingMsg(ECInterPhoneMeetingMsg msg) {
-                    // 处理实时对讲消息Push
-                }
-
-                @Override
-                public void onReceiveVoiceMeetingMsg(ECVoiceMeetingMsg msg) {
-                    // 处理语音会议消息push
-                }
-
-                @Override
-                public void onReceiveVideoMeetingMsg(ECVideoMeetingMsg msg) {
-                    // 处理视频会议消息Push（暂未提供）
-                }
-
-                @Override
-                public void onVideoRatioChanged(VideoRatio videoRatio) {
-
-                }
-            });
-        }
-
-        if (params.validate()) {
-            // 判断注册参数是否正确
-            ECDevice.login(params);
-        }
+//
+//        //voip账号+voip密码方式：
+////        params.setUserid("8015009900000002");
+////        params.setPwd("ZdVO83Jj");
+////        params.setAppKey("8aaf0708560cf0f501560d03a9a80023");
+////        // 设置登陆验证模式（是否验证密码）PASSWORD_AUTH-密码登录方式
+////        params.setAuthType(ECInitParams.LoginAuthType.PASSWORD_AUTH);
+////        // 1代表用户名+密码登陆（可以强制上线，踢掉已经在线的设备）
+////        // 2代表自动重连注册（如果账号已经在其他设备登录则会提示异地登陆）
+////        // 3 LoginMode（强制上线：FORCE_LOGIN  默认登录：AUTO）
+////        params.setMode(ECInitParams.LoginMode.FORCE_LOGIN);
+//
+//        // 如果是v5.1.8r开始版本建议使用
+//        // ECDevice.setOnDeviceConnectListener（new ECDevice.OnECDeviceConnectListener()）
+//        // 如果是v5.1.8r以前版本设置登陆状态回调如下
+//        params.setOnDeviceConnectListener(new ECDevice.OnECDeviceConnectListener() {
+//            public void onConnect() {
+//                // 兼容4.0，5.0可不必处理
+//            }
+//
+//            @Override
+//            public void onDisconnect(ECError error) {
+//                // 兼容4.0，5.0可不必处理
+//            }
+//
+//            @Override
+//            public void onConnectState(ECDevice.ECConnectState state, ECError error) {
+//                if (state == ECDevice.ECConnectState.CONNECT_FAILED) {
+//                    if (error.errorCode == SdkErrorCode.SDK_KICKED_OFF) {
+//                        //账号异地登陆
+//                        sendDialMessenger(ON_YUNTONGXUN_LOGIN_FAIL);
+//                        DeviceConfig.IS_CALL_DIRECT_AVAILABLE = false;
+//                    } else {
+//                        //连接状态失败
+//                        sendDialMessenger(ON_YUNTONGXUN_LOGIN_FAIL);
+//                        DeviceConfig.IS_CALL_DIRECT_AVAILABLE = false;
+//                    }
+//                    return;
+//                } else if (state == ECDevice.ECConnectState.CONNECT_SUCCESS) {
+//                    // 登陆成功
+//                    sendDialMessenger(ON_YUNTONGXUN_LOGIN_SUCCESS);
+//                }
+//            }
+//        });
+//
+//        // 如果是v5.1.8r版本 ECDevice.setOnChatReceiveListener(new OnChatReceiveListener())
+//        // 5.1.7r及以前版本设置SDK接收消息回调
+//        params.setOnChatReceiveListener(new OnChatReceiveListener() {
+//            @Override
+//            public void OnReceivedMessage(ECMessage msg) {
+//                // 收到新消息
+//            }
+//
+//            @Override
+//            public void onReceiveMessageNotify(ECMessageNotify ecMessageNotify) {
+//
+//            }
+//
+//            @Override
+//            public void OnReceiveGroupNoticeMessage(ECGroupNoticeMessage notice) {
+//                // 收到群组通知消息（有人加入、退出...）
+//                // 可以根据ECGroupNoticeMessage.ECGroupMessageType类型区分不同消息类型
+//            }
+//
+//            @Override
+//            public void onOfflineMessageCount(int count) {
+//                // 登陆成功之后SDK回调该接口通知账号离线消息数
+//            }
+//
+//            @Override
+//            public int onGetOfflineMessage() {
+//                return 0;
+//            }
+//
+//            @Override
+//            public void onReceiveOfflineMessage(List msgs) {
+//                // SDK根据应用设置的离线消息拉去规则通知应用离线消息
+//            }
+//
+//            @Override
+//            public void onReceiveOfflineMessageCompletion() {
+//                // SDK通知应用离线消息拉取完成
+//            }
+//
+//            @Override
+//            public void onServicePersonVersion(int version) {
+//                // SDK通知应用当前账号的个人信息版本号
+//            }
+//
+//            @Override
+//            public void onReceiveDeskMessage(ECMessage ecMessage) {
+//
+//            }
+//
+//            @Override
+//            public void onSoftVersion(String s, int i) {
+//
+//            }
+//        });
+//
+//        // 获得SDKVoIP呼叫接口
+//        // 注册VoIP呼叫事件回调监听
+//        ECVoIPCallManager callInterface = ECDevice.getECVoIPCallManager();
+//        if (callInterface != null) {
+//            callInterface.setOnVoIPCallListener(new ECVoIPCallManager.OnVoIPListener() {
+//                @Override
+//                public void onVideoRatioChanged(VideoRatio videoRatio) {
+//
+//                }
+//
+//                @Override
+//                public void onSwitchCallMediaTypeRequest(String s, ECVoIPCallManager.CallType
+//                        callType) {
+//
+//                }
+//
+//                @Override
+//                public void onSwitchCallMediaTypeResponse(String s, ECVoIPCallManager.CallType
+//                        callType) {
+//
+//                }
+//
+//                @Override
+//                public void onDtmfReceived(String s, char c) {
+//                    if (c == '#') {
+//                        HttpApi.i("收到云端开锁消息->");
+//                        openLock();
+//                    }
+//                }
+//
+//                @Override
+//                public void onCallEvents(ECVoIPCallManager.VoIPCall voipCall) {
+//                    // 处理呼叫事件回调
+//                    if (voipCall == null) {
+//                        Log.e("SDKCoreHelper", "handle call event error , voipCall null");
+//                        return;
+//                    }
+//                    // 根据不同的事件通知类型来处理不同的业务
+//                    ECVoIPCallManager.ECCallState callState = voipCall.callState;
+//                    switch (callState) {
+//                        case ECCALL_PROCEEDING:
+//                            // 正在连接服务器处理呼叫请求
+//                            break;
+//                        case ECCALL_ALERTING:
+//                            // 呼叫到达对方客户端，对方正在振铃
+//                            if (callConnectState == CALL_DIRECT_CONNECTING) {
+//                                sendDialMessenger(MSG_CALLMEMBER_DIRECT_DIALING);
+//                            }
+//                            break;
+//                        case ECCALL_ANSWERED:
+//                            // 对方接听本次呼叫
+//                            if (callConnectState == CALL_DIRECT_CONNECTING) {
+//                                sendDialMessenger(MSG_CALLMEMBER_DIRECT_SUCCESS);
+//                            }
+//                            callConnectState = CALL_DIRECT_CONNECTED;
+//                            startCallDirectTimeoutChecking(lastCurrentCallId);
+//                            break;
+//                        case ECCALL_FAILED:
+//                            // 本次呼叫失败，根据失败原因播放提示音
+//                            if (callConnectState == CALL_DIRECT_CONNECTING) {
+//                                sendDialMessenger(MSG_CALLMEMBER_DIRECT_FAILED);
+//                                callMemberDirectly();
+//                            }
+//                            break;
+//                        case ECCALL_RELEASED:
+//                            // 通话释放[完成一次呼叫]
+//                            if (callConnectState == CALL_DIRECT_CONNECTED) {
+//                                sendDialMessenger(MSG_CALLMEMBER_DIRECT_COMPLETE);
+//                            }
+//                            Log.v("MainService", "通话完成");
+//                            resetCallMode();
+//                            break;
+//                        default:
+//                            Log.e("SDKCoreHelper", "handle call event error , callState " +
+//                                    callState);
+//                            break;
+//                    }
+//                }
+//            });
+//        }
+//
+//        // 注册会议消息处理监听
+//        if (ECDevice.getECMeetingManager() != null) {
+//            ECDevice.getECMeetingManager().setOnMeetingListener(new OnMeetingListener() {
+//                @Override
+//                public void onReceiveInterPhoneMeetingMsg(ECInterPhoneMeetingMsg msg) {
+//                    // 处理实时对讲消息Push
+//                }
+//
+//                @Override
+//                public void onReceiveVoiceMeetingMsg(ECVoiceMeetingMsg msg) {
+//                    // 处理语音会议消息push
+//                }
+//
+//                @Override
+//                public void onReceiveVideoMeetingMsg(ECVideoMeetingMsg msg) {
+//                    // 处理视频会议消息Push（暂未提供）
+//                }
+//
+//                @Override
+//                public void onVideoRatioChanged(VideoRatio videoRatio) {
+//
+//                }
+//            });
+//        }
+//
+//        if (params.validate()) {
+//            // 判断注册参数是否正确
+//            ECDevice.login(params);
+//        }
     }
 
     public void startCallDirectTimeoutChecking(final String thisCallId) {
@@ -1723,21 +1703,23 @@ public class MainService extends Service {
     }
 
     protected synchronized void setLastCurrentCallId(String lastCurrentCallId) {
-        this.lastCurrentCallId = lastCurrentCallId;
+        //入口已无
+//        this.lastCurrentCallId = lastCurrentCallId;
     }
 
     public void startCallDirect(String mobile) {
-        String callId = ECDevice.getECVoIPCallManager().makeCall(ECVoIPCallManager.CallType
-                .DIRECT, mobile);
-        System.out.println(callId);
-        setLastCurrentCallId(callId);
+//        String callId = ECDevice.getECVoIPCallManager().makeCall(ECVoIPCallManager.CallType
+//                .DIRECT, mobile);
+//        System.out.println(callId);
+//        setLastCurrentCallId(callId);
     }
 
     public void releaseCallDirect() {
-        if (lastCurrentCallId != null) {
-            ECDevice.getECVoIPCallManager().releaseCall(lastCurrentCallId);
+        //入口已无
+       /* if (lastCurrentCallId != null) {
+//            ECDevice.getECVoIPCallManager().releaseCall(lastCurrentCallId);
             setLastCurrentCallId(null);
-        }
+        }*/
     }
 
     protected void startCallMember() {
@@ -1827,8 +1809,9 @@ public class MainService extends Service {
                         allUserList.add(userList.get(i));
                     }
                 }
-
+                //检查当前的呼叫模式是并行还是串行
                 if (DeviceConfig.CALL_MEMBER_MODE == DeviceConfig.CALL_MEMBER_MODE_PARALL) {
+                    //呼叫模式并行
                     HttpApi.i("拨号中->准备拨号Parall");
                     sendCallMessageParall();
                 } else {
@@ -1919,13 +1902,15 @@ public class MainService extends Service {
         if (needWait) { //检查在线人数,大于0则等待一段时间
             startTimeoutChecking();
         } else {
-            if (DeviceConfig.IS_CALL_DIRECT_AVAILABLE) { //如果支持直拨，立刻进入直拨电话模式
-                sendDialMessenger(MSG_CALLMEMBER_TIMEOUT_AND_TRY_DIRECT);
-                cancelOtherMembers(null);
-                startCallMemberDirectly();
-            } else { //告诉用户无人在线
-                sendDialMessenger(MSG_CALLMEMBER_NO_ONLINE);
-            }
+            sendDialMessenger(MSG_CALLMEMBER_NO_ONLINE);//告诉用户无人在线
+//            if (DeviceConfig.IS_CALL_DIRECT_AVAILABLE) { //如果支持直拨，立刻进入直拨电话模式
+//                // 这里不会进入
+////                sendDialMessenger(MSG_CALLMEMBER_TIMEOUT_AND_TRY_DIRECT);
+////                cancelOtherMembers(null);
+////                startCallMemberDirectly();
+//            } else { //告诉用户无人在线
+//                sendDialMessenger(MSG_CALLMEMBER_NO_ONLINE);
+//            }
         }
     }
 
@@ -1994,16 +1979,18 @@ public class MainService extends Service {
     }
 
     protected void startCallMemberDirectly() {
-        callConnectState = CALL_DIRECT_CONNECTING;
+//        入口已无
+        /*callConnectState = CALL_DIRECT_CONNECTING;
         onlineUserList.clear();
         offlineUserList.clear();
         removeRejectedUser();
         removeDeviceUser();
-        callMemberDirectly();
+        callMemberDirectly();*/
     }
 
     protected void removeRejectedUser() {
-        for (int i = 0; i < rejectUserList.size(); i++) {
+        //入口已无
+   /*     for (int i = 0; i < rejectUserList.size(); i++) {
             String from = (String) rejectUserList.get(i);
             for (int j = 0; j < triedUserList.size(); j++) {
                 JSONObject userObject = (JSONObject) triedUserList.get(j);
@@ -2017,11 +2004,12 @@ public class MainService extends Service {
                     break;
                 }
             }
-        }
+        }*/
     }
 
     protected void removeDeviceUser() {
-        ArrayList<JSONObject> removeList = new ArrayList<JSONObject>();
+        //入口已无
+       /* ArrayList<JSONObject> removeList = new ArrayList<JSONObject>();
         for (int j = 0; j < triedUserList.size(); j++) {
             JSONObject userObject = (JSONObject) triedUserList.get(j);
             String username = null;
@@ -2035,11 +2023,12 @@ public class MainService extends Service {
         }
         for (int i = 0; i < removeList.size(); i++) {
             triedUserList.remove(removeList.get(i));
-        }
+        }*/
     }
 
     protected void callMemberDirectly() {
-        if (callConnectState == CALL_DIRECT_CONNECTING) {
+        //入口已无
+       /* if (callConnectState == CALL_DIRECT_CONNECTING) {
             if (triedUserList.size() > 0) {
                 JSONObject userObject = (JSONObject) triedUserList.remove(0);
                 String mobile = null;
@@ -2051,13 +2040,14 @@ public class MainService extends Service {
             } else {
                 callMemberDirectlyFailed();
             }
-        }
+        }*/
     }
 
     protected void callMemberDirectlyFailed() {
-        sendDialMessenger(MSG_CALLMEMBER_DIRECT_TIMEOUT);
+        //入口已无
+       /* sendDialMessenger(MSG_CALLMEMBER_DIRECT_TIMEOUT);
         Log.v("MainService", "取消直接呼叫");
-        resetCallMode();
+        resetCallMode();*/
     }
 
     /**
@@ -2081,7 +2071,12 @@ public class MainService extends Service {
                     sleep(DeviceConfig.PARALL_WAIT_TIME); //等待指定的一个并行时间
                     if (!isInterrupted()) { //检查线程没有被停止
                         if (callConnectState == CALL_VIDEO_CONNECTING) { //如果现在是尝试连接状态
-                            if (DeviceConfig.IS_CALL_DIRECT_AVAILABLE) { //如果支持直拨，立刻进入直拨电话模式
+                            Log.v("MainService", "超时检查，取消当前呼叫");
+                            resetCallMode();
+                            sendDialMessenger(MSG_CALLMEMBER_TIMEOUT); //通知界面目前已经超时，并进入初始状态
+
+                           /* if (DeviceConfig.IS_CALL_DIRECT_AVAILABLE) { //如果支持直拨，立刻进入直拨电话模式
+                                //这里不会进入
                                 sendDialMessenger(MSG_CALLMEMBER_TIMEOUT_AND_TRY_DIRECT);
                                 //通知界面目前已经超时，并尝试直拨电话
                                 startCallMemberDirectly();
@@ -2090,7 +2085,7 @@ public class MainService extends Service {
                                 resetCallMode();
                                 sendDialMessenger(MSG_CALLMEMBER_TIMEOUT); //通知界面目前已经超时，并进入初始状态
 
-                            }
+                            }*/
                         }
                     }
                 } catch (InterruptedException e) {
@@ -2254,7 +2249,7 @@ public class MainService extends Service {
             HttpApi.i("发送消息回调->onSendIm");
             if (callConnectState == CALL_VIDEO_CONNECTING) {
                 //检查当前的呼叫模式是并行还是串行
-                if (DeviceConfig.CALL_MEMBER_MODE == DeviceConfig.CALL_MEMBER_MODE_PARALL) {
+                if (DeviceConfig.CALL_MEMBER_MODE == DeviceConfig.CALL_MEMBER_MODE_PARALL) {//并行
                     //检查并行呼叫状态
                     HttpApi.i("发送消息回调->checkSendCallMessageParall()");
                     checkSendCallMessageParall(status);
@@ -2443,6 +2438,7 @@ public class MainService extends Service {
     }*/
 
     private void openAssembleLock() {
+        //入口已无
         assembleUtil.openLock();
         sendDialMessenger(Constant.MSG_LOCK_OPENED);
     }
@@ -2457,8 +2453,10 @@ public class MainService extends Service {
 
     protected void openLock() {
         if (DeviceConfig.IS_RFID_AVAILABLE) {
-            // openLedLock();//开继电器门锁,开普通门锁
+            //这里进不来
+//             openLedLock();//开继电器门锁,开普通门锁
         } else if (DeviceConfig.IS_ASSEMBLE_AVAILABLE) {
+            //这里进不来
             openAssembleLock();
         } else if (DeviceConfig.IS_AEX_AVAILABLE) {
             openAexLock();
@@ -2620,6 +2618,7 @@ public class MainService extends Service {
                         JSONArray cardList = resultObject.getJSONArray("cardList");
                         sqlUtil.changeCard(cardList);
                         if (DeviceConfig.IS_ASSEMBLE_AVAILABLE) {
+                            //这里进不来
                             assembleUtil.changeCard(cardList);
                         }
                         completeInitDeviceData();
@@ -2773,6 +2772,7 @@ public class MainService extends Service {
                     JSONArray data = resultObject.getJSONArray("data");
                     sqlUtil.changeCard(data);
                     if (DeviceConfig.IS_ASSEMBLE_AVAILABLE) {
+                        //这里进不来
                         assembleUtil.changeCard(data);
                     } else {
                         JSONArray list = new JSONArray();
