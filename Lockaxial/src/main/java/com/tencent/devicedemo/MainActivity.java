@@ -236,7 +236,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     private BinderListAdapter mAdapter;
     private NotifyReceiverQQ mNotifyReceiver;
     private NfcReader nfcReader;//用于nfc卡扫描
-//    private AutoScrollViewPager viewPager;
+    //    private AutoScrollViewPager viewPager;
     private Banner banner;
     private Bg_Adapter bgAdapter;
     private DisplayImageOptions options;
@@ -831,10 +831,10 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                         .showImageOnLoading(R.mipmap.loading).cacheOnDisk(true).bitmapConfig
                                 (Bitmap.Config.ARGB_8888).build();
 
-                BaseApplication.getApplication().getImageLoader().displayImage("http://www" +
-                        ".tyjdtzjc" + "" + "" +
+                BaseApplication.getApplication().getImageLoader().displayImage("http://www" + "" +
+                        ".tyjdtzjc" + "" + "" + "" +
                         ".cn/resource/kindeditor/attached/image/20150831/20150831021658_90595.png" +
-                        "", imageView, options);
+                        "" + "", imageView, options);
                 Log.i("xiao_", "未生成QQ二维码");
             } else {
                 imageView.setImageBitmap(bitmap);
@@ -847,10 +847,10 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                         .showImageOnLoading(R.mipmap.loading).cacheOnDisk(true).bitmapConfig
                                 (Bitmap.Config.ARGB_8888).build();
 
-                BaseApplication.getApplication().getImageLoader().displayImage("http://www" +
-                        ".tyjdtzjc" + "" + "" +
+                BaseApplication.getApplication().getImageLoader().displayImage("http://www" + "" +
+                        ".tyjdtzjc" + "" + "" + "" +
                         ".cn/resource/kindeditor/attached/image/20150831/20150831021658_90595.png" +
-                        "", imageView, options);
+                        "" + "", imageView, options);
             }
         }
     }
@@ -1026,34 +1026,13 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                     if (faceHandler != null) {
                         faceHandler.sendEmptyMessageDelayed(MSG_FACE_DETECT_CONTRAST, 1000);
                     }
-                } else if (msg.what == MSG_CALLMEMBER_TIMEOUT_AND_TRY_DIRECT) {
-                    Utils.DisplayToast(MainActivity.this, "可视对讲无法拨通，尝试直拨电话");
-                    setCurrentStatus(DIRECT_CALLING_TRY_MODE);
                 } else if (msg.what == MSG_CALLMEMBER_DIRECT_TIMEOUT) {
                     onCallMemberError(msg.what);
-                } else if (msg.what == MSG_CALLMEMBER_DIRECT_DIALING) {
-                    Utils.DisplayToast(MainActivity.this, "开始直拨电话");
-                    setCurrentStatus(DIRECT_CALLING_MODE);
-                } else if (msg.what == MSG_CALLMEMBER_DIRECT_SUCCESS) {
-                    Utils.DisplayToast(MainActivity.this, "电话已接通，请让对方按#号键开门");
-                    onCallDirectlyBegin();
-                } else if (msg.what == MSG_CALLMEMBER_DIRECT_FAILED) {
-                    Utils.DisplayToast(MainActivity.this, "电话未能接通，重试中..");
-                } else if (msg.what == MSG_CALLMEMBER_DIRECT_COMPLETE) {
-                    onCallDirectlyComplete();
-                } else if (msg.what == MSG_CONNECT_ERROR) {
+                }else if (msg.what == MSG_CONNECT_ERROR) {
                     onConnectionError();
                 } else if (msg.what == MSG_CONNECT_SUCCESS) {
                     onConnectionSuccess();
-                } else if (msg.what == ON_YUNTONGXUN_INIT_ERROR) {
-                    Utils.DisplayToast(MainActivity.this, "直拨电话初始化异常");
-                } else if (msg.what == ON_YUNTONGXUN_LOGIN_SUCCESS) {
-                    Utils.DisplayToast(MainActivity.this, "直拨电话服务器连接成功");
-                } else if (msg.what == ON_YUNTONGXUN_LOGIN_FAIL) {
-                    Utils.DisplayToast(MainActivity.this, "直拨电话服务器连接失败");
-                } else if (msg.what == MSG_CANCEL_CALL_COMPLETE) {
-                    setCurrentStatus(CALL_MODE);
-                } else if (msg.what == MSG_ADVERTISE_REFRESH) {
+                }else if (msg.what == MSG_ADVERTISE_REFRESH) {
                     onAdvertiseRefresh(msg.obj);
                     Log.d(TAG, "UpdateAdvertise: 7");
                 } else if (msg.what == MSG_ADVERTISE_IMAGE) {
@@ -1066,10 +1045,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                 } else if (msg.what == MSG_CHECK_BLOCKNO) {
                     blockId = (Integer) msg.obj;
                     onCheckBlockNo();
-                } else if (msg.what == MSG_FINGER_CHECK) {
-                    boolean result = (Boolean) msg.obj;
-                    //onFingerCheck(result);
-                } else if (msg.what == MSG_REFRESH_DATA) {
+                }else if (msg.what == MSG_REFRESH_DATA) {
                     onFreshData((String) msg.obj);
                 } else if (msg.what == MSG_REFRESH_COMMUNITYNAME) {
                     onFreshCommunityName((String) msg.obj);
@@ -1141,6 +1117,40 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                     if (faceHandler != null) {
                         faceHandler.sendEmptyMessageDelayed(MSG_FACE_DETECT_CONTRAST, 1000);
                     }
+                } else if (msg.what == MSG_CALLMEMBER_TIMEOUT_AND_TRY_DIRECT) {
+                    //入口已无
+            /*        Utils.DisplayToast(MainActivity.this, "可视对讲无法拨通，尝试直拨电话");
+                    setCurrentStatus(DIRECT_CALLING_TRY_MODE);*/
+                } else if (msg.what == MSG_CALLMEMBER_DIRECT_SUCCESS) {
+                    //入口已无
+                  /*  Utils.DisplayToast(MainActivity.this, "电话已接通，请让对方按#号键开门");
+                    onCallDirectlyBegin();*/
+                } else if (msg.what == MSG_CALLMEMBER_DIRECT_DIALING) {
+                    //入口已无
+                    /*Utils.DisplayToast(MainActivity.this, "开始直拨电话");
+                    setCurrentStatus(DIRECT_CALLING_MODE);*/
+                } else if (msg.what == MSG_CALLMEMBER_DIRECT_FAILED) {
+                    //入口已无
+//                    Utils.DisplayToast(MainActivity.this, "电话未能接通，重试中..");
+                }else if (msg.what == MSG_CALLMEMBER_DIRECT_COMPLETE) {
+                    //入口已无
+//                    onCallDirectlyComplete();
+                } else if (msg.what == ON_YUNTONGXUN_INIT_ERROR) {
+                    //已无入口
+//                    Utils.DisplayToast(MainActivity.this, "直拨电话初始化异常");
+                } else if (msg.what == ON_YUNTONGXUN_LOGIN_SUCCESS) {
+                    //已无入口
+//                    Utils.DisplayToast(MainActivity.this, "直拨电话服务器连接成功");
+                } else if (msg.what == ON_YUNTONGXUN_LOGIN_FAIL) {
+                    //已无入口
+//                    Utils.DisplayToast(MainActivity.this, "直拨电话服务器连接失败");
+                } else if (msg.what == MSG_CANCEL_CALL_COMPLETE) {
+                    //入口已无
+//                    setCurrentStatus(CALL_MODE);
+                } else if (msg.what == MSG_FINGER_CHECK) {
+                    //入口已无
+                    boolean result = (Boolean) msg.obj;
+                    //onFingerCheck(result);
                 }
             }
         };
@@ -1283,15 +1293,16 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     }
 
     public void onCallDirectlyBegin() {
-        setCurrentStatus(DIRECT_MODE);
-        advertiseHandler.pause(adverErrorCallBack);
+//        setCurrentStatus(DIRECT_MODE);
+//        advertiseHandler.pause(adverErrorCallBack);
     }
 
     public void onCallDirectlyComplete() {
-        setCurrentStatus(CALL_MODE);
+        //入口已无
+      /*  setCurrentStatus(CALL_MODE);
         blockNo = "";
         setDialValue(blockNo);
-        advertiseHandler.start(adverErrorCallBack);
+        advertiseHandler.start(adverErrorCallBack);*/
     }
 
     private void onConnectionError() {
@@ -1692,25 +1703,27 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                         .DEVICE_KEYCODE_STAR) {
                     startDisconnectVideo();
                 }
-            } else if (currentStatus == DIRECT_CALLING_MODE) {
-                if (keyCode == KeyEvent.KEYCODE_STAR || keyCode == DeviceConfig
-                        .DEVICE_KEYCODE_STAR) {
-                    resetDial();
-                    startCancelDirectCall();
-                }
             } else if (currentStatus == DIRECT_CALLING_TRY_MODE) {
-                if (keyCode == KeyEvent.KEYCODE_STAR || keyCode == DeviceConfig
+                //入口已无
+                /*if (keyCode == KeyEvent.KEYCODE_STAR || keyCode == DeviceConfig
                         .DEVICE_KEYCODE_STAR) {
                     resetDial();
                     startCancelDirectCall();
-
-                }
+                }*/
             } else if (currentStatus == DIRECT_MODE) {
-                if (keyCode == KeyEvent.KEYCODE_STAR || keyCode == DeviceConfig
+                //入口已无
+                /*if (keyCode == KeyEvent.KEYCODE_STAR || keyCode == DeviceConfig
                         .DEVICE_KEYCODE_STAR) {
                     resetDial();
                     startDisconnectDirectCall();
-                }
+                }*/
+            } else if (currentStatus == DIRECT_CALLING_MODE) {
+                //入口已无
+              /*  if (keyCode == KeyEvent.KEYCODE_STAR || keyCode == DeviceConfig
+                        .DEVICE_KEYCODE_STAR) {
+                    resetDial();
+                    startCancelDirectCall();
+                }*/
             }
         }
     }
@@ -1900,23 +1913,25 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     }
 
     private void startDisconnectDirectCall() {
-        Message message = Message.obtain();
+        //入口已无
+       /* Message message = Message.obtain();
         message.what = MainService.MSG_DISCONNECT_DIRECT;
         try {
             serviceMessenger.send(message);
         } catch (RemoteException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     private void startCancelDirectCall() {
-        Message message = Message.obtain();
+        //入口已无
+    /*    Message message = Message.obtain();
         message.what = MainService.MSG_CANCEL_DIRECT;
         try {
             serviceMessenger.send(message);
         } catch (RemoteException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     private void startDisconnectVideo() {
@@ -3656,7 +3671,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
             InvalidParameterException {
         if (mSerialPort == null) {
             /* Read serial port parameters */
-            SharedPreferences sp = getSharedPreferences("android_serialport_api" +
+            SharedPreferences sp = getSharedPreferences("android_serialport_api" + "" +
                     ".sample_preferences", MODE_PRIVATE);
             sp.edit().putString("DEVICE", "/dev/ttyS2").commit();
             sp.edit().putString("BAUDRATE", "115200").commit();

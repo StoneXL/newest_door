@@ -84,12 +84,10 @@ import rtc.sdk.iface.DeviceListener;
 import rtc.sdk.iface.RtcClient;
 
 import static com.util.Constant.MSG_ADVERTISE_REFRESH;
-import static com.util.Constant.MSG_CALLMEMBER_DIRECT_TIMEOUT;
 import static com.util.Constant.MSG_CALLMEMBER_ERROR;
 import static com.util.Constant.MSG_CALLMEMBER_NO_ONLINE;
 import static com.util.Constant.MSG_CALLMEMBER_SERVER_ERROR;
 import static com.util.Constant.MSG_CALLMEMBER_TIMEOUT;
-import static com.util.Constant.MSG_CALLMEMBER_TIMEOUT_AND_TRY_DIRECT;
 import static com.util.Constant.MSG_CONNECT_ERROR;
 import static com.util.Constant.MSG_INVALID_CARD;
 import static com.util.Constant.MSG_LOCK_OPENED;
@@ -126,8 +124,8 @@ public class MainService extends Service {
     public static final int MSG_CARD_INCOME = 20008;//刷卡回调
     public static final int MSG_DISCONNECT_VIEDO = 20009;
     public static final int MSG_CANCEL_CALL = 20010;
-    public static final int MSG_CANCEL_DIRECT = 20011;
-    public static final int MSG_DISCONNECT_DIRECT = 20012;
+    public static final int MSG_CANCEL_DIRECT = 20011;//容联云有关状态
+    public static final int MSG_DISCONNECT_DIRECT = 20012;//容联云有关状态
     //public static final int MSG_ADVERTISE_INIT=20013;
     public static final int MSG_CHECK_NETWORK = 20014;
     public static final int MSG_START_INIT = 20015;
@@ -150,7 +148,7 @@ public class MainService extends Service {
     public static final int CALL_VIDEO_CONNECTING = 21;
     public static final int CALL_VIDEO_CONNECTED = 22;
     public static final int CALL_VIDEO_CONNECT_FAIL = 23;
-    public static final int CALL_DIRECT_CONNECTING = 24;
+    public static final int CALL_DIRECT_CONNECTING = 24;//容联云有关状态
     public static final int CALL_DIRECT_CONNECTED = 25;
     public static final int CALL_DIRECT_CONNECT_FAIL = 26;
 
@@ -340,11 +338,7 @@ public class MainService extends Service {
                     disconnectCallingConnection();
                 } else if (msg.what == MSG_CANCEL_CALL) {
                     cancelCurrentCall();
-                } else if (msg.what == MSG_CANCEL_DIRECT) {
-                    cancelDirectCall(msg);
-                } else if (msg.what == MSG_DISCONNECT_DIRECT) {
-                    cancelDirectCall(msg);
-                } else if (msg.what == MSG_CHECK_NETWORK) {
+                }else if (msg.what == MSG_CHECK_NETWORK) {
                     checkNetwork();
                 } else if (msg.what == MSG_START_INIT) {
                     initWhenConnected();
@@ -416,7 +410,14 @@ public class MainService extends Service {
                     } else {
                         initWhenOffline(); //开始离线版本
                     }
+                } else if (msg.what == MSG_DISCONNECT_DIRECT) {
+                    //入口已无
+//                    cancelDirectCall(msg);
+                } else if (msg.what == MSG_CANCEL_DIRECT) {
+                    //入口已无
+//                    cancelDirectCall(msg);
                 }
+
             }
         };
         serviceMessenger = new Messenger(handler);
@@ -435,18 +436,19 @@ public class MainService extends Service {
     protected void startRongyun() {
         if (!isRongyunInitialized) {
             isRongyunInitialized = true;
-            if (DeviceConfig.IS_CALL_DIRECT_AVAILABLE) { //这里不会执行
-                startYuntongxun();
-            }
+//            if (DeviceConfig.IS_CALL_DIRECT_AVAILABLE) { //这里不会执行
+//                startYuntongxun();
+//            }
         }
     }
 
     protected void cancelDirectCall(Message msg) {
-        if (msg.what == MSG_CANCEL_DIRECT) {
+        //入口已无
+     /*   if (msg.what == MSG_CANCEL_DIRECT) {
             releaseCallDirect();
         } else if (msg.what == MSG_DISCONNECT_DIRECT) {
             releaseCallDirect();
-        }
+        }*/
     }
 
     protected void cancelCurrentCall() {
@@ -476,6 +478,7 @@ public class MainService extends Service {
 
     protected void initAssembleUtil() {
         if (DeviceConfig.IS_ASSEMBLE_AVAILABLE) {
+            //这里进不来
             assembleUtil = new AssembleUtil(handler);
             try {
                 assembleUtil.open();
@@ -508,7 +511,7 @@ public class MainService extends Service {
         Log.i("MainService", "init RFID");
         //initNfcPortUtil();
         Log.i("MainService", "init NFC Port");
-        initAssembleUtil();
+        initAssembleUtil();//入口已无
         Log.i("MainService", "init ASSEMBLE");
         initAexUtil();
         Log.i("MainService", "init AEX");
@@ -1700,7 +1703,8 @@ public class MainService extends Service {
     }
 
     protected synchronized void setLastCurrentCallId(String lastCurrentCallId) {
-        this.lastCurrentCallId = lastCurrentCallId;
+        //入口已无
+//        this.lastCurrentCallId = lastCurrentCallId;
     }
 
     public void startCallDirect(String mobile) {
@@ -1711,10 +1715,11 @@ public class MainService extends Service {
     }
 
     public void releaseCallDirect() {
-        if (lastCurrentCallId != null) {
+        //入口已无
+       /* if (lastCurrentCallId != null) {
 //            ECDevice.getECVoIPCallManager().releaseCall(lastCurrentCallId);
             setLastCurrentCallId(null);
-        }
+        }*/
     }
 
     protected void startCallMember() {
@@ -1804,8 +1809,9 @@ public class MainService extends Service {
                         allUserList.add(userList.get(i));
                     }
                 }
-
+                //检查当前的呼叫模式是并行还是串行
                 if (DeviceConfig.CALL_MEMBER_MODE == DeviceConfig.CALL_MEMBER_MODE_PARALL) {
+                    //呼叫模式并行
                     HttpApi.i("拨号中->准备拨号Parall");
                     sendCallMessageParall();
                 } else {
@@ -1896,13 +1902,15 @@ public class MainService extends Service {
         if (needWait) { //检查在线人数,大于0则等待一段时间
             startTimeoutChecking();
         } else {
-            if (DeviceConfig.IS_CALL_DIRECT_AVAILABLE) { //如果支持直拨，立刻进入直拨电话模式
-                sendDialMessenger(MSG_CALLMEMBER_TIMEOUT_AND_TRY_DIRECT);
-                cancelOtherMembers(null);
-                startCallMemberDirectly();
-            } else { //告诉用户无人在线
-                sendDialMessenger(MSG_CALLMEMBER_NO_ONLINE);
-            }
+            sendDialMessenger(MSG_CALLMEMBER_NO_ONLINE);//告诉用户无人在线
+//            if (DeviceConfig.IS_CALL_DIRECT_AVAILABLE) { //如果支持直拨，立刻进入直拨电话模式
+//                // 这里不会进入
+////                sendDialMessenger(MSG_CALLMEMBER_TIMEOUT_AND_TRY_DIRECT);
+////                cancelOtherMembers(null);
+////                startCallMemberDirectly();
+//            } else { //告诉用户无人在线
+//                sendDialMessenger(MSG_CALLMEMBER_NO_ONLINE);
+//            }
         }
     }
 
@@ -1971,16 +1979,18 @@ public class MainService extends Service {
     }
 
     protected void startCallMemberDirectly() {
-        callConnectState = CALL_DIRECT_CONNECTING;
+//        入口已无
+        /*callConnectState = CALL_DIRECT_CONNECTING;
         onlineUserList.clear();
         offlineUserList.clear();
         removeRejectedUser();
         removeDeviceUser();
-        callMemberDirectly();
+        callMemberDirectly();*/
     }
 
     protected void removeRejectedUser() {
-        for (int i = 0; i < rejectUserList.size(); i++) {
+        //入口已无
+   /*     for (int i = 0; i < rejectUserList.size(); i++) {
             String from = (String) rejectUserList.get(i);
             for (int j = 0; j < triedUserList.size(); j++) {
                 JSONObject userObject = (JSONObject) triedUserList.get(j);
@@ -1994,11 +2004,12 @@ public class MainService extends Service {
                     break;
                 }
             }
-        }
+        }*/
     }
 
     protected void removeDeviceUser() {
-        ArrayList<JSONObject> removeList = new ArrayList<JSONObject>();
+        //入口已无
+       /* ArrayList<JSONObject> removeList = new ArrayList<JSONObject>();
         for (int j = 0; j < triedUserList.size(); j++) {
             JSONObject userObject = (JSONObject) triedUserList.get(j);
             String username = null;
@@ -2012,11 +2023,12 @@ public class MainService extends Service {
         }
         for (int i = 0; i < removeList.size(); i++) {
             triedUserList.remove(removeList.get(i));
-        }
+        }*/
     }
 
     protected void callMemberDirectly() {
-        if (callConnectState == CALL_DIRECT_CONNECTING) {
+        //入口已无
+       /* if (callConnectState == CALL_DIRECT_CONNECTING) {
             if (triedUserList.size() > 0) {
                 JSONObject userObject = (JSONObject) triedUserList.remove(0);
                 String mobile = null;
@@ -2028,13 +2040,14 @@ public class MainService extends Service {
             } else {
                 callMemberDirectlyFailed();
             }
-        }
+        }*/
     }
 
     protected void callMemberDirectlyFailed() {
-        sendDialMessenger(MSG_CALLMEMBER_DIRECT_TIMEOUT);
+        //入口已无
+       /* sendDialMessenger(MSG_CALLMEMBER_DIRECT_TIMEOUT);
         Log.v("MainService", "取消直接呼叫");
-        resetCallMode();
+        resetCallMode();*/
     }
 
     /**
@@ -2058,7 +2071,12 @@ public class MainService extends Service {
                     sleep(DeviceConfig.PARALL_WAIT_TIME); //等待指定的一个并行时间
                     if (!isInterrupted()) { //检查线程没有被停止
                         if (callConnectState == CALL_VIDEO_CONNECTING) { //如果现在是尝试连接状态
-                            if (DeviceConfig.IS_CALL_DIRECT_AVAILABLE) { //如果支持直拨，立刻进入直拨电话模式
+                            Log.v("MainService", "超时检查，取消当前呼叫");
+                            resetCallMode();
+                            sendDialMessenger(MSG_CALLMEMBER_TIMEOUT); //通知界面目前已经超时，并进入初始状态
+
+                           /* if (DeviceConfig.IS_CALL_DIRECT_AVAILABLE) { //如果支持直拨，立刻进入直拨电话模式
+                                //这里不会进入
                                 sendDialMessenger(MSG_CALLMEMBER_TIMEOUT_AND_TRY_DIRECT);
                                 //通知界面目前已经超时，并尝试直拨电话
                                 startCallMemberDirectly();
@@ -2067,7 +2085,7 @@ public class MainService extends Service {
                                 resetCallMode();
                                 sendDialMessenger(MSG_CALLMEMBER_TIMEOUT); //通知界面目前已经超时，并进入初始状态
 
-                            }
+                            }*/
                         }
                     }
                 } catch (InterruptedException e) {
@@ -2231,7 +2249,7 @@ public class MainService extends Service {
             HttpApi.i("发送消息回调->onSendIm");
             if (callConnectState == CALL_VIDEO_CONNECTING) {
                 //检查当前的呼叫模式是并行还是串行
-                if (DeviceConfig.CALL_MEMBER_MODE == DeviceConfig.CALL_MEMBER_MODE_PARALL) {
+                if (DeviceConfig.CALL_MEMBER_MODE == DeviceConfig.CALL_MEMBER_MODE_PARALL) {//并行
                     //检查并行呼叫状态
                     HttpApi.i("发送消息回调->checkSendCallMessageParall()");
                     checkSendCallMessageParall(status);
@@ -2420,6 +2438,7 @@ public class MainService extends Service {
     }*/
 
     private void openAssembleLock() {
+        //入口已无
         assembleUtil.openLock();
         sendDialMessenger(Constant.MSG_LOCK_OPENED);
     }
@@ -2434,8 +2453,10 @@ public class MainService extends Service {
 
     protected void openLock() {
         if (DeviceConfig.IS_RFID_AVAILABLE) {
-            // openLedLock();//开继电器门锁,开普通门锁
+            //这里进不来
+//             openLedLock();//开继电器门锁,开普通门锁
         } else if (DeviceConfig.IS_ASSEMBLE_AVAILABLE) {
+            //这里进不来
             openAssembleLock();
         } else if (DeviceConfig.IS_AEX_AVAILABLE) {
             openAexLock();
@@ -2597,6 +2618,7 @@ public class MainService extends Service {
                         JSONArray cardList = resultObject.getJSONArray("cardList");
                         sqlUtil.changeCard(cardList);
                         if (DeviceConfig.IS_ASSEMBLE_AVAILABLE) {
+                            //这里进不来
                             assembleUtil.changeCard(cardList);
                         }
                         completeInitDeviceData();
@@ -2750,6 +2772,7 @@ public class MainService extends Service {
                     JSONArray data = resultObject.getJSONArray("data");
                     sqlUtil.changeCard(data);
                     if (DeviceConfig.IS_ASSEMBLE_AVAILABLE) {
+                        //这里进不来
                         assembleUtil.changeCard(data);
                     } else {
                         JSONArray list = new JSONArray();

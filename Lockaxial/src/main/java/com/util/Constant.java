@@ -17,18 +17,18 @@ public class Constant {
     public static final int MSG_CALLMEMBER_TIMEOUT = 11005;
     public static final int MSG_CALLMEMBER_NO_ONLINE = 12005;
     public static final int MSG_CALLMEMBER_SERVER_ERROR = 12105;
-    public static final int MSG_CALLMEMBER_TIMEOUT_AND_TRY_DIRECT = 13005;
-    public static final int MSG_CALLMEMBER_DIRECT_TIMEOUT = 14005;
-    public static final int MSG_CALLMEMBER_DIRECT_DIALING = 15005;
-    public static final int MSG_CALLMEMBER_DIRECT_SUCCESS = 16005;
-    public static final int MSG_CALLMEMBER_DIRECT_FAILED = 17005;
-    public static final int MSG_CALLMEMBER_DIRECT_COMPLETE = 18005;
+    public static final int MSG_CALLMEMBER_TIMEOUT_AND_TRY_DIRECT = 13005;//容联云有关状态
+    public static final int MSG_CALLMEMBER_DIRECT_TIMEOUT = 14005;//容联云有关状态
+    public static final int MSG_CALLMEMBER_DIRECT_DIALING = 15005;//容联云有关状态
+    public static final int MSG_CALLMEMBER_DIRECT_SUCCESS = 16005;//容联云有关状态
+    public static final int MSG_CALLMEMBER_DIRECT_FAILED = 17005;//容联云有关状态
+    public static final int MSG_CALLMEMBER_DIRECT_COMPLETE = 18005;//容联云有关状态
     public static final int MSG_CONNECT_ERROR = 10007;
     public static final int MSG_CONNECT_SUCCESS = 10008;
-    public static final int ON_YUNTONGXUN_INIT_ERROR = 10009;
-    public static final int ON_YUNTONGXUN_LOGIN_SUCCESS = 10010;
-    public static final int ON_YUNTONGXUN_LOGIN_FAIL = 10011;
-    public static final int MSG_CANCEL_CALL_COMPLETE = 10012;
+    public static final int ON_YUNTONGXUN_INIT_ERROR = 10009;//容联云有关状态
+    public static final int ON_YUNTONGXUN_LOGIN_SUCCESS = 10010;//容联云有关状态
+    public static final int ON_YUNTONGXUN_LOGIN_FAIL = 10011;//容联云有关状态
+    public static final int MSG_CANCEL_CALL_COMPLETE = 10012;//容联云有关状态
     public static final int MSG_ADVERTISE_REFRESH = 10013;
     public static final int MSG_ADVERTISE_IMAGE = 10014;
     public static final int MSG_INVALID_CARD = 10015;//无效房卡
@@ -50,12 +50,12 @@ public class Constant {
     public static final int PASSWORD_MODE = 2;//密码验证模式
     public static final int CALLING_MODE = 3; //正在呼叫模式
     public static final int ONVIDEO_MODE = 4; //正在视频
-    public static final int DIRECT_MODE = 5;  //
+    public static final int DIRECT_MODE = 5;  //容联云有关状态
     public static final int ERROR_MODE = 6;   //出错
-    public static final int DIRECT_CALLING_MODE = 7; //
-    public static final int DIRECT_CALLING_TRY_MODE = 8;
+    public static final int DIRECT_CALLING_MODE = 7; //容联云有关状态
+    public static final int DIRECT_CALLING_TRY_MODE = 8;//容联云有关状态
     public static final int PASSWORD_CHECKING_MODE = 9;//正在验证密码
-    public static final int CALL_CANCEL_MODE = 10;
+    public static final int CALL_CANCEL_MODE = 10;//容联云有关状态
 
     public static final int MSG_LOGIN = 30003;//从InitActivity里拿来的
 

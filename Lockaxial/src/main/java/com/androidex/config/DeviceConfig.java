@@ -33,8 +33,8 @@ public class DeviceConfig {
 	public static final String DEVICE_MODE_FLAG="a"; //设备型号
 
 	public static boolean IS_PUSH_AVAILABLE=true;//是否推送
-    public static boolean IS_CALL_DIRECT_AVAILABLE=false;
-    public static int CALL_MEMBER_MODE=CALL_MEMBER_MODE_PARALL;
+//    public static boolean IS_CALL_DIRECT_AVAILABLE=false;//这是容联云直拨模式的标识 4.25注释
+    public static int CALL_MEMBER_MODE=CALL_MEMBER_MODE_PARALL;//呼叫模式默认并行
 
     public static boolean IS_RFID_AVAILABLE=false;
     public static boolean IS_ASSEMBLE_AVAILABLE=false;
