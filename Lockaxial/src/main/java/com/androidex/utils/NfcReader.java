@@ -21,6 +21,7 @@ import android.nfc.Tag;
 import android.nfc.tech.IsoDep;
 
 /**
+ * Nfc回调类,nfc卡扫描时调用
  * Callback class, invoked when an NFC card is scanned while the device is running in reader mode.
  *
  * Reader mode can be invoked by calling NfcAdapter
