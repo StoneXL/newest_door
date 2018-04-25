@@ -3,6 +3,15 @@
 
     <item
         is-multidex="false"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\exploded-aar\com.guo.android_extend\android-extend\1.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="d6d0229f55d56c7fa96acd5ae320e84a004fd517">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\com.guo.android_extend-android-extend-1.0.1_6403f24904e4e945f15e56d29b6b329740bfc053.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\LockaxialQQ-master\arcsoft\unspecified\jars\libs\ageestimation.jar"
         jumboMode="false"
         optimize="true"
@@ -21,6 +30,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\libs\Yuntx_FullLib_v5.2.2r.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="8ca7869b27fab812ec0f25181bb4513264a167ac">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\Yuntx_FullLib_v5.2.2r_622d9fb38cfa3db5496f1ace219ecf66d64a05ef.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="C:\Users\AI\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.7\751f548c85fa49f330cecbb1875893f971b33c4e\gson-2.7.jar"
         jumboMode="false"
         optimize="true"
@@ -30,30 +48,21 @@
     </item>
     <item
         is-multidex="false"
-        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\8.4.0\jars\classes.jar"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.2.0\jars\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.3"
-        sha1="65d086ee9daaf87b5af62ad24471edafa433354c">
-        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-appindexing-8.4.0_adde47e5a4c50ecaf660dd765c1262cb462e0379.jar" />
+        sha1="8c108c22c99e794eff255bb34d2a461200c4cbb0">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\com.android.support-animated-vector-drawable-23.2.0_72d48ae54f824028952cde4734f826c99e5a6d71.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\libs\xUtils-2.6.14.jar"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\exploded-aar\newest_door\synjones\unspecified\jars\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.3"
-        sha1="f10c51f3e0732fdeefe6e104279a58e275879b6c">
-        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\xUtils-2.6.14_f15064e029c1e7ab43950848efb094805bd4ef2d.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\libs\rtcsdk.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="ef5a631360594ecd899fa6ec9b2139fa9c2520c9">
-        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\rtcsdk_8b8eba090f817955a06dcd6e26b9fca65b789b4d.jar" />
+        sha1="72cea2fc29f4e283b8e33144359059aa36584581">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\newest_door-synjones-unspecified_380ac063313fb25de0dbf482828a5d1105c248ee.jar" />
     </item>
     <item
         is-multidex="false"
@@ -66,15 +75,6 @@
     </item>
     <item
         is-multidex="false"
-        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\libs\media-native.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="faf375fb3c9f02be64bd7991dcdd461116119126">
-        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\media-native_36017fb0069e85fda84d213a1b4c320a1b864b50.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\LockaxialQQ-master\synjones\unspecified\jars\libs\synjonesSerial.jar"
         jumboMode="false"
         optimize="true"
@@ -84,21 +84,12 @@
     </item>
     <item
         is-multidex="false"
-        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\com.android.support\design\23.2.0\jars\classes.jar"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\exploded-aar\com.android.support.constraint\constraint-layout\1.0.2\jars\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.3"
-        sha1="1aa5b025efe97f5006f5be16d6ca67c6c3c0c0d8">
-        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\com.android.support-design-23.2.0_b77d90976f6dc6d00d96ad8368f75356d1f2a0ec.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\AI\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.13.0\a9283170b7305c8d92d25aff02a6ab7e45d06cbe\okio-1.13.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="a9283170b7305c8d92d25aff02a6ab7e45d06cbe">
-        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\okio-1.13.0_5d0fbf906dc8a844db2b2b9ba6ec25cf26953b4c.jar" />
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\com.android.support.constraint-constraint-layout-1.0.2_631f5284a917eb1ed60001fa8372ea50a32a76a0.jar" />
     </item>
     <item
         is-multidex="false"
@@ -111,15 +102,6 @@
     </item>
     <item
         is-multidex="false"
-        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.0\jars\libs\internal_impl-23.2.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="6e239441500605809818997dd63b62a947195f8c">
-        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\internal_impl-23.2.0_ce5dc34ab6667039804b960d2228e08ec6ebbe9d.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\LockaxialQQ-master\arcsoft\unspecified\jars\libs\genderestimation.jar"
         jumboMode="false"
         optimize="true"
@@ -129,21 +111,21 @@
     </item>
     <item
         is-multidex="false"
-        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\LockaxialQQ-master\arcsoft\unspecified\jars\libs\facedetection.jar"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\libs\javabase64-1.3.1.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.3"
-        sha1="9227f32b150ef683179ad0e73d40b5a96b04c74b">
-        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\facedetection_bfb7dfabcf6043a59975da34d306307c56733b8c.jar" />
+        sha1="d0347298aea73f35fb707954a6683dc661c849de">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\javabase64-1.3.1_087bb466735e88c489f86d92ccade36e7ffbade0.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\libs\Yuntx_FullLib_v5.2.2r.jar"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.2.0\jars\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.3"
-        sha1="8ca7869b27fab812ec0f25181bb4513264a167ac">
-        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\Yuntx_FullLib_v5.2.2r_ec51b8901b234339c4c15b5778d281a1fa136fa3.jar" />
+        sha1="d4c936aa8c7d2522c82e3f1829c791d9e367f009">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.2.0_8490795015e5fbb1b2c3497ed9631216f28729e3.jar" />
     </item>
     <item
         is-multidex="false"
@@ -156,12 +138,12 @@
     </item>
     <item
         is-multidex="false"
-        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\LockaxialQQ-master\arcsoft\unspecified\jars\libs\facetracking.jar"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\exploded-aar\newest_door\arcsoft\unspecified\jars\libs\facetracking.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.3"
         sha1="ec93859abadcfbcfe09736ee1bb4977a9afab660">
-        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\facetracking_a30ccf54432aa5f692bad42bece1af9a9c9ad973.jar" />
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\facetracking_e0a4aec3bee0877b26b6b1ccc22173375ecfdebf.jar" />
     </item>
     <item
         is-multidex="false"
@@ -174,15 +156,6 @@
     </item>
     <item
         is-multidex="false"
-        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\LockaxialQQ-master\arcsoft\unspecified\jars\libs\facerecognition.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="7f59018572d6ed2a0479ee611beb3ea53ce30b83">
-        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\facerecognition_a26018d712bde8c0f7436ff74ee3442c87db0b1a.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.2.0\jars\classes.jar"
         jumboMode="false"
         optimize="true"
@@ -192,21 +165,21 @@
     </item>
     <item
         is-multidex="false"
-        jar="C:\Users\AI\.gradle\caches\modules-2\files-2.1\com.nostra13.universalimageloader\universal-image-loader\1.9.5\442dbfb517b9ab5cb5c6da7ebf8cc28ec5bd0375\universal-image-loader-1.9.5.jar"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.0\jars\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.3"
-        sha1="442dbfb517b9ab5cb5c6da7ebf8cc28ec5bd0375">
-        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\universal-image-loader-1.9.5_5336af0497089465f043cae133979a11881597b0.jar" />
+        sha1="6e3578f92f7462d1a935a1d36173e3bdd1234976">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.2.0_d78acf7331167f0cdb992e3343b6679c33c40eae.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\com.guo.android_extend\android-extend\1.0.1\jars\classes.jar"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\exploded-aar\newest_door\arcsoft\unspecified\jars\libs\ageestimation.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.3"
-        sha1="d6d0229f55d56c7fa96acd5ae320e84a004fd517">
-        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\com.guo.android_extend-android-extend-1.0.1_b459f2670bd2aeb0f6cca2435c17b750c66e0efd.jar" />
+        sha1="416a4fb19a9c2f3b450f53c1dc676a0167538884">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\ageestimation_f4eb8dede6154186c21480e69f82f2d9c53c51df.jar" />
     </item>
     <item
         is-multidex="false"
@@ -219,39 +192,39 @@
     </item>
     <item
         is-multidex="false"
-        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\libs\txdevicesdk.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="e7cfcbf8ed20dff4ee73fe370bd6313c23b24465">
-        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\txdevicesdk_e9e515796ab18069dc84cdf6713ab36044896d5d.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\LockaxialQQ-master\arcsoft\unspecified\jars\classes.jar"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\exploded-aar\newest_door\arcsoft\unspecified\jars\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.3"
         sha1="55036104353e5d393cdc143edfc48247cec6ce18">
-        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\LockaxialQQ-master-arcsoft-unspecified_63f094e5c890d04aee703a7f57ee2be91c3a11c2.jar" />
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\newest_door-arcsoft-unspecified_531faeac5546cf142e35ca6c4d13c478782701d3.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\jars\classes.jar"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\libs\txdevicesdk.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.3"
-        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
-        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-basement-8.4.0_074ce536afb1402b011f1d35a9f512b0bf55e794.jar" />
+        sha1="e7cfcbf8ed20dff4ee73fe370bd6313c23b24465">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\txdevicesdk_d390a1233b009b7a09bf9e2bff0282bd7ed1c4f3.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.2.0\jars\classes.jar"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\exploded-aar\newest_door\arcsoft\unspecified\jars\libs\genderestimation.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.3"
-        sha1="d4c936aa8c7d2522c82e3f1829c791d9e367f009">
-        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.2.0_8a65bb5cef2059adcc7b8d7509657140a94f27e1.jar" />
+        sha1="b5270220cb8e7f0200902ebae4638be783569b35">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\genderestimation_9f1b54a892e91cbf044f907670d64689bbe9ac83.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="65d086ee9daaf87b5af62ad24471edafa433354c">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-appindexing-8.4.0_4239f52e3254dfab7ef64f784cc5620f573abb35.jar" />
     </item>
     <item
         is-multidex="false"
@@ -282,15 +255,6 @@
     </item>
     <item
         is-multidex="false"
-        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\LockaxialQQ-master\synjones\unspecified\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="72cea2fc29f4e283b8e33144359059aa36584581">
-        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\LockaxialQQ-master-synjones-unspecified_63ba42f1d425d24e636690be10e62c921372eef5.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.0\jars\classes.jar"
         jumboMode="false"
         optimize="true"
@@ -300,12 +264,300 @@
     </item>
     <item
         is-multidex="false"
-        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.0\jars\classes.jar"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\libs\zixing-core-3.2.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="e019d15a13a9786f881141d2df6654b8510bce8b">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\zixing-core-3.2.0_762e237ad93d5cdc5e6e339328f76a13c74f9fd5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="65d086ee9daaf87b5af62ad24471edafa433354c">
+        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-appindexing-8.4.0_adde47e5a4c50ecaf660dd765c1262cb462e0379.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\libs\xUtils-2.6.14.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="f10c51f3e0732fdeefe6e104279a58e275879b6c">
+        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\xUtils-2.6.14_f15064e029c1e7ab43950848efb094805bd4ef2d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\libs\rtcsdk.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="ef5a631360594ecd899fa6ec9b2139fa9c2520c9">
+        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\rtcsdk_8b8eba090f817955a06dcd6e26b9fca65b789b4d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-basement-8.4.0_42ee867440912162861f0b602075a9c2e1eaaddf.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\libs\media-native.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="faf375fb3c9f02be64bd7991dcdd461116119126">
+        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\media-native_36017fb0069e85fda84d213a1b4c320a1b864b50.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\com.android.support\design\23.2.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="1aa5b025efe97f5006f5be16d6ca67c6c3c0c0d8">
+        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\com.android.support-design-23.2.0_b77d90976f6dc6d00d96ad8368f75356d1f2a0ec.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\AI\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.13.0\a9283170b7305c8d92d25aff02a6ab7e45d06cbe\okio-1.13.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="a9283170b7305c8d92d25aff02a6ab7e45d06cbe">
+        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\okio-1.13.0_5d0fbf906dc8a844db2b2b9ba6ec25cf26953b4c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.0\jars\libs\internal_impl-23.2.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="6e239441500605809818997dd63b62a947195f8c">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\internal_impl-23.2.0_8b29ed787578d9582652d4c80d64b340aee72898.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.0\jars\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.3"
         sha1="e5f32fa48a3eb2de0c987025c11b6e3864b634d9">
-        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.2.0_c0705aa44ad5771b5e6534503ed2f3e58890afbd.jar" />
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.2.0_5c5a1b72b1f0738937d6dcaf4f7db7530b5b8e58.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.0\jars\libs\internal_impl-23.2.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="6e239441500605809818997dd63b62a947195f8c">
+        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\internal_impl-23.2.0_ce5dc34ab6667039804b960d2228e08ec6ebbe9d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\exploded-aar\appLibs\jars\libs\aexlib.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="bb0485bc91994c17886dc0879ffe0071beb7ec76">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\aexlib_e52f350a05b6b10ccb7954e2685e64a972edf0c2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\exploded-aar\newest_door\synjones\unspecified\jars\libs\synjonesSerial.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="c37325d41c932bb0d7d231f9c1ecca2bc48d5c4c">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\synjonesSerial_04857818305c517b0d44d383b773593b6cdebe14.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\LockaxialQQ-master\arcsoft\unspecified\jars\libs\facedetection.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="9227f32b150ef683179ad0e73d40b5a96b04c74b">
+        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\facedetection_bfb7dfabcf6043a59975da34d306307c56733b8c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\libs\Yuntx_FullLib_v5.2.2r.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="8ca7869b27fab812ec0f25181bb4513264a167ac">
+        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\Yuntx_FullLib_v5.2.2r_ec51b8901b234339c4c15b5778d281a1fa136fa3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\exploded-aar\com.android.support\design\23.2.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="1aa5b025efe97f5006f5be16d6ca67c6c3c0c0d8">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\com.android.support-design-23.2.0_6ae638a2858a38de9ec3175ad230880e5292dc47.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\exploded-aar\newest_door\arcsoft\unspecified\jars\libs\facedetection.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="9227f32b150ef683179ad0e73d40b5a96b04c74b">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\facedetection_0a694a2662a8caecc4a59f5ae4a3b6650ab3ff29.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\LockaxialQQ-master\arcsoft\unspecified\jars\libs\facetracking.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="ec93859abadcfbcfe09736ee1bb4977a9afab660">
+        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\facetracking_a30ccf54432aa5f692bad42bece1af9a9c9ad973.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\LockaxialQQ-master\arcsoft\unspecified\jars\libs\facerecognition.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="7f59018572d6ed2a0479ee611beb3ea53ce30b83">
+        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\facerecognition_a26018d712bde8c0f7436ff74ee3442c87db0b1a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\AI\.gradle\caches\modules-2\files-2.1\com.nostra13.universalimageloader\universal-image-loader\1.9.5\442dbfb517b9ab5cb5c6da7ebf8cc28ec5bd0375\universal-image-loader-1.9.5.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="442dbfb517b9ab5cb5c6da7ebf8cc28ec5bd0375">
+        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\universal-image-loader-1.9.5_5336af0497089465f043cae133979a11881597b0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\com.guo.android_extend\android-extend\1.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="d6d0229f55d56c7fa96acd5ae320e84a004fd517">
+        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\com.guo.android_extend-android-extend-1.0.1_b459f2670bd2aeb0f6cca2435c17b750c66e0efd.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\libs\xUtils-2.6.14.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="f10c51f3e0732fdeefe6e104279a58e275879b6c">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\xUtils-2.6.14_0ccaa93122dee19cfdf6b917084d76737eaa84a6.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\libs\txdevicesdk.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="e7cfcbf8ed20dff4ee73fe370bd6313c23b24465">
+        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\txdevicesdk_e9e515796ab18069dc84cdf6713ab36044896d5d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\LockaxialQQ-master\arcsoft\unspecified\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="55036104353e5d393cdc143edfc48247cec6ce18">
+        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\LockaxialQQ-master-arcsoft-unspecified_63f094e5c890d04aee703a7f57ee2be91c3a11c2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="fef2b3e4b6b1b0e5fe7b69fa137a5fa55a3182ab">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-base-8.4.0_6ff04a1259c7f4a863e59732f2fed10b59df553c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\libs\media-native.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="faf375fb3c9f02be64bd7991dcdd461116119126">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\media-native_784c30fc6d8b875b5da873225bf85fb5f6a0fa12.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\exploded-aar\newest_door\arcsoft\unspecified\jars\libs\facerecognition.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="7f59018572d6ed2a0479ee611beb3ea53ce30b83">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\facerecognition_15f67f936f8eed2501eb1c0315ccba711e47b7b2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
+        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-basement-8.4.0_074ce536afb1402b011f1d35a9f512b0bf55e794.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.2.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="d4c936aa8c7d2522c82e3f1829c791d9e367f009">
+        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.2.0_8a65bb5cef2059adcc7b8d7509657140a94f27e1.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\exploded-aar\appLibs\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="279ae79c292725c189b81aa963171c16a300d6f2">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\intermediates-exploded-aar-appLibs_b6eb3e8217aee748befff8b5cb7b945daf613f1f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\libs\rtcsdk.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="ef5a631360594ecd899fa6ec9b2139fa9c2520c9">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\rtcsdk_9ec44400205017b6b2cdf4b631535fbc4583924e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.2.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="292a9fa091757208efa65e77eef63088247e51f3">
+        <dex dex="D:\workspace\a_door\newest_door\Lockaxial\build\intermediates\pre-dexed\debug\com.android.support-support-vector-drawable-23.2.0_2eb97dbf5470d5e91b88ce06a5dd3408c21f09a3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\LockaxialQQ-master\synjones\unspecified\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="72cea2fc29f4e283b8e33144359059aa36584581">
+        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\LockaxialQQ-master-synjones-unspecified_63ba42f1d425d24e636690be10e62c921372eef5.jar" />
     </item>
     <item
         is-multidex="false"
@@ -315,6 +567,15 @@
         revision="23.0.3"
         sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
         <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\constraint-layout-solver-1.0.2_6fa098e8844b87cac623f2e0fb1a19698b31aa0e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="e5f32fa48a3eb2de0c987025c11b6e3864b634d9">
+        <dex dex="D:\workspace\LockaxialQQ_xl\LockaxialQQ-master\Lockaxial\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.2.0_c0705aa44ad5771b5e6534503ed2f3e58890afbd.jar" />
     </item>
 
 </items>

@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: D:\\workspace\\LockaxialQQ_xl\\LockaxialQQ-master\\Lockaxial\\src\\main\\aidl\\rtc\\sdk\\aidl\\SdkCall.aidl
+ * Original file: D:\\workspace\\a_door\\newest_door\\Lockaxial\\src\\main\\aidl\\rtc\\sdk\\aidl\\SdkCall.aidl
  */
 package rtc.sdk.aidl;
 public interface SdkCall extends android.os.IInterface

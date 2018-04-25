@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: D:\\workspace\\LockaxialQQ_xl\\LockaxialQQ-master\\Lockaxial\\src\\main\\aidl\\rtc\\sdk\\aidl\\CallNotify.aidl
+ * Original file: D:\\workspace\\a_door\\newest_door\\Lockaxial\\src\\main\\aidl\\rtc\\sdk\\aidl\\CallNotify.aidl
  */
 package rtc.sdk.aidl;
 // 对呼叫需要实现的接口

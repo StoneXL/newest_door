@@ -1,10 +1,18 @@
 [
     {
+        "merged": "D:\\workspace\\a_door\\newest_door\\Lockaxial\\build\\intermediates\\res\\merged\\debug\\anim-v21\\design_bottom_sheet_slide_in.xml",
+        "source": "D:\\workspace\\a_door\\newest_door\\Lockaxial\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.0\\res\\anim-v21\\design_bottom_sheet_slide_in.xml"
+    },
+    {
         "merged": "D:\\workspace\\LockaxialQQ_xl\\LockaxialQQ-master\\Lockaxial\\build\\intermediates\\res\\merged\\debug\\anim-v21\\design_bottom_sheet_slide_out.xml",
         "source": "D:\\workspace\\LockaxialQQ_xl\\LockaxialQQ-master\\Lockaxial\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.0\\res\\anim-v21\\design_bottom_sheet_slide_out.xml"
     },
     {
         "merged": "D:\\workspace\\LockaxialQQ_xl\\LockaxialQQ-master\\Lockaxial\\build\\intermediates\\res\\merged\\debug\\anim-v21\\design_bottom_sheet_slide_in.xml",
         "source": "D:\\workspace\\LockaxialQQ_xl\\LockaxialQQ-master\\Lockaxial\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.0\\res\\anim-v21\\design_bottom_sheet_slide_in.xml"
+    },
+    {
+        "merged": "D:\\workspace\\a_door\\newest_door\\Lockaxial\\build\\intermediates\\res\\merged\\debug\\anim-v21\\design_bottom_sheet_slide_out.xml",
+        "source": "D:\\workspace\\a_door\\newest_door\\Lockaxial\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.0\\res\\anim-v21\\design_bottom_sheet_slide_out.xml"
     }
 ]

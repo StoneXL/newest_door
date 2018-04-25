@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: D:\\workspace\\LockaxialQQ_xl\\LockaxialQQ-master\\Lockaxial\\src\\main\\aidl\\com\\tencent\\device\\ITXDeviceService.aidl
+ * Original file: D:\\workspace\\a_door\\newest_door\\Lockaxial\\src\\main\\aidl\\com\\tencent\\device\\ITXDeviceService.aidl
  */
 package com.tencent.device;
 public interface ITXDeviceService extends android.os.IInterface

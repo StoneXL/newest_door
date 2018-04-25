@@ -4,7 +4,7 @@
     android:installLocation="internalOnly"
     android:sharedUserId="android.uid.system"
     android:versionCode="2"
-    android:versionName="V.T.0.0.2" >
+    android:versionName="V.T.0.0.3" >
 
     <uses-sdk
         android:minSdkVersion="19"

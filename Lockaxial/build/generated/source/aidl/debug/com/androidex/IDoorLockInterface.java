@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: D:\\workspace\\LockaxialQQ_xl\\LockaxialQQ-master\\Lockaxial\\src\\main\\aidl\\com\\androidex\\IDoorLockInterface.aidl
+ * Original file: D:\\workspace\\a_door\\newest_door\\Lockaxial\\src\\main\\aidl\\com\\androidex\\IDoorLockInterface.aidl
  */
 package com.androidex;
 // Declare any non-default types here with import statements

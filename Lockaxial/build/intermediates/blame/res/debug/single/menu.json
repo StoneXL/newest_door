@@ -1,5 +1,13 @@
 [
     {
+        "merged": "D:\\workspace\\a_door\\newest_door\\Lockaxial\\build\\intermediates\\res\\merged\\debug\\menu\\main.xml",
+        "source": "D:\\workspace\\a_door\\newest_door\\Lockaxial\\src\\main\\res\\menu\\main.xml"
+    },
+    {
+        "merged": "D:\\workspace\\a_door\\newest_door\\Lockaxial\\build\\intermediates\\res\\merged\\debug\\menu\\poupup_menu_home.xml",
+        "source": "D:\\workspace\\a_door\\newest_door\\Lockaxial\\src\\main\\res\\menu\\poupup_menu_home.xml"
+    },
+    {
         "merged": "D:\\workspace\\LockaxialQQ_xl\\LockaxialQQ-master\\Lockaxial\\build\\intermediates\\res\\merged\\debug\\menu\\main.xml",
         "source": "D:\\workspace\\LockaxialQQ_xl\\LockaxialQQ-master\\Lockaxial\\src\\main\\res\\menu\\main.xml"
     },
