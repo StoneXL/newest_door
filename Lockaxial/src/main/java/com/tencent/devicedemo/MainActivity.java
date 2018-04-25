@@ -194,6 +194,7 @@ import static com.util.Constant.MSG_INPUT_CARDINFO_SUCCEED;
 import static com.util.Constant.MSG_INSTALL_SUCCEED;
 import static com.util.Constant.MSG_INVALID_CARD;
 import static com.util.Constant.MSG_LOCK_OPENED;
+import static com.util.Constant.MSG_LOGIN;
 import static com.util.Constant.MSG_PASSWORD_CHECK;
 import static com.util.Constant.MSG_REFRESH_COMMUNITYNAME;
 import static com.util.Constant.MSG_REFRESH_DATA;
@@ -1072,7 +1073,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                     Log.i(TAG, "UpdateService:" + filePath);
 
                     /************xiaozd add********************/
-                } else if (msg.what == InitActivity.MSG_LOGIN) {
+                } else if (msg.what == MSG_LOGIN) {
                     Log.i("xiao_", "登录成功");
                     if (msg.obj != null) {
                         JSONObject result = (JSONObject) msg.obj;

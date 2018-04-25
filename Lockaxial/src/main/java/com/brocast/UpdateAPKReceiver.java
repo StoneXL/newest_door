@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.tencent.devicedemo.InitActivity;
 import com.tencent.devicedemo.MainActivity;
 
+/**
+ * 更新用广播
+ */
 public class UpdateAPKReceiver extends BroadcastReceiver {
 	private static final String TAG = "UpdateAPKReceiver";
 

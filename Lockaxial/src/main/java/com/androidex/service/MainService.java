@@ -33,7 +33,6 @@ import com.androidex.utils.HttpUtils;
 import com.androidex.utils.SqlUtil;
 import com.androidex.utils.WifiAdmin;
 import com.tencent.device.barrage.ToastUtils;
-import com.tencent.devicedemo.InitActivity;
 import com.tencent.devicedemo.MainActivity;
 import com.util.Constant;
 import com.util.InstallUtil;
@@ -443,21 +442,10 @@ public class MainService extends Service {
     }
 
     protected void initScanWifi() {
-//        wifiAdmin.openWifi();
-//        wifiAdmin.startScan();
-//        wifiList = wifiAdmin.getWifiList();
-        // sendInitMessenger(InitActivity.MSG_WIFI_LIST,wifiList);
+
     }
 
-//    protected void connectWifi(int index, String password) {
-//        ScanResult scanResult = wifiList.get(index);
-//        boolean result = wifiAdmin.connectWifi(scanResult.SSID, password);
-//        if (result) {
-//            //sendInitMessenger(InitActivity.MSG_WIFI_CONNECTED);
-//        } else {
-//            // sendInitMessenger(InitActivity.MSG_WIFI_CONNECT_FAIL);
-//        }
-//    }
+
 
     //protected void
     protected void initLock() {
@@ -505,17 +493,7 @@ public class MainService extends Service {
         }
     }*/
 
-    /*protected void initRfidUtil(){
-        if(DeviceConfig.IS_RFID_AVAILABLE){
-            rfidUtil=new RfidUtil(handler);
-            try {
-                rfidUtil.open();
-            }catch(Exception e){
-            }
-            initLock();
-            //sendInitMessenger(InitActivity.MSG_INIT_RFID);
-        }
-    }*/
+
 
     protected void initAssembleUtil() {
         if (DeviceConfig.IS_ASSEMBLE_AVAILABLE) {
@@ -524,7 +502,8 @@ public class MainService extends Service {
                 assembleUtil.open();
             } catch (Exception e) {
             }
-            sendInitMessenger(InitActivity.MSG_INIT_ASSEMBLE);
+            Log.e("wh", "初始化组合设备");
+//            sendInitMessenger(InitActivity.MSG_INIT_ASSEMBLE);
         }
     }
 
@@ -535,7 +514,8 @@ public class MainService extends Service {
                 aexUtil.open();
             } catch (Exception e) {
             }
-            sendInitMessenger(InitActivity.MSG_INIT_AEX);
+            Log.e("wh", "初始化控制设备");
+//            sendInitMessenger(InitActivity.MSG_INIT_AEX);
         }
     }
 
@@ -563,7 +543,7 @@ public class MainService extends Service {
          initWhenConnected(); //开始在线版本
          } else {
          Log.i("MainService", "Test NoNetwork");
-         //sendInitMessenger(InitActivity.MSG_NO_NETWORK);//检测到没有网络发送消息让用户选择
+
          //xiaozd add
          initWhenOffline();
          }*/
@@ -664,7 +644,8 @@ public class MainService extends Service {
                 result = true;
                 break;
             } else {
-                sendInitMessenger(InitActivity.MSG_INTERNET_CHECK_FAIL);
+                Log.e("wh", "设备没有连到互联网，请检查网线及WIFI,设备正重新监测网络连接...");
+//                sendInitMessenger(InitActivity.MSG_INTERNET_CHECK_FAIL);
                 try {
                     Thread.currentThread().sleep(1000);
                 } catch (InterruptedException e) {
@@ -708,9 +689,11 @@ public class MainService extends Service {
 
     protected void checkNetwork() {
         if (isNetworkConnected()) {
-            sendInitMessenger(InitActivity.MSG_CONNECT_SUCCESS);
+            Log.e("wh", "连接到互联网成功，请按任意键继续");
+//            sendInitMessenger(InitActivity.MSG_CONNECT_SUCCESS);
         } else {
-            sendInitMessenger(InitActivity.MSG_CONNECT_FAIL);
+            Log.e("wh", "连接到互联网失败，请检查后按任意键重试...");
+//            sendInitMessenger(InitActivity.MSG_CONNECT_FAIL);
         }
     }
 
@@ -815,25 +798,27 @@ public class MainService extends Service {
         String mac = getMac();
         HttpApi.i("MAC地址：" + mac);
         if (mac == null || mac.length() == 0) {
-            Message message = Message.obtain();
-            message.what = InitActivity.MSG_NO_MAC_ADDRESS;
-            try {
-                initMessenger.send(message);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+              //无法获取设备编号
+//            Message message = Message.obtain();
+//            message.what = InitActivity.MSG_NO_MAC_ADDRESS;
+//            try {
+//                initMessenger.send(message);
+//            } catch (RemoteException e) {
+//                e.printStackTrace();
+//            }
             return false;
         } else {
             this.mac = mac;
             this.key = mac.replace(":", "");
-            Message message = Message.obtain();
-            message.what = InitActivity.MSG_GET_MAC_ADDRESS;
-            message.obj = mac;
-            try {
-                initMessenger.send(message);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+            //获取设备编号
+//            Message message = Message.obtain();
+//            message.what = InitActivity.MSG_GET_MAC_ADDRESS;
+//            message.obj = mac;
+//            try {
+//                initMessenger.send(message);
+//            } catch (RemoteException e) {
+//                e.printStackTrace();
+//            }
             return true;
         }
     }
@@ -916,13 +901,15 @@ public class MainService extends Service {
             }
         } catch (Exception e) {
             HttpApi.e("getClientInfo()->服务器数据解析异常");
-            Message message = Message.obtain();
-            message.what = InitActivity.MSG_LOGIN_ERROR;
-            try {
-                initMessenger.send(message);
-            } catch (RemoteException er) {
-                e.printStackTrace();
-            }
+
+            //登录服务器发生错误，可能是网络连接不通，请检查后重启APP
+//            Message message = Message.obtain();
+//            message.what = InitActivity.MSG_LOGIN_ERROR;
+//            try {
+//                initMessenger.send(message);
+//            } catch (RemoteException er) {
+//                e.printStackTrace();
+//            }
         }
         return resultValue;
     }
@@ -1219,15 +1206,15 @@ public class MainService extends Service {
                     token = jsonrsp.getString(RtcConst.kcapabilityToken);
                     Log.v("MainService", "handleMessage getCapabilityToken:" + token);
                     if (!isReconnectingRtc) {
-                        HttpApi.i("onResponseGetToken - > InitActivity.MSG_GET_TOKEN");
-                        Message message = Message.obtain();
-                        message.what = InitActivity.MSG_GET_TOKEN;
-                        message.obj = token;
-                        try {
-                            initMessenger.send(message);
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
+                        //准备注册可视对讲服务...
+//                        Message message = Message.obtain();
+//                        message.what = InitActivity.MSG_GET_TOKEN;
+//                        message.obj = token;
+//                        try {
+//                            initMessenger.send(message);
+//                        } catch (RemoteException e) {
+//                            e.printStackTrace();
+//                        }
                     }
                     rtcRegister();
                 } else {
@@ -1303,7 +1290,7 @@ public class MainService extends Service {
                 saveInfoIntoLocal(communityId, blockId, lockId, communityName, lockName);
             }
             Message message = Message.obtain();
-            message.what = InitActivity.MSG_LOGIN;
+            message.what = Constant.MSG_LOGIN;
             message.obj = result;
             try {
                 initMessenger.send(message);
@@ -1353,23 +1340,24 @@ public class MainService extends Service {
                 device = rtcClient.createDevice(jargs.toString(), deviceListener); //注册
                 if (!isReconnectingRtc) {
                     HttpApi.i("可视对讲服务注册成功");
-                    Message message = Message.obtain();
-                    message.what = InitActivity.MSG_RTC_REGISTER;
-                    try {
-                        initMessenger.send(message);
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                    }
+//                    Message message = Message.obtain();
+//                    message.what = InitActivity.MSG_RTC_REGISTER;
+//                    try {
+//                        initMessenger.send(message);
+//                    } catch (RemoteException e) {
+//                        e.printStackTrace();
+//                    }
                 }
                 onRegisterCompleted();
             } catch (Exception e) {
-                Message message = Message.obtain();
-                message.what = InitActivity.MSG_RTC_CANNOT_REGISTER;
-                try {
-                    initMessenger.send(message);
-                } catch (RemoteException err) {
-                    err.printStackTrace();
-                }
+                //无法注册到可视对讲服务器，请重新启动AP
+//                Message message = Message.obtain();
+//                message.what = InitActivity.MSG_RTC_CANNOT_REGISTER;
+//                try {
+//                    initMessenger.send(message);
+//                } catch (RemoteException err) {
+//                    err.printStackTrace();
+//                }
                 e.printStackTrace();
             }
         }

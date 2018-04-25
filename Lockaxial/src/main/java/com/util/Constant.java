@@ -57,4 +57,6 @@ public class Constant {
     public static final int PASSWORD_CHECKING_MODE = 9;//正在验证密码
     public static final int CALL_CANCEL_MODE = 10;
 
+    public static final int MSG_LOGIN = 30003;//从InitActivity里拿来的
+
 }
