@@ -3546,6 +3546,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                         continue;
                     }
                     for (AFR_FSDKFace face : fr.mFaceList) {
+                        // TODO: 2018/4/21 此处对比人脸特征信息(result和face)
                         error = engine.AFR_FSDK_FacePairMatching(result, face, score);
                         //Log.d(TAG, "Score:" + score.getScore() + ", AFR_FSDK_FacePairMatching="
                         // + error.getCode());

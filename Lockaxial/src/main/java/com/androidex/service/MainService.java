@@ -127,21 +127,21 @@ public class MainService extends Service {
     public static final int MSG_CANCEL_DIRECT = 20011;//容联云有关状态
     public static final int MSG_DISCONNECT_DIRECT = 20012;//容联云有关状态
     //public static final int MSG_ADVERTISE_INIT=20013;
-    public static final int MSG_CHECK_NETWORK = 20014;
-    public static final int MSG_START_INIT = 20015;
-    public static final int MSG_CHECK_WIFI = 20016;
-    public static final int MSG_WIFI_CONNECT = 20017;
-    public static final int MSG_CHANGE_FINGER = 20018;
-    public static final int MSG_CHANGE_CARD = 20019;
+    public static final int MSG_CHECK_NETWORK = 20014;//无用
+    public static final int MSG_START_INIT = 20015;//无用
+    public static final int MSG_CHECK_WIFI = 20016;//无用
+    public static final int MSG_WIFI_CONNECT = 20017;//无用
+    public static final int MSG_CHANGE_FINGER = 20018;//无用,AssembleUtil不被实例化
+    public static final int MSG_CHANGE_CARD = 20019;//无用,AssembleUtil不被实例化
     public static final int MSG_FACE_OPENLOCK = 40000;
-    public static final int MSG_FINGER_OPENLOCK = 20020;
-    public static final int MSG_CARD_OPENLOCK = 20021;
+    public static final int MSG_FINGER_OPENLOCK = 20020;//无用,AssembleUtil不被实例化
+    public static final int MSG_CARD_OPENLOCK = 20021;//无用,AssembleUtil不被实例化
     public static final int MSG_ASSEMBLE_KEY = 99922;
     public static final int MSG_CHECK_BLOCKNO = 20022;
-    public static final int MSG_FINGER_DETECT = 20023;
-    public static final int MSG_FINGER_DETECT_THREAD_COMPLETE = 20024;
-    public static final int MSG_START_OFFLINE = 20025;
-    public static final int MSG_RESTART_ADVERT = 20026;
+    public static final int MSG_FINGER_DETECT = 20023;//无用
+    public static final int MSG_FINGER_DETECT_THREAD_COMPLETE = 20024;//无用
+    public static final int MSG_START_OFFLINE = 20025;//无用
+    public static final int MSG_RESTART_ADVERT = 20026;//无用
     public static final int MSG_UPDATE_VERSION = 20027;
     public static final int MSG_FIND_NEW_VERSION = 30001;
     public static final int CALL_WAITING = 20;
@@ -284,7 +284,8 @@ public class MainService extends Service {
                 if (msg.what == REGISTER_ACTIVITY_INIT) { //InitActivity入口
                     netWorkstate = (boolean) msg.obj;
                     initMessenger = msg.replyTo;
-                    Log.i(TAG, "InitActivity启动mainservice服务连接  MainServic开始初始化" + "----netWorkstate" + netWorkstate);
+                    Log.i(TAG, "InitActivity启动mainservice服务连接  MainServic开始初始化" +
+                            "----netWorkstate" + netWorkstate);
                     init();
                     HttpApi.i("MainServic开始初始化");
                 } else if (msg.what == REGISTER_ACTIVITY_DIAL) {  //MainActivity初始化入口
@@ -337,42 +338,9 @@ public class MainService extends Service {
                     disconnectCallingConnection();
                 } else if (msg.what == MSG_CANCEL_CALL) {
                     cancelCurrentCall();
-                } else if (msg.what == MSG_CHECK_NETWORK) {
-                    checkNetwork();
-                } else if (msg.what == MSG_START_INIT) {
-                    initWhenConnected();
-                } else if (msg.what == MSG_START_OFFLINE) {
-                    initWhenOffline();
-                } else if (msg.what == MSG_CHECK_WIFI) {
-                    initScanWifi();
-                } else if (msg.what == MSG_WIFI_CONNECT) {
-                    String value = (String) msg.obj;
-                    String[] values = value.split(":");
-                    int index = new Integer(values[0]);
-                    String password = "";
-                    if (values.length >= 2) {
-                        password = values[1];
-                    }
-                    //connectWifi(index, password);
-                } else if (msg.what == MSG_CHANGE_FINGER) {
-                    JSONArray[] lists = (JSONArray[]) msg.obj;
-                    JSONArray fingerListSuccess = lists[0];
-                    JSONArray fingerListFailed = lists[1];
-                    //startChangeFingerComplete(fingerListSuccess, fingerListFailed);
-                } else if (msg.what == MSG_CHANGE_CARD) {
-                    JSONArray[] lists = (JSONArray[]) msg.obj;
-                    JSONArray cardListSuccess = lists[0];
-                    JSONArray cardListFailed = lists[1];
-                    startChangeCardComplete(cardListSuccess, cardListFailed);
-                } else if (msg.what == MSG_FACE_OPENLOCK) {
+                }else if (msg.what == MSG_FACE_OPENLOCK) {
                     openLock();
-                } else if (msg.what == MSG_FINGER_OPENLOCK) {
-                    int index = (Integer) msg.obj;
-                    // startFingerOpenLock(index);
-                } else if (msg.what == MSG_CARD_OPENLOCK) {
-                    int index = (Integer) msg.obj;
-                    startCardOpenLock(index);
-                } else if (msg.what == MSG_ASSEMBLE_KEY) {
+                }else if (msg.what == MSG_ASSEMBLE_KEY) {
                     byte keyCode = (Byte) msg.obj;
                     try {
                         onAssembleKey(keyCode);
@@ -382,23 +350,11 @@ public class MainService extends Service {
                     String blockNo = (String) msg.obj;
                     startCheckBlockNo(blockNo);
 
-                } else if (msg.what == MSG_FINGER_DETECT) {
-                    byte[] data = (byte[]) msg.obj;
-                    //onFingerDetect(data);
-                } else if (msg.what == MSG_FINGER_DETECT_THREAD_COMPLETE) {
-                    //FingerData fingerData=null;
-                    if (msg.obj != null) {
-                        //fingerData = (FingerData) msg.obj;
-                    }
-                    //onFingerDetectThreadComplete(fingerData);
-                } else if (msg.what == MSG_FIND_NEW_VERSION) {
+                }else if (msg.what == MSG_FIND_NEW_VERSION) {
                     String version = (String) msg.obj;
                     onNewVersion(version);
                     Log.i("UpdateService", "checked new version " + version);
-                } else if (msg.what == MSG_RESTART_ADVERT) {
-                    //getLastAdvertisementList();
-                    initAdvertisement();
-                } else if (msg.what == MSG_UPDATE_VERSION) {
+                }else if (msg.what == MSG_UPDATE_VERSION) {
                     updateApp();
                     Log.i("UpdateService", "开启安装");
                 } else if (msg.what == MSG_UPDATE_NETWORKSTATE) {
@@ -415,8 +371,64 @@ public class MainService extends Service {
                 } else if (msg.what == MSG_CANCEL_DIRECT) {
                     //入口已无
 //                    cancelDirectCall(msg);
+                } else if (msg.what == MSG_CHECK_WIFI) {
+                    //入口已无
+//                    initScanWifi();
+                } else if (msg.what == MSG_START_INIT) {
+                    //入口已无
+//                    initWhenConnected();
+                }else if (msg.what == MSG_CHECK_NETWORK) {
+                    //入口已无
+//                    checkNetwork();
+                }else if (msg.what == MSG_WIFI_CONNECT) {
+                    //入口已无
+                    String value = (String) msg.obj;
+                    String[] values = value.split(":");
+                    int index = new Integer(values[0]);
+                    String password = "";
+                    if (values.length >= 2) {
+                        password = values[1];
+                    }
+                    //connectWifi(index, password);
+                } else if (msg.what == MSG_FINGER_DETECT) {
+                    //入口已无
+                    byte[] data = (byte[]) msg.obj;
+                    //onFingerDetect(data);
+                }else if (msg.what == MSG_FINGER_DETECT_THREAD_COMPLETE) {
+                    //入口已无
+                    //FingerData fingerData=null;
+                    if (msg.obj != null) {
+                        //fingerData = (FingerData) msg.obj;
+                    }
+                    //onFingerDetectThreadComplete(fingerData);
+                }else if (msg.what == MSG_START_OFFLINE) {
+                    //入口已无
+//                    initWhenOffline();
+                } else if (msg.what == MSG_RESTART_ADVERT) {
+                    //入口已无
+                    //getLastAdvertisementList();
+//                    initAdvertisement();
+                }else if (msg.what == MSG_CHANGE_FINGER) {
+                    //入口已无
+                    JSONArray[] lists = (JSONArray[]) msg.obj;
+                    JSONArray fingerListSuccess = lists[0];
+                    JSONArray fingerListFailed = lists[1];
+                    //startChangeFingerComplete(fingerListSuccess, fingerListFailed);
+                }else if (msg.what == MSG_CHANGE_CARD) {
+                    //入口已无
+                    JSONArray[] lists = (JSONArray[]) msg.obj;
+                    JSONArray cardListSuccess = lists[0];
+                    JSONArray cardListFailed = lists[1];
+//                    startChangeCardComplete(cardListSuccess, cardListFailed);
+                } else if (msg.what == MSG_FINGER_OPENLOCK) {
+                    //入口已无
+                    int index = (Integer) msg.obj;
+                    // startFingerOpenLock(index);
+                }else if (msg.what == MSG_CARD_OPENLOCK) {
+                    //入口已无
+                    int index = (Integer) msg.obj;
+//                    startCardOpenLock(index);
                 }
-
             }
         };
         serviceMessenger = new Messenger(handler);
@@ -505,13 +517,13 @@ public class MainService extends Service {
     }
 
     protected void init() {
-        Log.i("MainService", "init MainService");
+//        Log.i("MainService", "init MainService");
         //initRfidUtil();
-        Log.i("MainService", "init RFID");
+//        Log.i("MainService", "init RFID");
         //initNfcPortUtil();
-        Log.i("MainService", "init NFC Port");
-        initAssembleUtil();//入口已无
-        Log.i("MainService", "init ASSEMBLE");
+//        Log.i("MainService", "init NFC Port");
+//        initAssembleUtil();//入口已无
+//        Log.i("MainService", "init ASSEMBLE");
         initAexUtil();
         Log.i("MainService", "init AEX");
         //initAdLoad();
@@ -670,6 +682,7 @@ public class MainService extends Service {
     }
 
     protected void checkNetwork() {
+        //入口已无
         if (isNetworkConnected()) {
             Log.e("wh", "连接到互联网成功，请按任意键继续");
 //            sendInitMessenger(InitActivity.MSG_CONNECT_SUCCESS);
@@ -685,7 +698,8 @@ public class MainService extends Service {
     }
 
     private void saveMacToLocal(String mac) {
-        SharedPreferences sharedPref = this.getSharedPreferences("residential", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = this.getSharedPreferences("residential", Context
+                .MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("wifi_mac_address", mac);
         editor.commit();
@@ -693,7 +707,8 @@ public class MainService extends Service {
 
     private String getMacFromLocal() {
         boolean isTokenAvailable = false;
-        SharedPreferences sharedPref = this.getSharedPreferences("residential", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = this.getSharedPreferences("residential", Context
+                .MODE_PRIVATE);
         String mac = sharedPref.getString("wifi_mac_address", null);
         return mac;
     }
@@ -722,7 +737,9 @@ public class MainService extends Service {
                 Enumeration<InetAddress> address = ni.getInetAddresses();
                 while (address.hasMoreElements()) {
                     InetAddress ip = address.nextElement();
-                    if (ip.isAnyLocalAddress() || !(ip instanceof Inet4Address) || ip.isLoopbackAddress()) continue;
+                    if (ip.isAnyLocalAddress() || !(ip instanceof Inet4Address) || ip
+                            .isLoopbackAddress())
+                        continue;
                     if (ip.isSiteLocalAddress()) mac = ni.getHardwareAddress();
                     else if (!ip.isLinkLocalAddress()) {
                         mac = ni.getHardwareAddress();
@@ -851,10 +868,10 @@ public class MainService extends Service {
         try {
             String url = DeviceConfig.SERVER_URL + "/app/auth/deviceLogin";
             JSONObject data = new JSONObject();
-            data.put("username", mac);
-            data.put("password", key);
-//            data.put("lockMac", mac);
-//            data.put("lockKey", key);
+//            data.put("username", mac);
+//            data.put("password", key);
+            data.put("lockMac", mac);
+            data.put("lockKey", key);
             Log.i(TAG, "mac" + mac + "----key" + key);
 //            data.put("username", mac);
 //            data.put("password", key);
@@ -907,7 +924,8 @@ public class MainService extends Service {
 
                 DeviceConfig.AD_INIT_WAIT_TIME = 1000 * 60 * config.getInt("adInitWaitTime");
                 DeviceConfig.AD_REFRESH_WAIT_TIME = 1000 * 60 * config.getInt("adRefreshWaitTime");
-                DeviceConfig.CONNECT_REPORT_WAIT_TIME = 1000 * 60 * config.getInt("connectReportWaitTime");
+                DeviceConfig.CONNECT_REPORT_WAIT_TIME = 1000 * 60 * config.getInt
+                        ("connectReportWaitTime");
                 DeviceConfig.MAX_DIRECT_CALL_TIME = 1000 * config.getInt("maxDirectCallTime");
                 DeviceConfig.PASSWORD_WAIT_TIME = 1000 * config.getInt("passwordWaitTime");
 
@@ -1021,7 +1039,8 @@ public class MainService extends Service {
 
     private void onCheckBlockNo(String blockNo) {
         try {
-            String url = DeviceConfig.SERVER_URL + "/app/device/checkBlockNo?communityId=" + this.communityId;
+            String url = DeviceConfig.SERVER_URL + "/app/device/checkBlockNo?communityId=" + this
+                    .communityId;
             url = url + "&blockNo=" + blockNo.substring(0, 2);
             try {
                 String result = HttpApi.getInstance().loadHttpforGet(url, httpServerToken);
@@ -1048,7 +1067,8 @@ public class MainService extends Service {
 
     private void onCardAccessLog(String cardNo) {
         try {
-            String url = DeviceConfig.SERVER_URL + "/app/device/createCardAccessLog?communityId=" + this.communityId;
+            String url = DeviceConfig.SERVER_URL + "/app/device/createCardAccessLog?communityId="
+                    + this.communityId;
             url = url + "&lockId=" + this.lockId;
             url = url + "&cardNo=" + cardNo;
             try {
@@ -1183,7 +1203,8 @@ public class MainService extends Service {
             try {
                 String code = jsonrsp.getString(RtcConst.kcode);
                 String reason = jsonrsp.getString(RtcConst.kreason);
-                Log.v("MainService", "Response getCapabilityToken code:" + code + " reason:" + reason);
+                Log.v("MainService", "Response getCapabilityToken code:" + code + " reason:" +
+                        reason);
                 if (code.equals("0")) {
                     token = jsonrsp.getString(RtcConst.kcapabilityToken);
                     Log.v("MainService", "handleMessage getCapabilityToken:" + token);
@@ -1201,7 +1222,8 @@ public class MainService extends Service {
                     rtcRegister();
                 } else {
                     onGetTokenError();
-                    Log.v("MainService", "获取token失败 [status:" + ret.getStatus() + "]" + ret.getErrorMsg());
+                    Log.v("MainService", "获取token失败 [status:" + ret.getStatus() + "]" + ret
+                            .getErrorMsg());
                 }
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
@@ -1235,7 +1257,8 @@ public class MainService extends Service {
     }
 
     protected void loadInfoFromLocal() {
-        SharedPreferences sharedPreferences = getSharedPreferences("residential", Activity.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("residential", Activity
+                .MODE_PRIVATE);
         communityId = sharedPreferences.getInt("communityId", 0);
         blockId = sharedPreferences.getInt("blockId", 0);
         lockId = sharedPreferences.getInt("lockId", 0);
@@ -1243,8 +1266,10 @@ public class MainService extends Service {
         lockName = sharedPreferences.getString("lockName", "");
     }
 
-    protected void saveInfoIntoLocal(int communityId, int blockId, int lockId, String communityName, String lockName) {
-        SharedPreferences sharedPreferences = getSharedPreferences("residential", Activity.MODE_PRIVATE);
+    protected void saveInfoIntoLocal(int communityId, int blockId, int lockId, String
+            communityName, String lockName) {
+        SharedPreferences sharedPreferences = getSharedPreferences("residential", Activity
+                .MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("communityId", communityId);
         editor.putInt("blockId", blockId);
@@ -1288,7 +1313,8 @@ public class MainService extends Service {
      */
     private void getTokenFromServer() {
         RtcConst.UEAPPID_Current = RtcConst.UEAPPID_Self;//账号体系，包括私有、微博、QQ等，必须在获取token之前确定。
-        JSONObject jsonobj = HttpManager.getInstance().CreateTokenJson(0, key, RtcHttpClient.grantedCapabiltyID, "");
+        JSONObject jsonobj = HttpManager.getInstance().CreateTokenJson(0, key, RtcHttpClient
+                .grantedCapabiltyID, "");
         HttpResult ret = HttpManager.getInstance().getCapabilityToken(jsonobj, APP_ID, APP_KEY);
         Message msg = new Message();
         msg.what = MSG_GETTOKEN;
@@ -1775,8 +1801,8 @@ public class MainService extends Service {
             JSONArray userList = (JSONArray) result.get("userList");
             JSONArray unitDeviceList = (JSONArray) result.get("unitDeviceList");
             HttpApi.i("拨号中->网络请求在线列表" + (result != null ? result.toString() : ""));
-            if ((userList != null && userList.length() > 0) || (unitDeviceList != null && unitDeviceList.length() >
-                    0)) {
+            if ((userList != null && userList.length() > 0) || (unitDeviceList != null &&
+                    unitDeviceList.length() > 0)) {
                 Log.v("MainService", "收到新的呼叫，清除呼叫数据，UUID=" + callUuid);
                 HttpApi.i("拨号中->清除呼叫数据");
                 allUserList.clear();
@@ -2299,7 +2325,8 @@ public class MainService extends Service {
                     }
                     if (!username.equals(acceptMember)) {
                         Log.v("MainService", "--->取消" + username);
-                        String userUrl = RtcRules.UserToRemoteUri_new(username, RtcConst.UEType_Any);
+                        String userUrl = RtcRules.UserToRemoteUri_new(username, RtcConst
+                                .UEType_Any);
                         int sendResult = device.sendIm(userUrl, "cmd/json", command.toString());
                     }
                 }
@@ -2566,8 +2593,8 @@ public class MainService extends Service {
     }
 
     protected void connectReport() {
-        String url = DeviceConfig.SERVER_URL + "/app/device/connectReport?communityId=" + this.communityId +
-                "&lockId=" + this.lockId;
+        String url = DeviceConfig.SERVER_URL + "/app/device/connectReport?communityId=" + this
+                .communityId + "&lockId=" + this.lockId;
         try {
             String result = HttpApi.getInstance().loadHttpforGet(url, httpServerToken);
             if (result != null) {
@@ -2590,8 +2617,8 @@ public class MainService extends Service {
     protected void initDeviceData() {
         if (resetFlag > 0) {
             sqlUtil.clearDeviceData();
-            String url = DeviceConfig.SERVER_URL + "/app/device/retrieveDeviceData?communityId=" + this.communityId +
-                    "&blockId=" + this.blockId + "&lockId=" + this.lockId;
+            String url = DeviceConfig.SERVER_URL + "/app/device/retrieveDeviceData?communityId="
+                    + this.communityId + "&blockId=" + this.blockId + "&lockId=" + this.lockId;
             try {
                 String result = HttpApi.getInstance().loadHttpforGet(url, httpServerToken);
                 if (result != null) {
@@ -2619,7 +2646,8 @@ public class MainService extends Service {
     }
 
     protected void completeInitDeviceData() {
-        String url = DeviceConfig.SERVER_URL + "/app/device/completeInitDeviceData?communityId=" + this.communityId;
+        String url = DeviceConfig.SERVER_URL + "/app/device/completeInitDeviceData?communityId="
+                + this.communityId;
         url = url + "&blockId=" + this.blockId;
         url = url + "&lockId=" + this.lockId;
         try {
@@ -2673,8 +2701,8 @@ public class MainService extends Service {
      * 获取已注册卡信息
      */
     protected void retrieveCardList() {
-        String url = DeviceConfig.SERVER_URL + "/app/device/retrieveCardList?communityId=" + this.communityId +
-                "&blockId=" + this.blockId + "&lockId=" + this.lockId;
+        String url = DeviceConfig.SERVER_URL + "/app/device/retrieveCardList?communityId=" + this
+                .communityId + "&blockId=" + this.blockId + "&lockId=" + this.lockId;
         try {
             Log.i(TAG, "retrieveCardList--url=" + url);
             String result = HttpApi.getInstance().loadHttpforGet(url, httpServerToken);
@@ -2742,7 +2770,8 @@ public class MainService extends Service {
      * 卡片更新接口
      */
     protected void retrieveChangedCardList() {
-        String url = DeviceConfig.SERVER_URL + "/app/device/retrieveChangedCardList?communityId=" + this.communityId;
+        String url = DeviceConfig.SERVER_URL + "/app/device/retrieveChangedCardList?communityId="
+                + this.communityId;
         url = url + "&blockId=" + this.blockId;
         url = url + "&lockId=" + this.lockId;
         try {
@@ -3016,7 +3045,8 @@ public class MainService extends Service {
         thread.start();
     }*/
 
-    protected void startChangeCardComplete(final JSONArray cardListSuccess, final JSONArray cardListFailed) {
+    protected void startChangeCardComplete(final JSONArray cardListSuccess, final JSONArray
+            cardListFailed) {
         Thread thread = new Thread() {
             public void run() {
                 try {
@@ -3063,7 +3093,8 @@ public class MainService extends Service {
         }
     }*/
 
-    protected void onChangeCardComplete(JSONArray cardListSuccess, JSONArray cardListFailed) throws Exception {
+    protected void onChangeCardComplete(JSONArray cardListSuccess, JSONArray cardListFailed)
+            throws Exception {
         JSONObject data = new JSONObject();
         data.put("lockId", lockId);
         data.put("communityId", communityId);
@@ -3094,9 +3125,7 @@ public class MainService extends Service {
                 HttpApi.i("getLastAdvertisementList---->设置视频标签为1");
                 currentAdvertisementFiles.clear();
                 JSONArray rows = checkAdvertiseList(); //获取视频文件
-                if (rows != null) {
-                    HttpApi.i("网络请求广告列表：" + rows.toString());
-                }
+                HttpApi.i("网络请求广告列表：" + rows.toString());
                 if (rows != null) {
                     adjustAdvertiseFiles();
                     restartAdvertise(rows);
@@ -3113,7 +3142,8 @@ public class MainService extends Service {
      * 根据社区ID&锁ID
      */
     protected JSONArray checkAdvertiseList() {
-        String url = DeviceConfig.SERVER_URL + "/app/advertisement/checkAdvertiseList?communityId=" + this.communityId;
+        String url = DeviceConfig.SERVER_URL +
+                "/app/advertisement/checkAdvertiseList?communityId=" + this.communityId;
         url = url + "&lockId=" + this.lockId;
         JSONArray rows = null;
         try {
@@ -3311,8 +3341,8 @@ public class MainService extends Service {
 
     //版本更新(检查当前版本是否和服务器最新版本一致，如果不是最新版本则发出更新消息)
     protected void checkNewVersion() {
-        String url = DeviceConfig.UPDATE_SERVER_URL + DeviceConfig.UPDATE_RELEASE_FOLDER + DeviceConfig
-                .UPDATE_RELEASE_PACKAGE;
+        String url = DeviceConfig.UPDATE_SERVER_URL + DeviceConfig.UPDATE_RELEASE_FOLDER +
+                DeviceConfig.UPDATE_RELEASE_PACKAGE;
         try {
             String result = HttpApi.getInstance().loadHttpforGet(url, httpServerToken);
             if (result != null) {
@@ -3322,10 +3352,10 @@ public class MainService extends Service {
                 HttpApi.e("version = " + lastVersion);
                 HttpApi.e("userID = " + userID);
                 HttpApi.e("DeviceConfig.RELEASE_VERSION = " + DeviceConfig.RELEASE_VERSION);
-                if (lastVersion > DeviceConfig.RELEASE_VERSION && userID != null && userID.equals(DeviceConfig
-                        .USER_ID)) { //检查当前版本是否和服务器最新版本一致，如果不是最新版本则发出更新消息
-                    String packageName = resultObj.getString("name") + "." + DeviceConfig.DEVICE_MODE_FLAG + "." +
-                            lastVersion + ".apk";
+                if (lastVersion > DeviceConfig.RELEASE_VERSION && userID != null && userID.equals
+                        (DeviceConfig.USER_ID)) { //检查当前版本是否和服务器最新版本一致，如果不是最新版本则发出更新消息
+                    String packageName = resultObj.getString("name") + "." + DeviceConfig
+                            .DEVICE_MODE_FLAG + "." + lastVersion + ".apk";
                     HttpApi.e("packageName = " + packageName);
                     Message message = handler.obtainMessage();
                     message.what = MSG_FIND_NEW_VERSION;
@@ -3375,7 +3405,8 @@ public class MainService extends Service {
      * 下载新版本apk
      */
     protected void startDownloadThread() {
-        final String url = DeviceConfig.UPDATE_SERVER_URL + DeviceConfig.UPDATE_RELEASE_FOLDER + lastVersionFile;
+        final String url = DeviceConfig.UPDATE_SERVER_URL + DeviceConfig.UPDATE_RELEASE_FOLDER +
+                lastVersionFile;
         final String fileName = lastVersionFile;
         if (lastVersionStatus.equals("N")) {
             lastVersionStatus = "D";
@@ -3395,8 +3426,8 @@ public class MainService extends Service {
                     if (getDownloadingFlag() == 0) {
                         Log.v("UpdateService", "download file begin");
                         String lastFile = downloadFile(url, fileName);
-                        Log.v("UpdateService", "download file begin==url:==" + url + "  " + "fileName:" + " " +
-                                fileName);
+                        Log.v("UpdateService", "download file begin==url:==" + url + "  " +
+                                "fileName:" + " " + fileName);
                         if (lastFile != null) {
                             if (lastVersionStatus.equals("D")) {
                                 Log.v("UpdateService", "change status to P");
@@ -3455,7 +3486,8 @@ public class MainService extends Service {
                     result = localFile;
                     Log.v("downloadFile", "result:  " + result + "  getDownloadingFlag=" + 1);
                 }
-                Log.v("downloadFile", "result:  " + result + "  getDownloadingFlag=" + getDownloadingFlag());
+                Log.v("downloadFile", "result:  " + result + "  getDownloadingFlag=" +
+                        getDownloadingFlag());
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -3591,7 +3623,8 @@ public class MainService extends Service {
 
 
     protected void loadVersionFromLocal() {
-        SharedPreferences sharedPreferences = getSharedPreferences("residential", Activity.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("residential", Activity
+                .MODE_PRIVATE);
         lastVersion = sharedPreferences.getInt("lastVersion", 0);
         lastVersionFile = sharedPreferences.getString("lastVersionFile", "");
         lastVersionStatus = sharedPreferences.getString("lastVersionStatus", "L");
@@ -3600,7 +3633,8 @@ public class MainService extends Service {
 
     protected void saveVersionFromLocal() {
         HttpApi.e("saveVersionFromLocal ->lastVersion = " + lastVersion);
-        SharedPreferences sharedPreferences = getSharedPreferences("residential", Activity.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("residential", Activity
+                .MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("lastVersion", lastVersion);
         editor.putString("lastVersionFile", lastVersionFile);

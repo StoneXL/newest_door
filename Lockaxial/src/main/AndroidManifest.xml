@@ -194,24 +194,6 @@
             android:theme="@android:style/Theme.NoTitleBar"></activity>
 
         <!--// SDK核心服务配置-->
-        <service
-            android:name="com.yuntongxun.ecsdk.ECClientService"
-            android:enabled="true"
-            android:process=":push" />
-        <!-- // v5.2.2r以后的清单文件需要配置下列服务-->
-        <service
-            android:name="com.yuntongxun.ecsdk.ECClientService$InnerService"
-            android:enabled="true"
-            android:process=":push" />
-        <!--// 以下两项为SDK事件提醒广播-->
-        <receiver
-            android:name="com.yuntongxun.ecsdk.booter.CCPReceivers$AlarmReceiver"
-            android:process=":push" />
-        <!--// v5.1.9r增加配置选项-->
-        <receiver
-            android:name="com.yuntongxun.ecsdk.booter.Alarm"
-            android:exported="false"
-            android:process=":push" />
 
         <!-- sdk's remote service -->
         <service android:name="rtc.sdk.impl.SdkService">
@@ -276,6 +258,26 @@
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
             </intent-filter>
         </receiver>
+
+
+        <!--<service-->
+        <!--android:name="com.yuntongxun.ecsdk.ECClientService"-->
+        <!--android:enabled="true"-->
+        <!--android:process=":push" />-->
+        <!--&lt;!&ndash; // v5.2.2r以后的清单文件需要配置下列服务&ndash;&gt;-->
+        <!--<service-->
+        <!--android:name="com.yuntongxun.ecsdk.ECClientService$InnerService"-->
+        <!--android:enabled="true"-->
+        <!--android:process=":push" />-->
+        <!--&lt;!&ndash;// 以下两项为SDK事件提醒广播&ndash;&gt;-->
+        <!--<receiver-->
+        <!--android:name="com.yuntongxun.ecsdk.booter.CCPReceivers$AlarmReceiver"-->
+        <!--android:process=":push" />-->
+        <!--&lt;!&ndash;// v5.1.9r增加配置选项&ndash;&gt;-->
+        <!--<receiver-->
+        <!--android:name="com.yuntongxun.ecsdk.booter.Alarm"-->
+        <!--android:exported="false"-->
+        <!--android:process=":push" />-->
 
     </application>
 

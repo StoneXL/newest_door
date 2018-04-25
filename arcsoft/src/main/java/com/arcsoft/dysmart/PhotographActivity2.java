@@ -73,7 +73,7 @@ public class PhotographActivity2 extends AppCompatActivity implements Camera.Pic
         Log.d(TAG, "AFT_FSDK_GetVersion:" + version.toString() + "," + err.getCode());
 
         // Add a listener to the Capture button
-        mCaptureButton = (ImageView) findViewById(R.id.capture);
+        mCaptureButton = (ImageView) findViewById(R.id.capture);//拍照按钮
 //        mDeleteButton = (ImageView) findViewById(R.id.delete);
         mCaptureButton.setOnClickListener(this);
 //        mDeleteButton.setOnClickListener(this);
@@ -111,7 +111,7 @@ public class PhotographActivity2 extends AppCompatActivity implements Camera.Pic
     @Override
     public void onPictureTaken(byte[] data, Camera camera) {
         //save the picture to sdcard
-        pictureFile = getOutputMediaFile();
+        pictureFile = getOutputMediaFile();//创建图片文件
         if (pictureFile == null) {
             Log.d(TAG, "Error creating media file, check storage permissions: ");
             return;
@@ -123,7 +123,7 @@ public class PhotographActivity2 extends AppCompatActivity implements Camera.Pic
         handler.sendMessageDelayed(message, 100);
 
         // Restart the preview and re-enable the shutter button so that we can take another picture
-        camera.startPreview();
+        camera.startPreview();//预览照片
 
 //        //See if need to enable or not
 //        mCaptureButton.setEnabled(true);
@@ -149,12 +149,17 @@ public class PhotographActivity2 extends AppCompatActivity implements Camera.Pic
         File picDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         //get the current time
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String path = picDir.getPath() + File.separator + PIC_PREFIX + timeStamp + ".jpg";
+        String path = picDir.getPath() + File.separator + PIC_PREFIX + timeStamp + ".jpg";// File.separator,与系统有关的默认名称分隔符
         ///storage/sdcard/Pictures/arcsoft_20180315154351.jpg
         Log.v(FACE_TAG, "getOutputMediaFile-->" + path);
         return new File(path);
     }
 
+    /**
+     * 保存照片
+     * @param data
+     * @return
+     */
     private boolean savePicture(byte[] data) {
         try {
             FileOutputStream fos = new FileOutputStream(pictureFile);
@@ -207,9 +212,9 @@ public class PhotographActivity2 extends AppCompatActivity implements Camera.Pic
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_ENTER) {
+        if (keyCode == KeyEvent.KEYCODE_ENTER) {//按确认键拍照
             if (mCaptureButton.getVisibility() == View.VISIBLE) {
-                mCaptureButton.setEnabled(false);
+                mCaptureButton.setEnabled(false);//控件进入沉睡状态
                 // get an image from the camera
                 if (mCamera != null) {
                     mCamera.takePicture(null, null, this);
@@ -219,7 +224,7 @@ public class PhotographActivity2 extends AppCompatActivity implements Camera.Pic
 //                handler.sendEmptyMessageDelayed(1, 100);
 //            }
             return true;
-        } else if (keyCode == KeyEvent.KEYCODE_DEL) {
+        } else if (keyCode == KeyEvent.KEYCODE_DEL) {//按删除键退出
             finishActivity();
             return true;
         }
@@ -240,7 +245,7 @@ public class PhotographActivity2 extends AppCompatActivity implements Camera.Pic
     @Override
     public Camera setupCamera() {
         // TODO Auto-generated method stub
-        mCamera = Camera.open();
+        mCamera = Camera.open();//打开硬件摄像头，这里导包得时候一定要注意是android.hardware.Camera
         try {
             Camera.Parameters parameters = mCamera.getParameters();
             parameters.setPreviewSize(800, 600);
