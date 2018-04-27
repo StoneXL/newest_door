@@ -937,22 +937,24 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         autoCameraHolder = autoCameraSurfaceView.getHolder();
         autoCameraHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
     }
-
+    private  TextView textViewGongGao;
     protected void initAdvertiseHandler() {
         if (advertiseHandler == null) {
             advertiseHandler = new AdvertiseHandler();
         }
         videoView = (SurfaceView) findViewById(R.id.surface_view);
         imageView = (ImageView) findViewById(R.id.image_view);
-        TextView textView = (TextView) findViewById(R.id.gonggao);
+        textViewGongGao = (TextView) findViewById(R.id.gonggao);
         Log.v("UpdateAdvertise", "------>start Update Advertise<------");
-        advertiseHandler.init(textView, videoView, imageView);
+        advertiseHandler.init(textViewGongGao, videoView, imageView);
         adverErrorCallBack = new AdverErrorCallBack() {
             @Override
             public void ErrorAdver() {
                 imageView.setVisibility(View.VISIBLE);
             }
         };
+        // TODO: 2018/4/27 随便找个位置增加通告接口，之后要改
+        fun();
     }
 
     private void initVoiceHandler() {
@@ -1155,6 +1157,60 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
             }
         };
         dialMessenger = new Messenger(handler);
+    }
+
+    private Thread connectTongGaoThread = null;//心跳线程
+    private  void fun(){
+        if (connectTongGaoThread != null) {
+            connectTongGaoThread.interrupt();//终止线程
+            connectTongGaoThread = null;
+        }
+        connectTongGaoThread = new Thread() {
+            public void run() {
+                try {
+                    connectTongGao();//首次执行
+                    while (!isInterrupted()) {//检测线程是否已经中断
+                        sleep(1000 * 60); //等待时间
+                        connectTongGao();
+                    }
+                } catch (InterruptedException e) {
+
+                }
+            }
+        };
+        connectTongGaoThread.start();
+    }
+
+    private void connectTongGao() {
+        try {
+            String url = "http://192.168.8.146:80/"+"app/device/tonggao";
+            String result = HttpApi.getInstance().loadHttpforGet(url, httpServerToken);
+
+            if (result != null) {
+                HttpApi.e("connectReportInfo()->" + result);
+                JSONObject resultObj = Ajax.getJSONObject(result);
+                Log.e(TAG, "result " + result);
+                int code = resultObj.getInt("code");
+                if (code == 0) {
+                    final JSONObject token = resultObj.getJSONObject("token");
+                    //通知主线程,并设置更新状态
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //在主线程调用方法更新对应的数据
+                            textViewGongGao.setText(token.toString());
+                        }
+                    });
+
+                }
+            } else {
+                //服务器异常或没有网络
+                HttpApi.e("connectReportInfo()->服务器无响应");
+            }
+        } catch (Exception e) {
+            HttpApi.e("connectReportInfo()->服务器数据解析异常");
+            e.printStackTrace();
+        }
     }
 
     private void onFreshLockName(String lockName) {
