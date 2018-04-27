@@ -175,7 +175,7 @@ public class InputCardInfoActivity extends Activity {
      */
     private void login() {
         try {
-            String url = DeviceConfig.SERVER_URL + "/app/rfid/adminLogin?username=" + this.admin;
+            String url = DeviceConfig.UPDATE_SERVER_URL + "/app/rfid/adminLogin?username=" + this.admin;
             url = url + "&password=" + this.password;
             Log.d(TAG, "login: url=" + url);
             try {

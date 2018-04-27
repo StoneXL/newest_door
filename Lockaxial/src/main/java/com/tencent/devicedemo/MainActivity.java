@@ -1166,6 +1166,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
             connectTongGaoThread = null;
         }
         connectTongGaoThread = new Thread() {
+
+            @Override
             public void run() {
                 try {
                     connectTongGao();//首次执行
@@ -1192,13 +1194,13 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                 Log.e(TAG, "result " + result);
                 int code = resultObj.getInt("code");
                 if (code == 0) {
-                    final JSONObject token = resultObj.getJSONObject("token");
+                    final String token = resultObj.getString("token");
                     //通知主线程,并设置更新状态
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             //在主线程调用方法更新对应的数据
-                            textViewGongGao.setText(token.toString());
+                            textViewGongGao.setText(token);
                         }
                     });
 
@@ -2437,7 +2439,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                             FileOutputStream outputStream = new FileOutputStream(file);
                             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                             outputStream.close();
-                            final String url = DeviceConfig.SERVER_URL + "/app/upload/image";
+                            final String url = DeviceConfig.UPDATE_SERVER_URL + "/app/upload/image";
                             if (checkTakePictureAvailable(uuid)) {
                                 new Thread() {
                                     public void run() {
@@ -2486,6 +2488,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                 }
                 try {
                     camera.release();
+                    camera = null;
+                    mCamerarelease = true;
                 } catch (Exception err) {
                 }
                 callback.afterTakePickture(thisValue, null, isCall, uuid);
@@ -3609,7 +3613,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                         if (max < score.getScore()) {
                             max = score.getScore();
                             name = fr.mName;
-                            if (max > 0.80f) {
+                            if (max > 0.618f) {
                                 break;
                             }
                         }

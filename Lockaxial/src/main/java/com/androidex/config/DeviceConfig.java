@@ -7,7 +7,7 @@ public class DeviceConfig {
     /********residential*****/
    public static final String SERVER_URL="http://192.168.8.146:80";
 //	public static final String UPDATE_SERVER_URL="http://192.168.8.146:80";
-    //public static final String SERVER_URL="http://www.lockaxial.com";
+//    public static final String SERVER_URL="http://www.lockaxial.com";
 	public static final String UPDATE_SERVER_URL="http://www.lockaxial.com";
     public static final String UPDATE_RELEASE_FOLDER="/release/doorAccessMachine/v1/";
     public static final String UPDATE_RELEASE_PACKAGE="package.json";
@@ -54,7 +54,7 @@ public class DeviceConfig {
     public static int SERIAL_WAIT_TIME=1000*30;
 
     public static int AD_INIT_WAIT_TIME=1000*60;
-    public static int AD_REFRESH_WAIT_TIME=1000*60*60;//1000*60*60;//等待下载广告刷新的时间 可由后台设定
+    public static int AD_REFRESH_WAIT_TIME=1000*60*10;//1000*60*60;//等待下载广告刷新的时间 可由后台设定
     public static int CONNECT_REPORT_WAIT_TIME=1000*60*10;
     public static int MAX_DIRECT_CALL_TIME=1000*60;//通话时长应该有个最大值
     public static int PASSWORD_WAIT_TIME=1000*20;
