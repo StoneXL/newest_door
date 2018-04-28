@@ -2344,17 +2344,17 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     /**
      * MainActivity初始化
      */
-    private void sendInitDIALMessage() {
-        Message message = Message.obtain();
-        message.what = MainService.REGISTER_ACTIVITY_DIAL;
-        message.replyTo = dialMessenger;
-        try {
-            //通过ServiceMessenger将注册消息发送到Service中的Handler
-            serviceMessenger.send(message);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-    }
+//    private void sendInitDIALMessage() {
+//        Message message = Message.obtain();
+//        message.what = MainService.REGISTER_ACTIVITY_DIAL;
+//        message.replyTo = dialMessenger;
+//        try {
+//            //通过ServiceMessenger将注册消息发送到Service中的Handler
+//            serviceMessenger.send(message);
+//        } catch (RemoteException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     /**
      * 初始化控制设备&组合设备&获取token
@@ -3608,7 +3608,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                     for (AFR_FSDKFace face : fr.mFaceList) {
                         // TODO: 2018/4/21 此处对比人脸特征信息(result和face)
                         error = engine.AFR_FSDK_FacePairMatching(result, face, score);
-                        //Log.d(TAG, "Score:" + score.getScore() + ", AFR_FSDK_FacePairMatching="
+                       Log.d(TAG, "Score:" + score.getScore() );
                         // + error.getCode());
                         if (max < score.getScore()) {
                             max = score.getScore();
@@ -3655,7 +3655,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
 //                }
 
                 //Log.v(FACE_TAG, "fit Score:" + max + ", NAME:" + name);
-                if (max > 0.80f) {
+                if (max > 0.618f) {
                     //fr success.
                     final float max_score = max;
                     //Log.v(FACE_TAG, "置信度：" + (float) ((int) (max_score * 1000)) / 1000.0);
