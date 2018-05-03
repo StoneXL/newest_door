@@ -2181,7 +2181,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        rl.setVisibility(View.VISIBLE);
+                        rl.setVisibility(View.VISIBLE);//界面上显示无网提示
                     }
                 });
             } else {
@@ -2200,7 +2200,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
 
 
     /**********xiaozd add****************************/
-    private int netWorkFlag = -1;//当前网络是否可用标识
+    private int netWorkFlag = -1;//当前网络是否可用标识 有网为1 无网为0
     private TextView showMacText;//mac地址
     private boolean checkTime = false;
     private Timer netTimer = new Timer();
@@ -2244,18 +2244,21 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         return false;
     }
 
+    /**
+     * 每隔一秒检查一次网络是否可用
+     */
     private void initNetListen() {
         netTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 int s = NetWork.isNetworkAvailable(MainActivity.this) ? 1 : 0;
-                if (s != netWorkFlag) {
-                    if (s == 1) {
+                if (s != netWorkFlag) {//如果当前网络状态与之前不一致
+                    if (s == 1) {//当前有网，之前没网
                         //关闭读卡
                         disableReaderMode();
                         //时间更新
                         initSystemtime();
-                    } else {
+                    } else {//当前没网，之前有网
                         //打开读卡
                         enableReaderMode();
                     }
@@ -2278,6 +2281,10 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         }, 500, 1000);
     }
 
+    /**
+     * 设置自定义状态栏的状态（WiFi和QQ物联标志）
+     * @param state true 显示  false 隐藏
+     */
     private void setStatusBarIcon(boolean state) {
         if (state) {
             //显示
