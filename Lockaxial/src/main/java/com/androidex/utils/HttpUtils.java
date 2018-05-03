@@ -67,7 +67,7 @@ public class HttpUtils {
                  * 6.关闭流
                  */
             String SDCard= Environment.getExternalStorageDirectory()+"";
-            localFile=SDCard+"/"+ DeviceConfig.LOCAL_FILE_PATH+"/"+fileName+".temp";//文件存储路径
+            localFile=SDCard+"/"+ DeviceConfig.LOCAL_FILE_PATH+"/"+fileName+".temp";//文件存储路径(带.temp,表示临时文件)
             File file=new File(localFile);
             InputStream input=conn.getInputStream();
             if(!file.exists()){
@@ -94,11 +94,13 @@ public class HttpUtils {
                     out.close();
                 } catch (IOException e) {
                     e.printStackTrace();
+                    localFile=null;//如果失败，将localFile重置为null,在mainservice中不会存入集合，对应文件会删除,下次重新下载
                 }
                 try {
                     in.close();
                 } catch (IOException e) {
                     e.printStackTrace();
+                    localFile=null;//如果失败，将localFile重置为null,在mainservice中不会存入集合，对应文件会删除,下次重新下载
                 }
             }
         } catch (MalformedURLException e) {
@@ -112,6 +114,7 @@ public class HttpUtils {
                 output.close();
                 System.out.println("success");
             } catch (IOException e) {
+                localFile=null;//如果失败，将localFile重置为null,在mainservice中不会存入集合，对应文件会删除,下次重新下载
                 System.out.println("fail");
                 e.printStackTrace();
             }
@@ -130,6 +133,10 @@ public class HttpUtils {
         return newUrl;
     }
 
+    /**
+     * 获取本地存储路径下的所有文件
+     * @return
+     */
     public static File[] getAllLocalFiles(){
         File[] files=new File[0];
         String SDCard= Environment.getExternalStorageDirectory()+"";

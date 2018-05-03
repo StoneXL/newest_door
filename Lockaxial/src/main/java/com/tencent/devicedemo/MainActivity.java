@@ -354,14 +354,14 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         // TODO: 2018/4/19  硬件使用 暂时不用管
         initQQReceiver();//初始化QQ物联广播
 //        initVoiceHandler();//音频资源没播放，暂时注释
-        initVoiceVolume();//
+        initVoiceVolume();//初始化音量设置
         initAdvertiseHandler();//初始化广告
         initAutoCamera();//
         startClockRefresh();//
         //initBLE();//初始化蓝牙  //稍微退后初始化一点，防止蓝牙共享程序停止运行bug
         getRssi();//使用定时器,每隔5秒获得一次信号强度值
         setNetWork();
-        setAutioVolume();//获取系统相关音量
+        setAutioVolume();//设置系统相关音量
         if (DeviceConfig.DEVICE_TYPE.equals("C")) {
             setDialStatus("请输入楼栋编号");
         }
@@ -536,6 +536,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                                 Toast.LENGTH_LONG).show();
                         break;
                     case R.id.action_updateVersion:
+                        //点击，手动更新
                         Message message = Message.obtain();
                         message.what = MSG_UPDATE_VERSION;
                         try {
@@ -544,7 +545,6 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                             e.printStackTrace();
                         }
                         break;
-
                     case R.id.action_settings2://解除绑定
                         Toast.makeText(MainActivity.this, "该功能暂未开放", Toast.LENGTH_LONG).show();
                         break;
@@ -976,9 +976,9 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     }
 
     protected void initVoiceVolume(AudioManager audioManager, int type, int value) {
-        int thisValue = audioManager.getStreamMaxVolume(type);
-        thisValue = thisValue * value / 10;
-        audioManager.setStreamVolume(type, thisValue, AudioManager.FLAG_PLAY_SOUND);
+        int thisValue = audioManager.getStreamMaxVolume(type);//得到最大音量
+        thisValue = thisValue * value / 10;//具体音量值
+        audioManager.setStreamVolume(type, thisValue, AudioManager.FLAG_PLAY_SOUND);//调整音量时播放声音
     }
 
     /**
@@ -1203,7 +1203,6 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                             textViewGongGao.setText(token);
                         }
                     });
-
                 }
             } else {
                 //服务器异常或没有网络
@@ -2360,15 +2359,16 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
      * 初始化控制设备&组合设备&获取token
      */
     private void sendInitMessage() {
-        Message message = Message.obtain();
-        message.what = MainService.REGISTER_ACTIVITY_INIT;
-        message.replyTo = dialMessenger;
-        try {
-            //通过ServiceMessenger将注册消息发送到Service中的Handler
-            serviceMessenger.send(message);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        //入口已无
+//        Message message = Message.obtain();
+//        message.what = MainService.REGISTER_ACTIVITY_INIT;
+//        message.replyTo = dialMessenger;
+//        try {
+//            //通过ServiceMessenger将注册消息发送到Service中的Handler
+//            serviceMessenger.send(message);
+//        } catch (RemoteException e) {
+//            e.printStackTrace();
+//        }
     }
     /**********xiaozd end****************************/
 

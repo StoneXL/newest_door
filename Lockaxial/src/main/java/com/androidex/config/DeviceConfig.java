@@ -64,10 +64,10 @@ public class DeviceConfig {
     public static int BLOCK_LENGTH=6;
     public static String DEVICE_TYPE="B"; //C：社区大门门禁 B:楼栋单元门禁
 
-    public static int VOLUME_STREAM_MUSIC=5;
-    public static int VOLUME_STREAM_VOICE_CALL=5;
-    public static int VOLUME_STREAM_RING=5;
-    public static int VOLUME_STREAM_SYSTEM=5;
+    public static int VOLUME_STREAM_MUSIC=5;//音乐音量
+    public static int VOLUME_STREAM_VOICE_CALL=5;//通话音量
+    public static int VOLUME_STREAM_RING=5;//铃声音量
+    public static int VOLUME_STREAM_SYSTEM=5;//系统音量
 	
 	public static int VIDEO_STATUS=0; //0：标清；1：流畅；2：高清；3：720P；4：1080P
     public static int VIDEO_ADAPT=1;  //0:关闭，1:开启
