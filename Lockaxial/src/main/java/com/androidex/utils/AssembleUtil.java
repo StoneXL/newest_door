@@ -226,10 +226,11 @@ public class AssembleUtil {
     }
 
     protected void onKeyDown(byte key){
-        Message message = handler.obtainMessage();
-        message.what = MainService.MSG_ASSEMBLE_KEY;
-        message.obj = key;
-        handler.sendMessage(message);
+        //入口已无
+//        Message message = handler.obtainMessage();
+//        message.what = MainService.MSG_ASSEMBLE_KEY;
+//        message.obj = key;
+//        handler.sendMessage(message);
     }
 
     protected void onCardNo(byte[] card){

@@ -136,7 +136,7 @@ public class MainService extends Service {
     public static final int MSG_FACE_OPENLOCK = 40000;
     public static final int MSG_FINGER_OPENLOCK = 20020;//无用,AssembleUtil不被实例化
     public static final int MSG_CARD_OPENLOCK = 20021;//无用,AssembleUtil不被实例化
-    public static final int MSG_ASSEMBLE_KEY = 99922;
+    public static final int MSG_ASSEMBLE_KEY = 99922;//注释，AssembleUtil不被实例化，按键没响应
     public static final int MSG_CHECK_BLOCKNO = 20022;
     public static final int MSG_FINGER_DETECT = 20023;//无用
     public static final int MSG_FINGER_DETECT_THREAD_COMPLETE = 20024;//无用
@@ -341,12 +341,6 @@ public class MainService extends Service {
                     cancelCurrentCall();
                 } else if (msg.what == MSG_FACE_OPENLOCK) {
                     openLock();
-                } else if (msg.what == MSG_ASSEMBLE_KEY) {
-                    byte keyCode = (Byte) msg.obj;
-                    try {
-                        onAssembleKey(keyCode);
-                    } catch (Exception e) {
-                    }
                 } else if (msg.what == MSG_CHECK_BLOCKNO) {
                     String blockNo = (String) msg.obj;
                     startCheckBlockNo(blockNo);
@@ -429,6 +423,13 @@ public class MainService extends Service {
                     //入口已无
                     int index = (Integer) msg.obj;
 //                    startCardOpenLock(index);
+                }else if (msg.what == MSG_ASSEMBLE_KEY) {
+                    //入口已无
+//                    byte keyCode = (Byte) msg.obj;
+//                    try {
+//                        onAssembleKey(keyCode);
+//                    } catch (Exception e) {
+//                    }
                 }
             }
         };
@@ -963,41 +964,42 @@ public class MainService extends Service {
     }
 
     private void onAssembleKey(byte keyCode) throws RemoteException {
-        Message message = Message.obtain();
-        message.what = MSG_ASSEMBLE_KEY;
-        if (keyCode == 0) {
-            message.obj = KeyEvent.KEYCODE_0;
-        } else if (keyCode == 1) {
-            message.obj = KeyEvent.KEYCODE_1;
-        } else if (keyCode == 2) {
-            message.obj = KeyEvent.KEYCODE_2;
-        } else if (keyCode == 3) {
-            message.obj = KeyEvent.KEYCODE_3;
-        } else if (keyCode == 4) {
-            message.obj = KeyEvent.KEYCODE_4;
-        } else if (keyCode == 5) {
-            message.obj = KeyEvent.KEYCODE_5;
-        } else if (keyCode == 6) {
-            message.obj = KeyEvent.KEYCODE_6;
-        } else if (keyCode == 7) {
-            message.obj = KeyEvent.KEYCODE_7;
-        } else if (keyCode == 8) {
-            message.obj = KeyEvent.KEYCODE_8;
-        } else if (keyCode == 9) {
-            message.obj = KeyEvent.KEYCODE_9;
-        } else if (keyCode == 10) {
-            message.obj = KeyEvent.KEYCODE_STAR;
-        } else if (keyCode == 11) {
-            message.obj = KeyEvent.KEYCODE_POUND;
-        }
-        Log.v("MainService", "key message=" + message.obj);
-        if (dialMessenger != null) {
-            Log.v("MainService", "send to Dial messenger" + message.obj);
-            dialMessenger.send(message);
-        } else {
-            Log.v("MainService", "send to Init messenger" + message.obj);
-            initMessenger.send(message);
-        }
+        //入口已无
+//        Message message = Message.obtain();
+//        message.what = MSG_ASSEMBLE_KEY;
+//        if (keyCode == 0) {
+//            message.obj = KeyEvent.KEYCODE_0;
+//        } else if (keyCode == 1) {
+//            message.obj = KeyEvent.KEYCODE_1;
+//        } else if (keyCode == 2) {
+//            message.obj = KeyEvent.KEYCODE_2;
+//        } else if (keyCode == 3) {
+//            message.obj = KeyEvent.KEYCODE_3;
+//        } else if (keyCode == 4) {
+//            message.obj = KeyEvent.KEYCODE_4;
+//        } else if (keyCode == 5) {
+//            message.obj = KeyEvent.KEYCODE_5;
+//        } else if (keyCode == 6) {
+//            message.obj = KeyEvent.KEYCODE_6;
+//        } else if (keyCode == 7) {
+//            message.obj = KeyEvent.KEYCODE_7;
+//        } else if (keyCode == 8) {
+//            message.obj = KeyEvent.KEYCODE_8;
+//        } else if (keyCode == 9) {
+//            message.obj = KeyEvent.KEYCODE_9;
+//        } else if (keyCode == 10) {
+//            message.obj = KeyEvent.KEYCODE_STAR;
+//        } else if (keyCode == 11) {
+//            message.obj = KeyEvent.KEYCODE_POUND;
+//        }
+//        Log.v("MainService", "key message=" + message.obj);
+//        if (dialMessenger != null) {
+//            Log.v("MainService", "send to Dial messenger" + message.obj);
+//            dialMessenger.send(message);
+//        } else {
+//            Log.v("MainService", "send to Init messenger" + message.obj);
+//            initMessenger.send(message);
+//        }
     }
 
     private void onCardIncome(String card) {
@@ -1739,11 +1741,45 @@ public class MainService extends Service {
 
     protected void startCallMember() {
         final String callUuid = this.imageUuid;
-        new Thread() {
-            public void run() {
-                callMember(callUuid);
-            }
-        }.start();
+        if (this.unitNo.length() == 11) {
+            //如果号码长度为11位
+            onCallMemberWh();//呼手机号码
+        } else {
+            new Thread() {
+                public void run() {
+                    callMember(callUuid);
+                }
+            }.start();
+        }
+    }
+
+    protected synchronized void onCallMemberWh(){
+        // TODO: 2018/5/4 这里要模拟callMember方法发送一个msg
+//        HttpApi.i("callMember()->" + result);
+//        Message message = handler.obtainMessage();
+//        message.what = MSG_CALLMEMBER;
+//        Object[] objects = new Object[2];
+//        objects[0] = callUuid;
+//        objects[1] = Ajax.getJSONObject(result);
+//        message.obj = objects;
+//        onCallMember(message);
+        try {
+            JSONObject data = new JSONObject();
+            data.put("command", "call");
+            data.put("from", this.key);
+            data.put("imageUrl", this.imageUrl);
+            data.put("imageUuid", this.imageUuid);
+            data.put("communityName", this.communityName);
+            data.put("lockName", this.lockName);
+            String userUrl = RtcRules.UserToRemoteUri_new(this.unitNo, RtcConst.UEType_Any);
+            HttpApi.i("拨号中->准备拨号userUrl = " + userUrl);
+            HttpApi.i("拨号中->准备拨号data = " + data.toString());
+            int sendResult = device.sendIm(userUrl, "cmd/json", data.toString());
+            Log.v("MainService", "sendIm(): " + sendResult);
+            HttpApi.i("拨号中->sendIm()" + sendResult);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void callMember(String callUuid) {
@@ -1814,6 +1850,7 @@ public class MainService extends Service {
                 offlineUserList.clear();
                 rejectUserList.clear();
                 callConnectState = CALL_VIDEO_CONNECTING;
+
                 if (unitDeviceList != null) {
                     for (int i = 0; i < unitDeviceList.length(); i++) {
                         allUserList.add(unitDeviceList.get(i));

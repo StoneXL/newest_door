@@ -6,7 +6,7 @@
 
     <FrameLayout
         android:id="@+id/container"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="120dp"
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="match_parent">
@@ -498,7 +498,7 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="180dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -545,7 +545,7 @@
 
         <TextView
             android:id="@+id/gonggao"
-            android:layout_width="180dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
             android:focusable="true"
@@ -554,6 +554,6 @@
             android:scrollHorizontally="true"
             android:text="停水通知"
             android:textColor="@android:color/white"
-            android:textSize="30sp"/>
+            android:textSize="20sp"/>
     </LinearLayout>
 </LinearLayout>

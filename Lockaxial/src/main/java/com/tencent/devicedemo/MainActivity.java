@@ -343,7 +343,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
             ActionBar ab = getActionBar();
             if (ab != null) ab.setDisplayHomeAsUpEnabled(true);//左上角显示应用程序图标
         }
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_newlayout);
         hwservice.EnterFullScreen();//hwservice为appLibs的服务
         initView();//初始化View
         initScreen();
@@ -831,10 +831,10 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                         .showImageOnLoading(R.mipmap.loading).cacheOnDisk(true).bitmapConfig
                                 (Bitmap.Config.ARGB_8888).build();
 
-                BaseApplication.getApplication().getImageLoader().displayImage("http://www" + "" +
-                        ".tyjdtzjc" + "" + "" + "" +
+                BaseApplication.getApplication().getImageLoader().displayImage("http://www" + ""
+                        + ".tyjdtzjc" + "" + "" + "" + "" + "" + "" +
                         ".cn/resource/kindeditor/attached/image/20150831/20150831021658_90595.png" +
-                        "" + "", imageView, options);
+                        "" + "" + "" + "" + "", imageView, options);
                 Log.i("xiao_", "未生成QQ二维码");
             } else {
                 imageView.setImageBitmap(bitmap);
@@ -847,10 +847,10 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                         .showImageOnLoading(R.mipmap.loading).cacheOnDisk(true).bitmapConfig
                                 (Bitmap.Config.ARGB_8888).build();
 
-                BaseApplication.getApplication().getImageLoader().displayImage("http://www" + "" +
-                        ".tyjdtzjc" + "" + "" + "" +
+                BaseApplication.getApplication().getImageLoader().displayImage("http://www" + ""
+                        + ".tyjdtzjc" + "" + "" + "" + "" + "" + "" +
                         ".cn/resource/kindeditor/attached/image/20150831/20150831021658_90595.png" +
-                        "" + "", imageView, options);
+                        "" + "" + "" + "" + "", imageView, options);
             }
         }
     }
@@ -937,7 +937,9 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         autoCameraHolder = autoCameraSurfaceView.getHolder();
         autoCameraHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
     }
-    private  TextView textViewGongGao;
+
+    private TextView textViewGongGao;
+
     protected void initAdvertiseHandler() {
         if (advertiseHandler == null) {
             advertiseHandler = new AdvertiseHandler();
@@ -1030,24 +1032,21 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                     }
                 } else if (msg.what == MSG_CALLMEMBER_DIRECT_TIMEOUT) {
                     onCallMemberError(msg.what);
-                }else if (msg.what == MSG_CONNECT_ERROR) {
+                } else if (msg.what == MSG_CONNECT_ERROR) {
                     onConnectionError();
                 } else if (msg.what == MSG_CONNECT_SUCCESS) {
                     onConnectionSuccess();
-                }else if (msg.what == MSG_ADVERTISE_REFRESH) {
+                } else if (msg.what == MSG_ADVERTISE_REFRESH) {
                     onAdvertiseRefresh(msg.obj);
                     Log.d(TAG, "UpdateAdvertise: 7");
                 } else if (msg.what == MSG_ADVERTISE_IMAGE) {
                     onAdvertiseImageChange(msg.obj);
                 } else if (msg.what == MSG_INVALID_CARD) {
                     Utils.DisplayToast(MainActivity.this, "无效房卡");
-                } else if (msg.what == MainService.MSG_ASSEMBLE_KEY) {
-                    int keyCode = (Integer) msg.obj;
-                    onKeyDown(keyCode);
                 } else if (msg.what == MSG_CHECK_BLOCKNO) {
                     blockId = (Integer) msg.obj;
                     onCheckBlockNo();
-                }else if (msg.what == MSG_REFRESH_DATA) {
+                } else if (msg.what == MSG_REFRESH_DATA) {
                     onFreshData((String) msg.obj);
                 } else if (msg.what == MSG_REFRESH_COMMUNITYNAME) {
                     onFreshCommunityName((String) msg.obj);
@@ -1134,7 +1133,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                 } else if (msg.what == MSG_CALLMEMBER_DIRECT_FAILED) {
                     //入口已无
 //                    Utils.DisplayToast(MainActivity.this, "电话未能接通，重试中..");
-                }else if (msg.what == MSG_CALLMEMBER_DIRECT_COMPLETE) {
+                } else if (msg.what == MSG_CALLMEMBER_DIRECT_COMPLETE) {
                     //入口已无
 //                    onCallDirectlyComplete();
                 } else if (msg.what == ON_YUNTONGXUN_INIT_ERROR) {
@@ -1153,6 +1152,10 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                     //入口已无
                     boolean result = (Boolean) msg.obj;
                     //onFingerCheck(result);
+                } else if (msg.what == MainService.MSG_ASSEMBLE_KEY) {
+                    //入口已无
+//                    int keyCode = (Integer) msg.obj;
+//                    onKeyDown(keyCode);
                 }
             }
         };
@@ -1160,7 +1163,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     }
 
     private Thread connectTongGaoThread = null;//心跳线程
-    private  void fun(){
+
+    private void fun() {
         if (connectTongGaoThread != null) {
             connectTongGaoThread.interrupt();//终止线程
             connectTongGaoThread = null;
@@ -1185,7 +1189,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
 
     private void connectTongGao() {
         try {
-            String url = "http://192.168.8.146:80/"+"app/device/tonggao";
+            String url = "http://192.168.8.146:80/" + "app/device/tonggao";
             String result = HttpApi.getInstance().loadHttpforGet(url, httpServerToken);
 
             if (result != null) {
@@ -1280,7 +1284,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
 
     private void buildVideo() {
         if (MainService.callConnection != null) {
-            if (remoteView==null)return;
+            if (remoteView == null) return;
             MainService.callConnection.buildVideo(remoteView);//此处接听过快的会导致崩溃
         }
     }
@@ -1434,15 +1438,31 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     private void unitNoInput(int key) {
         blockNo = blockNo + key;
         setDialValue(blockNo);
-        if (DeviceConfig.DEVICE_TYPE.equals("C")) {
-            if (blockNo.length() == DeviceConfig.BLOCK_LENGTH) {
-                startDialing(blockNo);
-            }
-        } else {
-            if (blockNo.length() == DeviceConfig.UNIT_NO_LENGTH) {
-                startDialing(blockNo);
-            }
-        }
+        // TODO: 2018/5/4 这个判断交给确认键去做,暂时注释
+//        if (DeviceConfig.DEVICE_TYPE.equals("C")) {
+//            if (blockNo.length() == DeviceConfig.BLOCK_LENGTH) {
+//                startDialing(blockNo);
+//            }
+//        } else {
+//            if (blockNo.length() == DeviceConfig.UNIT_NO_LENGTH) {
+//                startDialing(blockNo);
+//            }
+//        }
+
+
+//         TODO: 2018/5/3 暂时注释 测试呼叫手机号
+//        if (DeviceConfig.DEVICE_TYPE.equals("C")) {
+//            if (blockNo.length() == DeviceConfig.BLOCK_LENGTH) {
+//                startDialing(blockNo);
+//            }
+//        } else {
+//            if (blockNo.equals("0101") || blockNo.equals("9999")) {
+//                startDialing(blockNo);
+//            } else if (blockNo.length() == 11) {
+//                startDialing(blockNo);
+//            }
+//        }
+
     }
 
     /**
@@ -1538,9 +1558,10 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     private void passwordInput(int key) {
         guestPassword = guestPassword + key;
         setTempkeyValue(guestPassword);
-        if (guestPassword.length() == 6) {
-            checkPassword();
-        }
+        // TODO: 2018/5/4 这个判断交给确认键去做,暂时注释
+//        if (guestPassword.length() == 6) {
+//            checkPassword();
+//        }
     }
 
     private void checkPassword() {
@@ -1550,6 +1571,9 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         takePicture(thisPassword, false, this);
     }
 
+    /**
+     * 界面显示输入密码模式
+     */
     private void initPasswordStatus() {
         stopPasswordTimeoutChecking();
         setDialStatus("请输入访客密码");
@@ -1700,56 +1724,98 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         });
     }
 
+    private String str;//输入框内容
+
     private void onKeyDown(int keyCode) {
+        Log.i(TAG, "默认按键key=" + keyCode);
         if (nfcFlag) {
             inputCardInfo(keyCode);//录入卡片信息
         } else {
             int key = convertKeyCode(keyCode);
             Log.i(TAG, "按键key=" + key + "模式currentStatus" + currentStatus);
-            if (currentStatus == CALL_MODE || currentStatus == PASSWORD_MODE) {
-                if (key >= 0) {
+            if (currentStatus == CALL_MODE || currentStatus == PASSWORD_MODE) {//处于呼叫模式或密码模式
+                // TODO: 2018/5/4 这里的判断得改成输入框是否有值,有值确认键走呼叫或密码,没值走切换模式
+                str = tv_input_text.getText().toString();
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {//确认键
+                    if (null == str || str.equals("")) {//输入框没值走切换模式
+                        if (currentStatus == CALL_MODE) {//呼叫模式下，按确认键切换成密码模式
+                            initPasswordStatus();
+                        } else {
+                            initDialStatus();
+                        }
+                    } else {//输入框有值走呼叫或密码
+                        if (currentStatus == CALL_MODE) {//呼叫
+                            if (DeviceConfig.DEVICE_TYPE.equals("C")) {
+                                if (blockNo.length() == DeviceConfig.BLOCK_LENGTH) {
+                                    startDialing(blockNo);
+                                } else if (blockNo.length() == DeviceConfig.MOBILE_NO_LENGTH) {//手机号
+                                    if (true) {//正则判断
+                                        startDialing(blockNo);
+                                    }
+                                }
+                            } else {
+                                if (blockNo.length() == DeviceConfig.UNIT_NO_LENGTH) {
+                                    startDialing(blockNo);
+                                } else if (blockNo.length() == DeviceConfig.MOBILE_NO_LENGTH) {//手机号
+                                    if (true) {//正则判断
+                                        startDialing(blockNo);
+                                    }
+                                }
+                            }
+                        } else {//密码开门
+                            if (guestPassword.length() == 6) {
+                                checkPassword();
+                            }
+                        }
+                    }
+                } else if (keyCode == KeyEvent.KEYCODE_DEL) {//删除键
+                    if (currentStatus == CALL_MODE) {
+                        callInput();//房号或手机号删除一位
+                    } else {
+                        passwordInput();//密码删除一位
+                    }
+                    if (str == null || str.equals("")) {
+                        //跳转到登录界面
+                        Intent intent = new Intent(this, InputCardInfoActivity.class);
+                        startActivityForResult(intent, INPUT_CARDINFO_REQUESTCODE);
+                    }
+                } else if (key >= 0) {//数字键
                     if (currentStatus == CALL_MODE) {
                         callInput(key);
                     } else {
                         passwordInput(key);//密码开门
                     }
-                } else if (keyCode == KeyEvent.KEYCODE_POUND || keyCode == DeviceConfig
-                        .DEVICE_KEYCODE_POUND) {
-                    if (currentStatus == CALL_MODE) {//呼叫模式下，按确认键
-                        initPasswordStatus();
-                    } else {
-                        initDialStatus();
-                    }
-                } else if (keyCode == KeyEvent.KEYCODE_STAR || keyCode == DeviceConfig
-                        .DEVICE_KEYCODE_STAR) {
-                    if (currentStatus == CALL_MODE) {
-                        callInput();
-                    } else {
-                        passwordInput();
-                    }
-                    String str = tv_input_text.getText().toString();
-                    if (str == null || str.equals("")) {
-                        //跳转到登录界面
-                        Intent intent = new Intent(this, InputCardInfoActivity.class);
-                        startActivityForResult(intent, INPUT_CARDINFO_REQUESTCODE);
-
-                        // TODO: 2018/4/19 下面增加,改为获得卡片列表接口做测试
-//                        new Thread() {
-//                            public void run() {
-//                                try {
-//                                    // TODO: 2018/4/21 暂时注释
-//                                    addOrDeleteCard();
-//                                    downLoadFace();
-//                                } catch (Exception e) {
-//
-//                                }
-//                            }
-//                        }.start();
-                    }
                 }
+//                if (key >= 0) {
+//                    if (currentStatus == CALL_MODE) {
+//                        callInput(key);
+//                    } else {
+//                        passwordInput(key);//密码开门
+//                    }
+//                } else if (keyCode == KeyEvent.KEYCODE_POUND || keyCode == DeviceConfig
+//                        .DEVICE_KEYCODE_POUND) {//"#"或确认
+//                    if (currentStatus == CALL_MODE) {//呼叫模式下，按确认键
+//                        initPasswordStatus();
+//                    } else {
+//                        initDialStatus();
+//                    }
+//                } else if (keyCode == KeyEvent.KEYCODE_STAR || keyCode == DeviceConfig
+//                        .DEVICE_KEYCODE_STAR) {//"*"或删除
+//                    if (currentStatus == CALL_MODE) {
+//                        callInput();//房号或手机号删除一位
+//                    } else {
+//                        passwordInput();//密码删除一位
+//                    }
+//                    String str = tv_input_text.getText().toString();
+//                    if (str == null || str.equals("")) {
+//                        //跳转到登录界面
+//                        Intent intent = new Intent(this, InputCardInfoActivity.class);
+//                        startActivityForResult(intent, INPUT_CARDINFO_REQUESTCODE);
+//                    }
+//                }
             } else if (currentStatus == ERROR_MODE) {
                 Utils.DisplayToast(MainActivity.this, "当前网络异常");
-            } else if (currentStatus == CALLING_MODE) {
+            } else if (currentStatus == CALLING_MODE) {//处于正在呼叫模式
                 Log.v(TAG, "onKeyDown-->111");
                 if (keyCode == KeyEvent.KEYCODE_STAR || keyCode == DeviceConfig
                         .DEVICE_KEYCODE_STAR) {
@@ -2109,7 +2175,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         currentStatus = status;
     }
 
-    //初始化桌面显示呼叫模式
+    //桌面显示呼叫模式
     private void initDialStatus() {
         //callLayout.setVisibility(View.VISIBLE);
         //guestLayout.setVisibility(View.INVISIBLE);
@@ -2255,7 +2321,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                 if (s != netWorkFlag) {//如果当前网络状态与之前不一致
                     if (s == 1) {//当前有网，之前没网
                         //关闭读卡
-                        disableReaderMode();
+                        disableReaderMode();//没网时打开过一次
                         //时间更新
                         initSystemtime();
                     } else {//当前没网，之前有网
@@ -2283,6 +2349,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
 
     /**
      * 设置自定义状态栏的状态（WiFi和QQ物联标志）
+     *
      * @param state true 显示  false 隐藏
      */
     private void setStatusBarIcon(boolean state) {
@@ -3615,7 +3682,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                     for (AFR_FSDKFace face : fr.mFaceList) {
                         // TODO: 2018/4/21 此处对比人脸特征信息(result和face)
                         error = engine.AFR_FSDK_FacePairMatching(result, face, score);
-                       Log.d(TAG, "Score:" + score.getScore() );
+                        Log.d(TAG, "Score:" + score.getScore());
                         // + error.getCode());
                         if (max < score.getScore()) {
                             max = score.getScore();
@@ -3740,7 +3807,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
             InvalidParameterException {
         if (mSerialPort == null) {
             /* Read serial port parameters */
-            SharedPreferences sp = getSharedPreferences("android_serialport_api" + "" +
+            SharedPreferences sp = getSharedPreferences("android_serialport_api" + "" + "" + "" +
                     ".sample_preferences", MODE_PRIVATE);
             sp.edit().putString("DEVICE", "/dev/ttyS2").commit();
             sp.edit().putString("BAUDRATE", "115200").commit();

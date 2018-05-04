@@ -28,8 +28,8 @@ public class DeviceConfig {
     public static final int HIDE_SCREEN_STATUS=1;
     public static final boolean IS_SUPPORT_OFFLINE=true;//是否离线运行
 	public static final boolean IS_KEY_VOICE_AVAILABLE=false;
-    public static final int DEVICE_KEYCODE_POUND=66;
-    public static final int DEVICE_KEYCODE_STAR=67;
+    public static final int DEVICE_KEYCODE_POUND=66;//确认键
+    public static final int DEVICE_KEYCODE_STAR=67;//删除键
 	public static final String DEVICE_MODE_FLAG="a"; //设备型号
 
 	public static boolean IS_PUSH_AVAILABLE=true;//是否推送
@@ -59,9 +59,10 @@ public class DeviceConfig {
     public static int MAX_DIRECT_CALL_TIME=1000*60;//通话时长应该有个最大值
     public static int PASSWORD_WAIT_TIME=1000*20;
 
-    public static int UNIT_NO_LENGTH=4;
+    public static  int MOBILE_NO_LENGTH =11;//手机号长度
+    public static int UNIT_NO_LENGTH=4;//房屋号长度
     public static int BLOCK_NO_LENGTH=2;
-    public static int BLOCK_LENGTH=6;
+    public static int BLOCK_LENGTH=6;//楼栋房屋号长度
     public static String DEVICE_TYPE="B"; //C：社区大门门禁 B:楼栋单元门禁
 
     public static int VOLUME_STREAM_MUSIC=5;//音乐音量
