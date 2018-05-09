@@ -502,6 +502,9 @@ public class MainService extends Service {
         }
     }
 
+    /**
+     * 初始化安卓工控设备控制器
+     */
     protected void initAexUtil() {
         if (DeviceConfig.IS_AEX_AVAILABLE) {
             aexUtil = new AexUtil(handler);
@@ -514,6 +517,9 @@ public class MainService extends Service {
         }
     }
 
+    /**
+     * 初始化卡相关数据库工具类
+     */
     protected void initSqlUtil() {
         sqlUtil = new SqlUtil(this);
     }

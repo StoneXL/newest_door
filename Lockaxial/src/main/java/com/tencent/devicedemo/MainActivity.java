@@ -366,13 +366,13 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
             setDialStatus("请输入楼栋编号");
         }
         if (false) {
+            //通过广播实现闹钟提示（为啥没使用）
             AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context
                     .ALARM_SERVICE);
-            Intent intent;
-            PendingIntent pendingIntent;
-            intent = new Intent(getApplicationContext(), AlarmReciver.class);
-            pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+
+            Intent intent = new Intent(getApplicationContext(), AlarmReciver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0,
+                    intent, PendingIntent.FLAG_UPDATE_CURRENT);
             am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 10000,
                     pendingIntent);
         }
@@ -793,6 +793,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
      * 获取系统相关音量
      */
     private void setAutioVolume() {
+        // TODO: 2018/5/7  只是获得当前音量，并没有设置????
         AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         //通话音量
         int max = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL);
@@ -812,7 +813,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         Log.d("MUSIC", "max : " + max + " current : " + current);
         //提示声音音量
         max = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
-        current = mAudioManager.getStreamVolume(AudioManager.STREAM_ALARM);
+        current = mAudioManager.getStreamVolume(AudioManager.STREAM_ALARM);//闹铃声
         Log.d("ALARM", "max : " + max + " current : " + current);
     }
 
@@ -832,9 +833,9 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                                 (Bitmap.Config.ARGB_8888).build();
 
                 BaseApplication.getApplication().getImageLoader().displayImage("http://www" + ""
-                        + ".tyjdtzjc" + "" + "" + "" + "" + "" + "" +
+                        + ".tyjdtzjc" + "" + "" + "" + "" + "" + "" + "" +
                         ".cn/resource/kindeditor/attached/image/20150831/20150831021658_90595.png" +
-                        "" + "" + "" + "" + "", imageView, options);
+                        "" + "" + "" + "" + "" + "", imageView, options);
                 Log.i("xiao_", "未生成QQ二维码");
             } else {
                 imageView.setImageBitmap(bitmap);
@@ -848,9 +849,9 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                                 (Bitmap.Config.ARGB_8888).build();
 
                 BaseApplication.getApplication().getImageLoader().displayImage("http://www" + ""
-                        + ".tyjdtzjc" + "" + "" + "" + "" + "" + "" +
+                        + ".tyjdtzjc" + "" + "" + "" + "" + "" + "" + "" +
                         ".cn/resource/kindeditor/attached/image/20150831/20150831021658_90595.png" +
-                        "" + "" + "" + "" + "", imageView, options);
+                        "" + "" + "" + "" + "" + "", imageView, options);
             }
         }
     }
@@ -917,7 +918,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
             @Override
             public void run() {
                 Date now = new Date();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("E");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("E");//星期
                 String dayStr = dateFormat.format(now);
                 dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String dateStr = dateFormat.format(now);
@@ -1740,7 +1741,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                     if (null == str || str.equals("")) {//输入框没值走切换模式
                         if (currentStatus == CALL_MODE) {//呼叫模式下，按确认键切换成密码模式
                             initPasswordStatus();
-                        } else {
+                        } else if (currentStatus == PASSWORD_MODE) {
                             initDialStatus();
                         }
                     } else {//输入框有值走呼叫或密码
@@ -1762,7 +1763,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                                     }
                                 }
                             }
-                        } else {//密码开门
+                        } else if (currentStatus == PASSWORD_MODE) {//密码开门
                             if (guestPassword.length() == 6) {
                                 checkPassword();
                             }
@@ -1771,7 +1772,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                 } else if (keyCode == KeyEvent.KEYCODE_DEL) {//删除键
                     if (currentStatus == CALL_MODE) {
                         callInput();//房号或手机号删除一位
-                    } else {
+                    } else if (currentStatus == PASSWORD_MODE) {
                         passwordInput();//密码删除一位
                     }
                     if (str == null || str.equals("")) {
@@ -1780,10 +1781,10 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
                         startActivityForResult(intent, INPUT_CARDINFO_REQUESTCODE);
                     }
                 } else if (key >= 0) {//数字键
-                    if (currentStatus == CALL_MODE) {
+                    if (currentStatus == CALL_MODE) {//呼叫模式
                         callInput(key);
-                    } else {
-                        passwordInput(key);//密码开门
+                    } else if (currentStatus == PASSWORD_MODE) {
+                        passwordInput(key);//密码验证模式
                     }
                 }
 //                if (key >= 0) {
@@ -2268,8 +2269,8 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     /**********xiaozd add****************************/
     private int netWorkFlag = -1;//当前网络是否可用标识 有网为1 无网为0
     private TextView showMacText;//mac地址
-    private boolean checkTime = false;
-    private Timer netTimer = new Timer();
+    private boolean checkTime = false;//是否校时过的标识,没有重置为false操作,只能校时一次
+    private Timer netTimer = new Timer();//检测网络用定时器
 
     /**
      * 校时
@@ -2853,7 +2854,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     @Override
     public void onAccountReceived(String account) {
         cardId = account;
-        if (!nfcFlag) {
+        if (!nfcFlag) {//非录卡状态（卡信息用于开门）
             Message message = Message.obtain();
             message.what = MainService.MSG_CARD_INCOME;
             message.obj = account;
@@ -2862,7 +2863,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-        } else {
+        } else {//正在录卡状态（卡信息用于录入）
             Message message = Message.obtain();
             message.what = MSG_INPUT_CARDINFO;
             message.obj = account;
