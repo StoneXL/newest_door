@@ -2497,14 +2497,14 @@ public class MainService extends Service {
 
     private void openAssembleLock() {
         //入口已无
-        assembleUtil.openLock();
-        sendDialMessenger(Constant.MSG_LOCK_OPENED);
+//        assembleUtil.openLock();
+//        sendDialMessenger(Constant.MSG_LOCK_OPENED);
     }
 
     private void openAexLock() {
         int result = aexUtil.openLock();
         if (result > 0) {
-            sendDialMessenger(MSG_LOCK_OPENED);
+            sendDialMessenger(MSG_LOCK_OPENED);//开锁
             SoundPoolUtil.getSoundPoolUtil().loadVoice(getBaseContext(), 011111);
         }
     }

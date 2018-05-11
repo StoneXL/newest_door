@@ -360,7 +360,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         startClockRefresh();//
         //initBLE();//初始化蓝牙  //稍微退后初始化一点，防止蓝牙共享程序停止运行bug
         getRssi();//使用定时器,每隔5秒获得一次信号强度值
-        setNetWork();
+        setNetWork();//不知道干嘛用的，貌似和QQ物联有关
         setAutioVolume();//设置系统相关音量
         if (DeviceConfig.DEVICE_TYPE.equals("C")) {
             setDialStatus("请输入楼栋编号");
@@ -3219,14 +3219,14 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     }
 
     //人脸识别
-    AFT_FSDKFace mAFT_FSDKFace = null;
+    AFT_FSDKFace mAFT_FSDKFace = null;//这个类用来保存检测到的人脸信息
     private int mWidth, mHeight;
     private CameraSurfaceView mSurfaceView;//用于人脸识别
     private CameraGLSurfaceView mGLSurfaceView;//用于人脸识别
-    private Camera mCamera;
+    private Camera mCamera;//虹软用的摄像头对象
 
-    AFT_FSDKVersion version = new AFT_FSDKVersion();
-    AFT_FSDKEngine engine = new AFT_FSDKEngine();
+    AFT_FSDKVersion version = new AFT_FSDKVersion();//这个类用来保存版本信息
+    AFT_FSDKEngine engine = new AFT_FSDKEngine();//这个类具体实现了人脸跟踪的功能
     //    ASAE_FSDKVersion mAgeVersion = new ASAE_FSDKVersion();
 //    ASAE_FSDKEngine mAgeEngine = new ASAE_FSDKEngine();
 //    ASGE_FSDKVersion mGenderVersion = new ASGE_FSDKVersion();
@@ -3244,6 +3244,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
     private Handler faceHandler;
 
     private void initFaceDetectAndIDCard() {
+        //获取屏幕大小
         Resources resources = this.getResources();
         DisplayMetrics dm = resources.getDisplayMetrics();
         float density = dm.density;
@@ -3257,10 +3258,12 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
         mSurfaceView.setupGLSurafceView(mGLSurfaceView, true, true, 0);
         mSurfaceView.debug_print_fps(true, false);
 
+        //初始化引擎，设置检测角度、范围，数量。创建对象后，必须先于其他成员函数调用，否则其他成员函数会返回 MERR_BAD_STATE
+        //orientsPriority 指定检测的角度 scale 指定支持检测的最小人脸尺寸(16) maxFaceNum 最多能检测到的人脸个数(5)
         AFT_FSDKError err = engine.AFT_FSDK_InitialFaceEngine(FaceDB.appid, FaceDB.ft_key,
                 AFT_FSDKEngine.AFT_OPF_0_HIGHER_EXT, 16, 5);
         Log.d(TAG, "AFT_FSDK_InitialFaceEngine =" + err.getCode());
-        err = engine.AFT_FSDK_GetVersion(version);
+        err = engine.AFT_FSDK_GetVersion(version);//获取版本信息
         Log.d(TAG, "AFT_FSDK_GetVersion:" + version.toString() + "," + err.getCode());
 
 //        ASAE_FSDKError error = mAgeEngine.ASAE_FSDK_InitAgeEngine(FaceDB.appid, FaceDB.age_key);
@@ -3664,6 +3667,7 @@ public class MainActivity extends AndroidExActivityBase implements NfcReader.Acc
             }
             if (mImageNV21 != null && identification) {
                 long time = System.currentTimeMillis();
+                //检测输入图像中的人脸特征信息
                 AFR_FSDKError error = engine.AFR_FSDK_ExtractFRFeature(mImageNV21, mWidth,
                         mHeight, AFR_FSDKEngine.CP_PAF_NV21, mAFT_FSDKFace.getRect(),
                         mAFT_FSDKFace.getDegree(), result);
